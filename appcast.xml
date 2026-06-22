@@ -20,7 +20,7 @@
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>\
             <!-- Baseline version; no signature required yet since users already have this build -->\
             <enclosure \
-                url="https://github.com/scrivix/Scrivix/releases/download/v1.0.0/Scrivix.dmg" \
+                url="https://github.com/Scrivix/Scrivix/releases/download/v.1.0.1/Scrivix.App.1.0.1.dmg" \
                 length="0" \
                 type="application/octet-stream" />\
         </item>\
