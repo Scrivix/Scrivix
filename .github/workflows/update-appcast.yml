@@ -1,0 +1,54 @@
+name: Auto-Update Sparkle Appcast
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-appcast:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Generate New appcast.xml
+        run: |
+          TAG_NAME="${{ github.event.release.tag_name }}"
+          # Removes the 'v' prefix for the internal build number strings (e.g., v1.0.1 -> 1.0.1)
+          CLEAN_VERSION="${TAG_NAME//v/}"
+          # Gets the current timestamp in standard RFC 2822 format for RSS feeds
+          PUB_DATE=$(date -R)
+
+          cat <<EOF > appcast.xml
+          <?xml version="1.0" encoding="utf-8"?>
+          <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+              <channel>
+                  <title>Scrivix Mac Updates</title>
+                  <link>https://scrivix.us/appcast.xml</link>
+                  <description>Automated software updates for Scrivix for macOS.</description>
+                  <language>en</language>
+                  <item>
+                      <title>Version ${CLEAN_VERSION}</title>
+                      <pubDate>${PUB_DATE}</pubDate>
+                      <sparkle:version>${CLEAN_VERSION}</sparkle:version>
+                      <sparkle:shortVersionString>${CLEAN_VERSION}</sparkle:shortVersionString>
+                      <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+                      <enclosure 
+                          url="https://github.com/scrivix/Scrivix/releases/download/${TAG_NAME}/Scrivix.dmg" 
+                          length="0" 
+                          type="application/octet-stream" />
+                  </item>
+              </channel>
+          </rss>
+          EOF
+
+      - name: Commit and Push Updated Appcast
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add appcast.xml
+          git commit -m "chore: auto-update appcast.xml to ${TAG_NAME} [skip ci]" || exit 0
+          git push
