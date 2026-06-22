@@ -49,6 +49,10 @@
             padding: 24px;
             margin-bottom: 20px;
         }
+        .faq-item.highlight {
+            border-color: var(--accent-color);
+            background-color: rgba(59, 130, 246, 0.05);
+        }
         .faq-question {
             font-size: 1.2rem;
             font-weight: 600;
@@ -67,6 +71,21 @@
         }
         .faq-answer li {
             margin-bottom: 8px;
+        }
+        .btn-outline {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--accent-color);
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            margin-top: 15px;
+            transition: all 0.2s ease;
+        }
+        .btn-outline:hover {
+            background-color: rgba(59, 130, 246, 0.1);
         }
         .back-link {
             display: inline-block;
@@ -89,7 +108,14 @@
         <div class="faq-section">
             
             <div class="faq-item">
-                <p class="faq-question">📱 My iPad can't find or connect to my Mac. What do I do?</p>
+                <p class="faq-question">🔄 The iPad won't connect or the connection dropped.</p>
+                <div class="faq-answer">
+                    <p>Sometimes the simplest fix is the best one. If your iPad is struggling to see your Mac, simply <strong>quit the Scrivix Mac app completely (Cmd + Q) and open it back up</strong>. This forces the Mac to refresh its local broadcasting signal so the iPad can find it again.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">📱 My devices still aren't seeing each other. What do I check?</p>
                 <div class="faq-answer">
                     Because Scrivix beams data locally for ultra-low latency, both devices must be speaking to each other cleanly. Check these three things:
                     <ul>
@@ -105,16 +131,24 @@
                 <div class="faq-answer">
                     If your Mac app is running but nothing appears, your system firewall might be overprotective:
                     <ul>
-                        <li>Go to Mac <strong>System Settings ➡️ Wallet & Privacy ➡️ Firewall</strong>.</li>
+                        <li>Go to Mac <strong>System Settings ➡️ Network ➡️ Firewall</strong>.</li>
                         <li>If the Firewall is enabled, click <strong>Options...</strong> and ensure <strong>Scrivix.app</strong> is set to <strong>"Allow incoming connections"</strong>.</li>
                     </ul>
                 </div>
             </div>
 
             <div class="faq-item">
-                <p class="faq-question">⚡️ I am noticing lag or delayed stokes. How can I optimize it?</p>
+                <p class="faq-question">⚡️ I am noticing lag or delayed strokes. How can I optimize it?</p>
                 <div class="faq-answer">
                     <p>Scrivix targets a fluid, low-latency 120Hz update engine. If it stutters, it is almost always due to Wi-Fi congestion. Try moving closer to your Wi-Fi router, or connect your Mac to your router via Ethernet while keeping your iPad on the Wi-Fi loop.</p>
+                </div>
+            </div>
+
+            <div class="faq-item highlight">
+                <p class="faq-question">🐞 Found a bug or need more help?</p>
+                <div class="faq-answer">
+                    <p>Scrivix is actively developed and I want to fix any edge cases you run into! If the steps above didn't solve your issue, please submit a quick bug report so I can investigate.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfJD6pwJBCk1jJTh0EI4yU9GnCFEW7hSONf5DTgXAoFExsLHg/viewform?usp=header" target="_blank" class="btn-outline">Submit a Bug Report</a>
                 </div>
             </div>
 
