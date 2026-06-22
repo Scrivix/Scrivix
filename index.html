@@ -37,10 +37,8 @@
             letter-spacing: -0.04em; 
             color: #ffffff; 
             margin-bottom: 5px;
-            /* I removed the lowercase rule from here so the 'S' can be capital! */
         }
 
-        /* This is the new rule that targets just the letter x */
         .blue-x {
             color: var(--accent-color);
         }
@@ -104,7 +102,6 @@
 <body>
 
     <div class="container">
-        
         <h1>Scrivi<span class="blue-x">x</span></h1>
         
         <p class="subtitle">Turn your iPad into a high-performance wireless drawing slate. Seamlessly overlay annotations onto your live presentations, Keynote, and macOS apps in real time.</p>
@@ -118,11 +115,24 @@
             </ul>
         </div>
 
-        <a href="https://github.com/Scrivix/Scrivix/releases/download/v.1.0.1/Scrivix.App.1.0.1.dmg" class="btn-download">Download Scrivix for Mac</a>
+        <a href="https://github.com/scrivix/Scrivix/releases" id="download-button" class="btn-download">Download Scrivix for Mac</a>
         
         <p class="footer">Requires macOS 13 or later. Companion iPad app available on the App Store.</p>
         <p><a href="privacy.html" style="color: #4b5563; font-size: 0.85rem; text-decoration: none;">Privacy Policy</a></p>
     </div>
+
+    <script>
+        fetch('https://api.github.com/repos/scrivix/Scrivix/releases/latest')
+            .then(response => response.json())
+            .then(data => {
+                // Looks inside your latest release assets for any file ending in .dmg
+                const dmgAsset = data.assets.find(asset => asset.name.endsWith('.dmg'));
+                if (dmgAsset) {
+                    document.getElementById('download-button').href = dmgAsset.browser_download_url;
+                }
+            })
+            .catch(error => console.error('Error fetching latest release:', error));
+    </script>
 
 </body>
 </html>
