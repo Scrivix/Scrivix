@@ -29,6 +29,7 @@
             max-width: 600px;
             padding: 40px 20px;
         }
+        
         h1 {
             font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             font-size: 4.5rem; 
@@ -36,8 +37,14 @@
             letter-spacing: -0.04em; 
             color: #ffffff; 
             margin-bottom: 5px;
-            text-transform: lowercase; 
+            /* I removed the lowercase rule from here so the 'S' can be capital! */
         }
+
+        /* This is the new rule that targets just the letter x */
+        .blue-x {
+            color: var(--accent-color);
+        }
+
         .subtitle {
             font-size: 1.25rem;
             color: #9ca3af;
@@ -97,7 +104,8 @@
 <body>
 
     <div class="container">
-        <h1>Scrivix</h1>
+        
+        <h1>Scrivi<span class="blue-x">x</span></h1>
         
         <p class="subtitle">Turn your iPad into a high-performance wireless drawing slate. Seamlessly overlay annotations onto your live presentations, Keynote, and macOS apps in real time.</p>
         
