@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrivix — Connection & Help Guide</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --text-color: #f3f4f6;
+            --accent-color: #3b82f6;
+            --card-bg: #111827;
+            --border-color: #1f2937;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 650px;
+            padding: 60px 20px;
+        }
+        h1 {
+            font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #9ca3af;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+        .faq-section {
+            text-align: left;
+        }
+        .faq-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .faq-question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .faq-answer {
+            color: #d1d5db;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .faq-answer ul {
+            margin: 10px 0 0 0;
+            padding-left: 20px;
+        }
+        .faq-answer li {
+            margin-bottom: 8px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Scrivix Help & Support</h1>
+        <p class="subtitle">Quick fixes for network connection issues and configuration snags.</p>
+
+        <div class="faq-section">
+            
+            <div class="faq-item">
+                <p class="faq-question">📱 My iPad can't find or connect to my Mac. What do I do?</p>
+                <div class="faq-answer">
+                    Because Scrivix beams data locally for ultra-low latency, both devices must be speaking to each other cleanly. Check these three things:
+                    <ul>
+                        <li><strong>Same Wi-Fi Network:</strong> Verify that both your Mac and iPad are connected to the exact same Wi-Fi router network name (SSID).</li>
+                        <li><strong>Local Network Access:</strong> On your iPad, open the main iOS <strong>Settings</strong> app, scroll down to <strong>Scrivix</strong>, and make sure the <strong>Local Network</strong> toggle switch is turned ON.</li>
+                        <li><strong>AP Isolation:</strong> Public or corporate Wi-Fi networks (like coffee shops or offices) sometimes block local devices from seeing each other. If you are on a restrictive network, try using your iPhone's Personal Hotspot for both devices.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">🛑 macOS is blocking the connection or drawing engine.</p>
+                <div class="faq-answer">
+                    If your Mac app is running but nothing appears, your system firewall might be overprotective:
+                    <ul>
+                        <li>Go to Mac <strong>System Settings ➡️ Wallet & Privacy ➡️ Firewall</strong>.</li>
+                        <li>If the Firewall is enabled, click <strong>Options...</strong> and ensure <strong>Scrivix.app</strong> is set to <strong>"Allow incoming connections"</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">⚡️ I am noticing lag or delayed stokes. How can I optimize it?</p>
+                <div class="faq-answer">
+                    <p>Scrivix targets a fluid, low-latency 120Hz update engine. If it stutters, it is almost always due to Wi-Fi congestion. Try moving closer to your Wi-Fi router, or connect your Mac to your router via Ethernet while keeping your iPad on the Wi-Fi loop.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <a href="index.html" class="back-link">← Back to Scrivix Home</a>
+    </div>
+
+</body>
+</html>
