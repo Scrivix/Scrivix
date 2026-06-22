@@ -97,6 +97,15 @@
             font-size: 0.85rem;
             color: #4b5563;
         }
+        .footer-links a {
+            color: #4b5563;
+            font-size: 0.85rem;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -118,14 +127,16 @@
         <a href="https://github.com/scrivix/Scrivix/releases" id="download-button" class="btn-download">Download Scrivix for Mac</a>
         
         <p class="footer">Requires macOS 13 or later. Companion iPad app available on the App Store.</p>
-        <p><a href="privacy.html" style="color: #4b5563; font-size: 0.85rem; text-decoration: none;">Privacy Policy</a></p>
+        <p class="footer-links">
+            <a href="help.html">Troubleshooting Guide</a> • 
+            <a href="privacy.html">Privacy Policy</a>
+        </p>
     </div>
 
     <script>
         fetch('https://api.github.com/repos/scrivix/Scrivix/releases/latest')
             .then(response => response.json())
             .then(data => {
-                // Looks inside your latest release assets for any file ending in .dmg
                 const dmgAsset = data.assets.find(asset => asset.name.endsWith('.dmg'));
                 if (dmgAsset) {
                     document.getElementById('download-button').href = dmgAsset.browser_download_url;
