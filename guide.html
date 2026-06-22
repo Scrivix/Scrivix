@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrivix — User Guide & Tools</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --text-color: #f3f4f6;
+            --accent-color: #3b82f6;
+            --card-bg: #111827;
+            --border-color: #1f2937;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            padding: 60px 20px;
+        }
+        h1 {
+            font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .subtitle {
+            color: #9ca3af;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        h2 {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+
+        .guide-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .guide-table th, .guide-table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .guide-table th {
+            background-color: rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .guide-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .icon-cell {
+            font-size: 1.5rem;
+            width: 50px;
+            text-align: center;
+        }
+
+        .tool-name {
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .tool-desc {
+            color: #d1d5db;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 40px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            text-align: center;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Scrivix Tool Guide</h1>
+        <p class="subtitle">A quick reference for the iPad toolbar and Mac interface.</p>
+
+        <h2>iPad Toolbar Options</h2>
+        <table class="guide-table">
+            <thead>
+                <tr>
+                    <th class="icon-cell">Icon</th>
+                    <th>Tool & Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="icon-cell">📸</td>
+                    <td>
+                        <span class="tool-name">Screenshot Snapshot</span>
+                        <p class="tool-desc">Takes a high-quality capture of your current slide with all annotations included and saves it to your iPad.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon-cell">🎨</td>
+                    <td>
+                        <span class="tool-name">Color Palette</span>
+                        <p class="tool-desc">Quickly switch between black, red, blue, green, orange, and purple inks for your active drawing tool.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon-cell">🖥️</td>
+                    <td>
+                        <span class="tool-name">Whiteboard Mode</span>
+                        <p class="tool-desc">Toggles a solid background over your screen, giving you a clean slate to write out complex ideas without slide clutter.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon-cell">💧</td>
+                    <td>
+                        <span class="tool-name">Pressure Sensitivity</span>
+                        <p class="tool-desc">Toggles Apple Pencil pressure and tilt sensitivity for more dynamic, natural-looking strokes.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon-cell">🎇</td>
+                    <td>
+                        <span class="tool-name">Laser Pointer</span>
+                        <p class="tool-desc">Draw temporary strokes that slowly fade away. Perfect for highlighting attention without leaving a permanent mark.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon-cell">🧼</td>
+                    <td>
+                        <span class="tool-name">Eraser</span>
+                        <p class="tool-desc">Removes individual strokes that you swipe over with your Pencil or finger.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon-cell">🧹</td>
+                    <td>
+                        <span class="tool-name">Clear Screen</span>
+                        <p class="tool-desc">Instantly wipes all current annotations from the screen so you can start fresh on the next slide.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon-cell">🖱️</td>
+                    <td>
+                        <span class="tool-name">Interaction Mode</span>
+                        <p class="tool-desc">Temporarily hides the drawing layer and turns your iPad into a trackpad so you can click through your Mac presentation.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon-cell">✍️</td>
+                    <td>
+                        <span class="tool-name">Draw Toggle</span>
+                        <p class="tool-desc">The master switch to turn the drawing overlay on or off.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon-cell">↩️</td>
+                    <td>
+                        <span class="tool-name">Undo / Redo</span>
+                        <p class="tool-desc">Step backward or forward through your recent pen strokes.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon-cell">🎚️</td>
+                    <td>
+                        <span class="tool-name">Brush Size Slider</span>
+                        <p class="tool-desc">Drag left to make your pen thinner, or right to make it thicker for bold visibility.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon-cell">❌</td>
+                    <td>
+                        <span class="tool-name">Disconnect</span>
+                        <p class="tool-desc">Safely ends the wireless session with your Mac.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Mac Application Icons</h2>
+        <table class="guide-table">
+            <thead>
+                <tr>
+                    <th class="icon-cell">Icon</th>
+                    <th>Tool & Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="icon-cell">📡</td>
+                    <td>
+                        <span class="tool-name">Menu Bar Status</span>
+                        <p class="tool-desc">Scrivix lives in your Mac's top menu bar. Click the icon to view your current connection status.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon-cell">⚙️</td>
+                    <td>
+                        <span class="tool-name">Preferences</span>
+                        <p class="tool-desc">Access network settings, adjust presentation display bounds, and manage app permissions.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="index.html" class="back-link">← Back to Scrivix Home</a>
+    </div>
+
+</body>
+</html>
