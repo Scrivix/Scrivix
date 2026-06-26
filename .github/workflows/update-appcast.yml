@@ -4,51 +4,28 @@ on:
   release:
     types: [published]
 
+# 🌟 FIX 1: Explicitly grant the GitHub actions bot permission to write data back to your repo
+permissions:
+  contents: write
+
 jobs:
   update-appcast:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
+    runs-on: macos-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          # 🌟 FIX 2: Force the runner onto a live branch so it is NEVER in a detached HEAD state!
+          ref: main  
 
-      - name: Generate New appcast.xml
-        run: |
-          TAG_NAME="${{ github.event.release.tag_name }}"
-          # Removes the 'v' prefix for the internal build number strings (e.g., v1.0.1 -> 1.0.1)
-          CLEAN_VERSION="${TAG_NAME//v/}"
-          # Gets the current timestamp in standard RFC 2822 format for RSS feeds
-          PUB_DATE=$(date -R)
+      # ... (Your steps here that download/run your generate_appcast binary tool) ...
 
-          cat <<EOF > appcast.xml
-          <?xml version="1.0" encoding="utf-8"?>
-          <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
-              <channel>
-                  <title>Scrivix Mac Updates</title>
-                  <link>https://scrivix.us/appcast.xml</link>
-                  <description>Automated software updates for Scrivix for macOS.</description>
-                  <language>en</language>
-                  <item>
-                      <title>Version ${CLEAN_VERSION}</title>
-                      <pubDate>${PUB_DATE}</pubDate>
-                      <sparkle:version>${CLEAN_VERSION}</sparkle:version>
-                      <sparkle:shortVersionString>${CLEAN_VERSION}</sparkle:shortVersionString>
-                      <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
-                      <enclosure 
-                          url="https://github.com/scrivix/Scrivix/releases/download/${TAG_NAME}/Scrivix.dmg" 
-                          length="0" 
-                          type="application/octet-stream" />
-                  </item>
-              </channel>
-          </rss>
-          EOF
-
-      - name: Commit and Push Updated Appcast
+      - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add appcast.xml
-          git commit -m "chore: auto-update appcast.xml to ${TAG_NAME} [skip ci]" || exit 0
-          git push origin HEAD:main
+          git commit -m "chore: auto-update appcast.xml [skip ci]" || exit 0
+          
+          # 🌟 FIX 3: Push cleanly directly back into the live branch
+          git push origin main
