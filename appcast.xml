@@ -6,20 +6,20 @@
         <description>Automated software updates for Scrivix for macOS.</description>
         <language>en</language>
         <item>
-            <title>Version 1.2.1</title>
+            <title>1.1</title>
             <pubDate>Sun, 28 Jun 2026 17:26:13 -0400</pubDate>
-            <sparkle:version>3</sparkle:version>
-            <sparkle:shortVersionString>1.2.1</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://scrivix.github.io/Scrivix/Scrivix_1.2.1.zip" length="3996092" type="application/octet-stream" sparkle:edSignature="l6NrwiX+yPbL3e8zJNHcs9RMkE40vDbAgqXoCV93NqNnKo/5b3IDBwJ7T1P32rckuUBC9KmMXvBVM506m4iNCw=="/>
-        </item>
-        <item>
-            <title>Version 1.1.0</title>
-            <pubDate>Mon, 22 Jun 2026 10:00:00 -0400</pubDate>
             <sparkle:version>2</sparkle:version>
             <sparkle:shortVersionString>1.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
+            <enclosure url="https://scrivix.github.io/Scrivix/Scrivix_1.2.1.zip" length="4000692" type="application/octet-stream" sparkle:edSignature="0Il3a9sQ3rmgUkqko0naYtxJEaLdxo2RewARY0dya8/iEctj6NeFLyOm3X3kcPHAzX/QV7gUTPwtzPXObfVsCg=="/>
+        </item>
+        <item>
+            <title>Version 1.0.0</title>
+            <pubDate>Mon, 22 Jun 2026 10:00:00 -0400</pubDate>
+            <sparkle:version>1</sparkle:version>
+            <sparkle:shortVersionString>1.2.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://scrivix.github.io/Scrivix/Scrivix%201.1.zip" length="3993486" type="application/octet-stream" sparkle:edSignature="Osnr6IH5vwqpdDQYliOqLJ+OFRLntvYIeqfEeppYbnO3cVH6uWsNelZ6hqdNFZ8qflb+gn1G8M+wredB/nl3AA=="/>
+            <enclosure url="https://scrivix.github.io/Scrivix/Scrivix%201.2.2.zip" length="4000845" type="application/octet-stream" sparkle:edSignature="iqQOIJZuNSn2gUpx4gvU7YXT3WXxX1v1FzI/QSvm3LfYodKaQFUhIWmPksIUA8Q+tpQGYDXCQrl15s62MInWDg=="/>
         </item>
     </channel>
 </rss>
