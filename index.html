@@ -153,18 +153,5 @@
             <a href="privacy.html">Privacy Policy</a>
         </p>
     </div>
-
-    <script>
-        fetch('https://api.github.com/repos/scrivix/Scrivix/releases/latest')
-            .then(response => response.json())
-            .then(data => {
-                const dmgAsset = data.assets.find(asset => asset.name.endsWith('.dmg'));
-                if (dmgAsset) {
-                    document.getElementById('download-button').href = dmgAsset.browser_download_url;
-                }
-            })
-            .catch(error => console.error('Error fetching latest release:', error));
-    </script>
-
 </body>
 </html>
