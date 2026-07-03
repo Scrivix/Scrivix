@@ -13,7 +13,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           # 🌟 FIX 2: Force the runner onto a live branch so it is NEVER in a detached HEAD state!
           ref: main  
