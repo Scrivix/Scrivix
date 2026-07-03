@@ -1,5 +1,5 @@
 ## Hi there 👋
-
+Thanks for checking out Scrivix!  The best presentation-annotation tool for your Mac and iPad!
 <!--
 **Scrivix/Scrivix** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
