@@ -1,14 +1,30 @@
 <?xml version="1.0" standalone="yes"?>
 <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
     <channel>
-        <title>Scrivix Mac Updates</title>
+        <title>Scrivix 1.2.3</title>
+        <item>
+            <title>1.2.3</title>
+            <pubDate>Thu, 09 Jul 2026 11:11:49 -0400</pubDate>
+            <sparkle:version>5</sparkle:version>
+            <sparkle:shortVersionString>1.2.3</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
+            <enclosure url="https://scrivix.github.io/Scrivix/Scrivix_Mac.zip" length="4087558" type="application/octet-stream" sparkle:edSignature="+QJsojZQ1V+GIbgFDntYC8a8xvIhpJJo9JreVpMH4gNig/ervt/nj+PG8o8MWrQ6/dttqhFko3vtRNBL7OFVDQ=="/>
+        </item>
         <item>
             <title>1.2.2</title>
-            <pubDate>Fri, 03 Jul 2026 11:52:55 -0400</pubDate>
+            <pubDate>Fri, 03 Jul 2026 12:15:17 -0400</pubDate>
             <sparkle:version>4</sparkle:version>
             <sparkle:shortVersionString>1.2.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/Scrivix/Scrivix/releases/download/v1.2.2/Scrivix_1.2.2.zip" length="4000845" type="application/octet-stream" sparkle:edSignature="iqQOIJZuNSn2gUpx4gvU7YXT3WXxX1v1FzI/QSvm3LfYodKaQFUhIWmPksIUA8Q+tpQGYDXCQrl15s62MInWDg=="/>
+            <enclosure url="https://scrivix.github.io/Scrivix/Scrivix_Mac.zip" length="4087779" type="application/octet-stream" sparkle:edSignature="z/bXg0gGEGl9GP+ZCTSvuZe0hac3S2iGMFxbn1Xh91JS/IXI+HWcfN9F0RhKmXHj77xhyA6DhDBPuIP/djOqDA=="/>
+        </item>
+        <item>
+            <title>1.2.2</title>
+            <pubDate>Fri, 03 Jul 2026 11:52:55 -0400</pubDate>
+            <sparkle:version>1</sparkle:version>
+            <sparkle:shortVersionString>1.2.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
+            <enclosure url="https://scrivix.github.io/Scrivix/Scrivix_1.2.2.zip" length="4000845" type="application/octet-stream" sparkle:edSignature="iqQOIJZuNSn2gUpx4gvU7YXT3WXxX1v1FzI/QSvm3LfYodKaQFUhIWmPksIUA8Q+tpQGYDXCQrl15s62MInWDg=="/>
         </item>
     </channel>
 </rss>
