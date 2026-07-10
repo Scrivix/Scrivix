@@ -24,7 +24,7 @@
             min-height: 100vh;
         }
         .container {
-            max-width: 650px;
+            max-width: 700px;
             padding: 60px 20px;
         }
         h1 {
@@ -65,6 +65,12 @@
             line-height: 1.6;
             margin: 0;
         }
+        .faq-answer p {
+            margin: 0 0 10px 0;
+        }
+        .faq-answer p:last-child {
+            margin-bottom: 0;
+        }
         .faq-answer ul {
             margin: 10px 0 0 0;
             padding-left: 20px;
@@ -103,51 +109,126 @@
 
     <div class="container">
         <h1>Scrivix Help & Support</h1>
-        <p class="subtitle">Quick fixes for network connection issues and configuration snags.</p>
+        <p class="subtitle">Quick fixes for pairing, permissions, video, Control Mode, and local network issues.</p>
 
         <div class="faq-section">
-            
-            <div class="faq-item">
-                <p class="faq-question">🔄 The iPad won't connect or the connection dropped.</p>
+
+            <div class="faq-item highlight">
+                <p class="faq-question">⬇️ Do I need the Mac companion app?</p>
                 <div class="faq-answer">
-                    <p>Sometimes the simplest fix is the best one. If your iPad is struggling to see your Mac, simply <strong>quit the Scrivix Mac app completely (Cmd + Q) and open it back up</strong>. This forces the Mac to refresh its local broadcasting signal so the iPad can find it again.</p>
+                    <p>Yes. Scrivix Remote for iPad requires the free Scrivix Mac companion app. The Mac app must be open and running on the same local network as your iPad.</p>
+                    <a href="https://scrivix.us" class="btn-outline">Download the Mac App</a>
                 </div>
             </div>
 
             <div class="faq-item">
-                <p class="faq-question">📱 My devices still aren't seeing each other. What do I check?</p>
+                <p class="faq-question">🔐 The iPad is asking for a passcode. Where do I find it?</p>
                 <div class="faq-answer">
-                    Because Scrivix beams data locally for ultra-low latency, both devices must be speaking to each other cleanly. Check these three things:
+                    <p>Open the Scrivix Mac app. A small pairing window will show a 4-digit passcode. Enter that code on your iPad to start the session.</p>
+                    <p>If the code is hidden behind another macOS permission popup, move the Scrivix window or bring the permission popup forward.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">✅ The Mac app says I need permissions. What should I allow?</p>
+                <div class="faq-answer">
+                    Scrivix needs macOS permissions so it can show your screen on iPad and control your Mac in Control Mode:
                     <ul>
-                        <li><strong>Same Wi-Fi Network:</strong> Verify that both your Mac and iPad are connected to the exact same Wi-Fi router network name (SSID).</li>
-                        <li><strong>Local Network Access:</strong> On your iPad, open the main iOS <strong>Settings</strong> app, scroll down to <strong>Scrivix</strong>, and make sure the <strong>Local Network</strong> toggle switch is turned ON.</li>
-                        <li><strong>AP Isolation:</strong> Public or corporate Wi-Fi networks (like coffee shops or offices) sometimes block local devices from seeing each other. If you are on a restrictive network, try using your iPhone's Personal Hotspot for both devices.</li>
+                        <li><strong>Screen Recording:</strong> required for sending your Mac screen to the iPad.</li>
+                        <li><strong>Computer Control / Accessibility:</strong> required for clicking, dragging, right-clicking, scrolling, and cursor movement in Control Mode.</li>
+                    </ul>
+                    <p>Use the permission checklist in the Mac app to open the correct macOS Settings pages. After changing permissions, you may need to quit and reopen Scrivix on your Mac.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">🔄 The iPad will not connect or says Reconnecting.</p>
+                <div class="faq-answer">
+                    Try these steps:
+                    <ul>
+                        <li>Make sure Scrivix is open on your Mac and showing the pairing passcode.</li>
+                        <li>Confirm your iPad and Mac are on the same Wi-Fi network.</li>
+                        <li>Quit the Scrivix Mac app completely and reopen it.</li>
+                        <li>Close and reopen Scrivix Remote on your iPad.</li>
+                        <li>If you recently changed permissions, restart the Mac app.</li>
                     </ul>
                 </div>
             </div>
 
             <div class="faq-item">
-                <p class="faq-question">🛑 macOS is blocking the connection or drawing engine.</p>
+                <p class="faq-question">📱 My devices still are not seeing each other. What should I check?</p>
                 <div class="faq-answer">
-                    If your Mac app is running but nothing appears, your system firewall might be overprotective:
+                    Scrivix connects over your local network, so your Mac and iPad need to be allowed to talk directly:
                     <ul>
-                        <li>Go to Mac <strong>System Settings ➡️ Network ➡️ Firewall</strong>.</li>
-                        <li>If the Firewall is enabled, click <strong>Options...</strong> and ensure <strong>Scrivix.app</strong> is set to <strong>"Allow incoming connections"</strong>.</li>
+                        <li><strong>Same Wi-Fi Network:</strong> verify that both devices are connected to the same network name.</li>
+                        <li><strong>Local Network Access:</strong> on iPad, open Settings, find Scrivix, and make sure Local Network is turned on.</li>
+                        <li><strong>Firewall:</strong> on Mac, go to System Settings, Network, Firewall, and make sure Scrivix is allowed to accept incoming connections.</li>
+                        <li><strong>Public Wi-Fi:</strong> school, office, hotel, and coffee shop networks may block local device discovery. Try a personal hotspot or a private network.</li>
                     </ul>
                 </div>
             </div>
 
             <div class="faq-item">
-                <p class="faq-question">⚡️ I am noticing lag or delayed strokes. How can I optimize it?</p>
+                <p class="faq-question">🖥️ The video feed is blank or does not come back after a while.</p>
                 <div class="faq-answer">
-                    <p>Scrivix targets a fluid, low-latency 120Hz update engine. If it stutters, it is almost always due to Wi-Fi congestion. Try moving closer to your Wi-Fi router, or connect your Mac to your router via Ethernet while keeping your iPad on the Wi-Fi loop.</p>
+                    <p>First, check that Screen Recording permission is enabled for Scrivix on your Mac. If permission is enabled but video does not return, quit and reopen the Mac companion app, then reconnect from iPad.</p>
+                    <p>Also make sure your Mac is awake and not switching networks after sleep.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">🖱️ Control Mode is not clicking, dragging, or scrolling.</p>
+                <div class="faq-answer">
+                    <p>Control Mode requires Computer Control / Accessibility permission on your Mac. Enable it in macOS Settings, then quit and reopen Scrivix.</p>
+                    <ul>
+                        <li><strong>Tap:</strong> left click.</li>
+                        <li><strong>Double tap:</strong> double-click.</li>
+                        <li><strong>Tap and hold:</strong> right-click.</li>
+                        <li><strong>Tap-hold-drag:</strong> click and drag windows or items.</li>
+                        <li><strong>Two-finger scroll:</strong> scroll documents and webpages.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">✍️ My finger or palm is making accidental marks.</p>
+                <div class="faq-answer">
+                    <p>Turn on Apple Pencil Only mode. This limits drawing input to Apple Pencil and helps prevent accidental marks from your hand or finger while writing.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">🖼️ My overlay or whiteboard background disappeared after clearing.</p>
+                <div class="faq-answer">
+                    <p>The Clear button removes annotations while keeping the active overlay or whiteboard background in place. If your background changes unexpectedly, choose the overlay again from the display icon menu.</p>
+                    <p>Press and hold the display icon to choose white, black, graph paper, lined paper, or a photo background.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">📸 Why does my screenshot not include the iPad toolbar?</p>
+                <div class="faq-answer">
+                    <p>Scrivix saves clean screenshots of the canvas or presentation area only. Toolbar controls and menu bubbles are intentionally left out so the image is ready to share or save.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">⚡️ I am noticing lag or delayed strokes. How can I improve it?</p>
+                <div class="faq-answer">
+                    <p>Scrivix is designed for low-latency local networking. If strokes feel delayed, Wi-Fi congestion is usually the cause.</p>
+                    <ul>
+                        <li>Move closer to your Wi-Fi router.</li>
+                        <li>Connect your Mac to Ethernet if possible.</li>
+                        <li>Close heavy network apps or large downloads.</li>
+                        <li>Use a private home or office network instead of public Wi-Fi.</li>
+                    </ul>
                 </div>
             </div>
 
             <div class="faq-item highlight">
                 <p class="faq-question">🐞 Found a bug or need more help?</p>
                 <div class="faq-answer">
-                    <p>Scrivix is actively developed and I want to fix any edge cases you run into! If the steps above didn't solve your issue, please submit a quick bug report so I can investigate.</p>
+                    <p>Scrivix is actively developed. If the steps above do not solve your issue, please submit a quick bug report so I can investigate.</p>
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfJD6pwJBCk1jJTh0EI4yU9GnCFEW7hSONf5DTgXAoFExsLHg/viewform?usp=header" target="_blank" class="btn-outline">Submit a Bug Report</a>
                 </div>
             </div>
