@@ -8,7 +8,7 @@
             <sparkle:version>6</sparkle:version>
             <sparkle:shortVersionString>1.2.4</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/Scrivix/Scrivix/releases/download/v1.2.4/Scrivix_Mac.zip" length="4108164" type="application/octet-stream" sparkle:edSignature="EBOHEjjpJMDSP0Hd581I9TVmaaxBtYXqofX/ksHpyVqoceQh+C2CcVQk6x62I/fZM4PIUwiXP1v8cNB6uQaPDA=="/>
+            <enclosure url="https://github.com/Scrivix/Scrivix/releases/download/v1.2.4/Scrivix_Mac.zip" length="4101448" type="application/octet-stream" sparkle:edSignature="zl7c3ezGWdQph9bwCmq882+dDUYUGrt4aGgrZnMHSUdpyJdlWURnfGa76AVqZE5TdTH5mGQmkzBtO457Ae/MAA=="/>
         </item>
         <item>
             <title>1.2.3</title>
