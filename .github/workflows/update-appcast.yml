@@ -3,29 +3,93 @@ name: Auto-Update Sparkle Appcast
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to generate an appcast for, such as v1.2.4"
+        required: true
+        type: string
 
-# 🌟 FIX 1: Explicitly grant the GitHub actions bot permission to write data back to your repo
 permissions:
   contents: write
 
 jobs:
   update-appcast:
     runs-on: macos-latest
+
     steps:
-      - name: Checkout Code
+      - name: Checkout website branch
         uses: actions/checkout@v7
         with:
-          # 🌟 FIX 2: Force the runner onto a live branch so it is NEVER in a detached HEAD state!
-          ref: main  
+          ref: main
 
-      # ... (Your steps here that download/run your generate_appcast binary tool) ...
-
-      - name: Commit and Push Changes
+      - name: Resolve release tag
+        id: release
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          TAG="${{ github.event.release.tag_name }}"
+          if [ -z "$TAG" ]; then
+            TAG="${{ inputs.tag }}"
+          fi
+          if [ -z "$TAG" ]; then
+            echo "No release tag was provided."
+            exit 1
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Verify release asset exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | grep -qx "Scrivix_Mac.zip"
+
+      - name: Set up Sparkle tools
+        uses: jozefizso/setup-sparkle@v2
+        with:
+          version: 2.9.2
+
+      - name: Download release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          rm -rf .sparkle-updates
+          mkdir -p .sparkle-updates
+          cp appcast.xml .sparkle-updates/appcast.xml
+          gh release download "$TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern "Scrivix_Mac.zip" \
+            --dir .sparkle-updates \
+            --clobber
+
+      - name: Generate Sparkle appcast
+        env:
+          SPARKLE_ED_PRIVATE_KEY: ${{ secrets.SPARKLE_ED_PRIVATE_KEY }}
+          TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          if [ -z "$SPARKLE_ED_PRIVATE_KEY" ]; then
+            echo "Missing repository secret SPARKLE_ED_PRIVATE_KEY."
+            echo "Add your Sparkle private EdDSA key in GitHub Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+
+          echo "$SPARKLE_ED_PRIVATE_KEY" | generate_appcast \
+            --ed-key-file - \
+            --download-url-prefix "https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}/" \
+            .sparkle-updates
+
+          cp .sparkle-updates/appcast.xml appcast.xml
+          xmllint --noout appcast.xml
+
+      - name: Commit updated appcast
+        run: |
+          if git diff --quiet appcast.xml; then
+            echo "appcast.xml is already current."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add appcast.xml
-          git commit -m "chore: auto-update appcast.xml [skip ci]" || exit 0
-          
-          # 🌟 FIX 3: Push cleanly directly back into the live branch
+          git commit -m "chore: update Sparkle appcast [skip ci]"
           git push origin main
