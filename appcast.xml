@@ -2,6 +2,9 @@
 <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
     <channel>
         <title>Scrivix for Mac Updates</title>
+        <link>https://scrivix.us/appcast.xml</link>
+        <description>Automated software updates for Scrivix for macOS.</description>
+        <language>en</language>
         <item>
             <title>1.2.5</title>
             <pubDate>Sat, 22 Aug 2026 00:06:22 +0000</pubDate>
