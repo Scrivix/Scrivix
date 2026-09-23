@@ -6,6 +6,14 @@
         <description>Automated software updates for Scrivix for macOS.</description>
         <language>en</language>
         <item>
+            <title>1.3.0</title>
+            <pubDate>Wed, 23 Sep 2026 01:53:06 +0000</pubDate>
+            <sparkle:version>10</sparkle:version>
+            <sparkle:shortVersionString>1.3.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/Scrivix/Scrivix/releases/download/v1.3.0/Scrivix_Mac.zip" length="4467832" type="application/octet-stream" sparkle:edSignature="V7OvUZUwbVDcDsz30H+oRVrMZijYDoHbf23LII9kvS4brPkJXNXJ0GjHfnlersuUvjl8Mm7eJZUE5kIWM3keCw=="/>
+        </item>
+        <item>
             <title>1.2.7</title>
             <pubDate>Wed, 09 Sep 2026 18:11:30 +0000</pubDate>
             <sparkle:version>9</sparkle:version>
@@ -20,14 +28,6 @@
             <sparkle:shortVersionString>1.2.6</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/Scrivix/Scrivix/releases/download/v1.2.6/Scrivix_Mac.zip" length="4107232" type="application/octet-stream" sparkle:edSignature="dOjroKMAmr8zbe7+DI0WcnrzbbeIzRladRhEbNZL8e23vHBz/x1Bz3dmoZCSvuIf/WAHlvqY4+/75BMNJoywCQ=="/>
-        </item>
-        <item>
-            <title>1.2.5</title>
-            <pubDate>Sat, 22 Aug 2026 00:06:22 +0000</pubDate>
-            <sparkle:version>7</sparkle:version>
-            <sparkle:shortVersionString>1.2.5</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/Scrivix/Scrivix/releases/download/v1.2.5/Scrivix_Mac.zip" length="4082489" type="application/octet-stream" sparkle:edSignature="2Q+GCij9Eig6gjNcbNPfw3YVFBaAZHanjiAewB+7Bs9dW68HKxQKHT3alomXh+lYuvON5kC+cux17A2Ma0kRCA=="/>
         </item>
     </channel>
 </rss>
