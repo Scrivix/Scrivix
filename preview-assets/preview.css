@@ -45,6 +45,19 @@ h1 span { display: block; color: #8ebeff; }
 .scroll-cue { position: absolute; right: 0; color: #8da2be; font-size: .78rem; letter-spacing: .04em; opacity: calc(1 - var(--reveal)); }
 .scroll-cue span { padding-left: .4rem; }
 
+.lesson-story { --lesson-reveal: 0; height: 260vh; min-height: 1600px; background: radial-gradient(ellipse at 50% 50%, #fff 0%, #edf4ff 65%, #dfeaf9 100%); color: #132238; }
+.lesson-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 620px; overflow: hidden; }
+.lesson-inner { width: min(1440px, 100%); height: 100%; margin: auto; padding: clamp(4rem, 8vh, 6rem) clamp(1.2rem, 4vw, 4rem) 1.5rem; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.lesson-story .eyebrow { color: #286fc9; }
+.lesson-inner h2 { margin: 0; font-size: clamp(2.7rem, 5.6vw, 5.8rem); line-height: 1.03; letter-spacing: -.065em; }
+.lesson-inner h2 span { color: #5286c3; }
+.lesson-intro { max-width: 680px; margin: 1rem 0 .5rem; color: #4e6280; font-size: clamp(1rem, 1.5vw, 1.23rem); line-height: 1.5; }
+.lesson-scene { position: relative; flex: 1; min-height: 0; width: min(1150px, 100%); }
+.lesson-scene .device { position: absolute; }
+.lesson-mac { width: calc(76% - var(--lesson-reveal) * 16%); left: calc(50% + var(--lesson-reveal) * 17%); top: 50%; transform: translate(-50%, -50%); }
+.lesson-ipad { z-index: 2; width: 53%; left: 31%; top: 50%; opacity: var(--lesson-reveal); transform: translate(calc(-50% - (1 - var(--lesson-reveal)) * 44px), -43%); }
+.lesson-caption { min-height: 2rem; margin: .3rem 0 0; color: #3d5778; font-size: clamp(.9rem, 1.4vw, 1.1rem); opacity: var(--lesson-reveal); }
+
 .next-chapter { padding: clamp(6rem, 14vw, 13rem) 1.5rem; text-align: center; background: #f3f6fb; color: #101b2f; }
 .next-chapter .eyebrow { color: #2565c1; }
 .next-chapter h2 { margin: 0 auto; max-width: 1050px; font-size: clamp(2.5rem, 6vw, 6rem); line-height: 1.08; letter-spacing: -.065em; }
@@ -71,6 +84,16 @@ h1 span { display: block; color: #8ebeff; }
   .stage-bottom { min-height: 65px; }
   .scroll-cue { display: none; }
   .reveal-copy { max-width: 280px; line-height: 1.4; }
+
+  .lesson-story { height: 240svh; min-height: 1450px; }
+  .lesson-stage { min-height: 580px; }
+  .lesson-inner { padding: 5.5rem 1rem 1.1rem; }
+  .lesson-inner h2 { font-size: clamp(2.45rem, 9vw, 3.8rem); }
+  .lesson-intro { margin-top: .7rem; font-size: .98rem; }
+  .lesson-scene { width: 100%; }
+  .lesson-mac { width: calc(86% - var(--lesson-reveal) * 10%); left: 50%; top: calc(50% + var(--lesson-reveal) * 18%); }
+  .lesson-ipad { width: 66%; left: 50%; top: 34%; transform: translate(calc(-50% - (1 - var(--lesson-reveal)) * 30px), -50%); }
+  .lesson-caption { max-width: 280px; line-height: 1.4; }
 }
 
 @media (max-width: 430px) and (max-height: 740px) {
@@ -88,4 +111,8 @@ h1 span { display: block; color: #8ebeff; }
   .stage-inner { min-height: 100vh; }
   .device-scene { flex: none; min-height: 360px; }
   .scroll-cue { display: none; }
+  .lesson-story { height: auto; min-height: 0; --lesson-reveal: 1; }
+  .lesson-stage { position: relative; height: auto; min-height: 0; overflow: visible; }
+  .lesson-inner { min-height: 100vh; }
+  .lesson-scene { flex: none; min-height: 400px; }
 }
