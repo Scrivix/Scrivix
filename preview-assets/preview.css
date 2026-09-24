@@ -94,8 +94,12 @@ h1 span { display: block; color: #8ebeff; }
 .selling-points li { position: relative; padding: 1.2rem 0 1.2rem 1.9rem; border-top: 1px solid #d4deeb; color: #50627a; font-size: clamp(.98rem, 1.15vw, 1.08rem); line-height: 1.55; }
 .selling-points li::before { content: "•"; position: absolute; left: .2rem; top: 1rem; color: #1877e6; font-size: 1.55rem; line-height: 1; }
 .selling-points strong { display: block; margin-bottom: .15rem; color: #172b46; font-size: 1.06em; }
+.download-links { display: flex; justify-content: center; flex-wrap: wrap; gap: .85rem; margin-top: 2.2rem; }
 .primary-link { display: inline-flex; align-items: center; gap: .7rem; margin-top: 2.2rem; padding: .95rem 1.35rem; border-radius: 999px; background: #1877e6; color: white; font-size: .95rem; font-weight: 650; text-decoration: none; }
 .primary-link:hover { background: #0d5ec1; }
+.download-links .primary-link { margin-top: 0; }
+.app-store-link { background: #172b46; }
+.app-store-link:hover { background: #294569; }
 .next-chapter .requirements-note { margin-top: 1rem !important; font-size: .88rem !important; color: #6a7b90 !important; }
 .next-chapter .video-call-note { max-width: 720px !important; margin-top: 2rem !important; color: #344966 !important; font-size: clamp(1rem, 1.4vw, 1.16rem) !important; line-height: 1.6 !important; }
 .next-chapter .preview-note { margin-top: 6rem !important; max-width: 500px !important; font-size: .84rem !important; color: #79869a !important; }
@@ -170,6 +174,8 @@ h1 span { display: block; color: #8ebeff; }
 
   .selling-points { grid-template-columns: 1fr; margin-top: 3rem; }
   .selling-points li { padding-top: 1rem; padding-bottom: 1rem; }
+  .download-links { flex-direction: column; align-items: center; }
+  .download-links .primary-link { justify-content: center; width: min(100%, 300px); }
 }
 
 @media (max-width: 430px) and (max-height: 740px) {
