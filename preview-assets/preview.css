@@ -83,6 +83,7 @@ h1 span { display: block; color: #8ebeff; }
 .primary-link { display: inline-flex; align-items: center; gap: .7rem; margin-top: 2.2rem; padding: .95rem 1.35rem; border-radius: 999px; background: #1877e6; color: white; font-size: .95rem; font-weight: 650; text-decoration: none; }
 .primary-link:hover { background: #0d5ec1; }
 .next-chapter .requirements-note { margin-top: 1rem !important; font-size: .88rem !important; color: #6a7b90 !important; }
+.next-chapter .video-call-note { max-width: 720px !important; margin-top: 2rem !important; color: #344966 !important; font-size: clamp(1rem, 1.4vw, 1.16rem) !important; line-height: 1.6 !important; }
 .next-chapter .preview-note { margin-top: 6rem !important; max-width: 500px !important; font-size: .84rem !important; color: #79869a !important; }
 .site-footer { min-height: 90px; padding: 2rem; display: flex; justify-content: center; gap: clamp(1rem, 4vw, 3rem); flex-wrap: wrap; background: #0a1020; }
 .site-footer a { color: #aab8d0; font-size: .85rem; text-decoration: none; }
