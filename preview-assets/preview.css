@@ -71,12 +71,16 @@ h1 span { display: block; color: #8ebeff; }
 .canvas-ipad { z-index: 2; width: 54%; left: 30%; top: 50%; opacity: var(--canvas-reveal); transform: translate(calc(-50% - (1 - var(--canvas-reveal)) * 44px), -45%); }
 .canvas-caption { z-index: 3; position: relative; min-height: 2rem; margin: .3rem 0 0; padding: .55rem 1rem; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; background: rgba(6,14,28,.9); color: #d3e1f2; font-size: clamp(.9rem, 1.4vw, 1.1rem); opacity: var(--canvas-reveal); }
 
-.smart-shape-demo { padding: clamp(5rem, 10vw, 9rem) 1.5rem; background: radial-gradient(ellipse at 50% 50%, #1a2d4c, #0b1425 70%); text-align: center; }
-.smart-shape-inner { width: min(1100px, 100%); margin: auto; }
+.smart-shape-demo { --smart-progress: 0%; height: 240vh; min-height: 1450px; background: radial-gradient(ellipse at 50% 50%, #1a2d4c, #0b1425 70%); text-align: center; }
+.smart-shape-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 580px; padding: clamp(2rem, 5vh, 4rem) 1.5rem; overflow: hidden; }
+.smart-shape-inner { width: min(1100px, 100%); height: 100%; margin: auto; display: flex; flex-direction: column; align-items: center; }
 .smart-shape-inner h2 { margin: 0; font-size: clamp(2.6rem, 5.5vw, 5.5rem); line-height: 1.04; letter-spacing: -.06em; }
 .smart-shape-inner h2 span { color: #8ab9ff; }
-.smart-shape-inner > p:not(.eyebrow) { max-width: 640px; margin: 1.2rem auto 2.5rem; color: #bbcae1; font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.5; }
-.smart-shape-video { display: block; width: 100%; max-height: 75vh; margin: auto; border: 1px solid rgba(193,218,255,.25); border-radius: 1.2rem; background: #080d1a; box-shadow: 0 35px 85px rgba(0,0,0,.4); }
+.smart-shape-intro { max-width: 640px; margin: 1rem auto 1.4rem; color: #bbcae1; font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.5; }
+.smart-shape-video { display: block; width: 100%; min-height: 0; max-height: 64svh; flex: 1 1 auto; object-fit: contain; border: 1px solid rgba(193,218,255,.25); border-radius: 1.2rem; background: #080d1a; box-shadow: 0 35px 85px rgba(0,0,0,.4); }
+.smart-shape-progress { width: min(600px, 85%); height: 4px; margin: 1.25rem auto 0; border-radius: 99px; background: rgba(255,255,255,.18); overflow: hidden; }
+.smart-shape-progress span { display: block; width: var(--smart-progress); height: 100%; border-radius: inherit; background: #8ab9ff; }
+.smart-shape-cue { margin: .7rem 0 0; color: #bbcae1; font-size: .85rem; letter-spacing: .03em; }
 
 .next-chapter { padding: clamp(6rem, 14vw, 13rem) 1.5rem; text-align: center; background: #f3f6fb; color: #101b2f; }
 .next-chapter .eyebrow { color: #2565c1; }
@@ -111,6 +115,7 @@ h1 span { display: block; color: #8ebeff; }
   .lesson-inner, .canvas-inner { padding-top: 3.5rem; }
   .lesson-inner h2, .canvas-inner h2 { font-size: clamp(2.7rem, 4.6vw, 4.5rem); }
   .intro, .lesson-intro, .canvas-intro { margin-bottom: .4rem; }
+  .smart-shape-inner h2 { font-size: clamp(2.6rem, 4.6vw, 4.5rem); }
 }
 
 @media (max-width: 700px) {
@@ -149,6 +154,12 @@ h1 span { display: block; color: #8ebeff; }
   .canvas-ipad { width: 66%; left: 50%; top: 34%; transform: translate(calc(-50% - (1 - var(--canvas-reveal)) * 30px), -50%); }
   .canvas-caption { max-width: 300px; line-height: 1.4; }
 
+  .smart-shape-demo { height: 220svh; min-height: 1300px; }
+  .smart-shape-stage { padding: 4rem 1rem 1.4rem; }
+  .smart-shape-inner h2 { font-size: clamp(2.4rem, 9vw, 3.7rem); }
+  .smart-shape-intro { margin: .7rem auto 1rem; font-size: .98rem; }
+  .smart-shape-video { max-height: 55svh; }
+
   .selling-points { grid-template-columns: 1fr; margin-top: 3rem; }
   .selling-points li { padding-top: 1rem; padding-bottom: 1rem; }
 }
@@ -176,4 +187,9 @@ h1 span { display: block; color: #8ebeff; }
   .canvas-stage { position: relative; height: auto; min-height: 0; overflow: visible; }
   .canvas-inner { min-height: 100vh; }
   .canvas-scene { flex: none; min-height: 400px; }
+  .smart-shape-demo { height: auto; min-height: 0; }
+  .smart-shape-stage { position: relative; height: auto; min-height: 0; overflow: visible; }
+  .smart-shape-inner { height: auto; }
+  .smart-shape-video { flex: none; height: auto; }
+  .smart-shape-progress, .smart-shape-cue { display: none; }
 }
