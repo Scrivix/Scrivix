@@ -3,6 +3,22 @@
   const lesson = document.querySelector('.lesson-story');
   const canvas = document.querySelector('.canvas-story');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const smartVideo = document.querySelector('.smart-shape-video');
+
+  if (smartVideo && !reducedMotion.matches && 'IntersectionObserver' in window) {
+    const videoObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !reducedMotion.matches) {
+        smartVideo.play().catch(() => {});
+      } else {
+        smartVideo.pause();
+      }
+    }, { threshold: .35 });
+    videoObserver.observe(smartVideo);
+    reducedMotion.addEventListener('change', () => {
+      if (reducedMotion.matches) smartVideo.pause();
+    });
+  }
+
   if (!story || !lesson || !canvas || reducedMotion.matches) return;
 
   let ticking = false;
