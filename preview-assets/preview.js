@@ -1,8 +1,9 @@
 (() => {
   const story = document.querySelector('.story');
   const lesson = document.querySelector('.lesson-story');
+  const canvas = document.querySelector('.canvas-story');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (!story || !lesson || reducedMotion.matches) return;
+  if (!story || !lesson || !canvas || reducedMotion.matches) return;
 
   let ticking = false;
   const clamp = (value) => Math.max(0, Math.min(1, value));
@@ -20,6 +21,11 @@
     const lessonDistance = Math.max(1, lessonRect.height - window.innerHeight);
     const lessonProgress = clamp(-lessonRect.top / lessonDistance);
     lesson.style.setProperty('--lesson-reveal', clamp((lessonProgress - .18) / .48).toFixed(3));
+
+    const canvasRect = canvas.getBoundingClientRect();
+    const canvasDistance = Math.max(1, canvasRect.height - window.innerHeight);
+    const canvasProgress = clamp(-canvasRect.top / canvasDistance);
+    canvas.style.setProperty('--canvas-reveal', clamp((canvasProgress - .18) / .48).toFixed(3));
     ticking = false;
   }
 
