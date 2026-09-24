@@ -4,13 +4,25 @@
   const canvas = document.querySelector('.canvas-story');
   const smartDemo = document.querySelector('.smart-shape-demo');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const mobileDemo = window.matchMedia('(max-width: 700px)');
   const smartVideo = document.querySelector('.smart-shape-video');
+  const smartPlayer = document.querySelector('.smart-shape-player');
+  const playButton = document.querySelector('.smart-shape-play');
 
-  if (!story || !lesson || !canvas || !smartDemo || !smartVideo) return;
+  if (!story || !lesson || !canvas || !smartDemo || !smartVideo || !smartPlayer || !playButton) return;
   smartVideo.pause();
 
+  const canScrubVideo = () => !reducedMotion.matches && !mobileDemo.matches && Number.isFinite(smartVideo.duration) && smartVideo.duration > 0;
+
+  playButton.addEventListener('click', () => {
+    smartVideo.controls = true;
+    smartVideo.play().catch(() => {});
+  });
+  smartVideo.addEventListener('play', () => smartPlayer.classList.add('is-playing'));
+  smartVideo.addEventListener('ended', () => smartPlayer.classList.remove('is-playing'));
+
   reducedMotion.addEventListener('change', () => {
-    smartVideo.controls = reducedMotion.matches;
+    smartVideo.controls = !canScrubVideo();
     if (reducedMotion.matches) {
       smartVideo.pause();
       story.style.removeProperty('--progress');
@@ -24,10 +36,16 @@
   });
 
   smartVideo.addEventListener('loadedmetadata', () => {
-    if (!reducedMotion.matches && Number.isFinite(smartVideo.duration)) {
+    if (canScrubVideo()) {
       smartVideo.pause();
       smartVideo.controls = false;
     }
+    requestUpdate();
+  });
+
+  mobileDemo.addEventListener('change', () => {
+    smartVideo.pause();
+    smartVideo.controls = !canScrubVideo();
     requestUpdate();
   });
 
@@ -57,7 +75,7 @@
     const canvasProgress = clamp(-canvasRect.top / canvasDistance);
     canvas.style.setProperty('--canvas-reveal', clamp((canvasProgress - .18) / .48).toFixed(3));
 
-    if (!reducedMotion.matches && Number.isFinite(smartVideo.duration) && smartVideo.duration > 0) {
+    if (canScrubVideo()) {
       const smartRect = smartDemo.getBoundingClientRect();
       const smartDistance = Math.max(1, smartRect.height - window.innerHeight);
       const smartProgress = clamp(-smartRect.top / smartDistance);

@@ -6,8 +6,8 @@
   <meta name="description" content="A first look at a new Scrivix homepage. See how writing on iPad appears on your Mac.">
   <meta name="robots" content="noindex, nofollow">
   <title>Scrivix — Homepage Preview</title>
-  <link rel="stylesheet" href="preview-assets/preview.css?v=smart-shape-scroll-1">
-  <script src="preview-assets/preview.js?v=smart-shape-scroll-1" defer></script>
+  <link rel="stylesheet" href="preview-assets/preview.css?v=smart-shape-mobile-1">
+  <script src="preview-assets/preview.js?v=smart-shape-mobile-1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -98,10 +98,14 @@
           <p class="eyebrow">Smart shapes</p>
           <h2 id="smart-shape-title">A quick sketch. <span>A cleaner shape.</span></h2>
           <p class="smart-shape-intro">Draw a shape with Apple Pencil, then hold briefly to let Scrivix refine it.</p>
-          <video class="smart-shape-video" controls muted playsinline preload="auto" aria-label="Demonstration of Scrivix smart shape recognition">
-            <source src="preview-assets/smart-shape-demo.mp4" type="video/mp4">
-            Your browser does not support this video.
-          </video>
+          <div class="smart-shape-player">
+            <video class="smart-shape-video" width="1600" height="1200" controls muted playsinline preload="metadata" aria-label="Demonstration of Scrivix smart shape recognition">
+              <source src="preview-assets/smart-shape-demo.mp4" type="video/mp4">
+              Your browser does not support this video.
+            </video>
+            <button class="smart-shape-play" type="button">▶ Watch the demo</button>
+          </div>
+          <a class="smart-shape-open" href="preview-assets/smart-shape-demo.mp4">Open video directly ↗</a>
           <div class="smart-shape-progress" aria-hidden="true"><span></span></div>
           <p class="smart-shape-cue">Scroll to watch the shape take form ↓</p>
         </div>
