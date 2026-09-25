@@ -4,7 +4,7 @@
   --muted: #a6afc4;
   --blue: #69a8ff;
   --progress: 0;
-  --shift: 52%;
+  --ipad-left: 50%;
   --reveal: 0;
 }
 
@@ -37,7 +37,7 @@ h1 span { display: block; color: #8ebeff; }
 .device img { width: 100%; height: auto; }
 .device-top { height: 28px; display: flex; align-items: center; justify-content: center; gap: .45rem; color: #bcc9de; background: #202b3f; font-size: .68rem; letter-spacing: .03em; }
 .device-dot { width: 6px; height: 6px; border-radius: 50%; background: #69a8ff; box-shadow: 0 0 8px #69a8ff; }
-.ipad-device { z-index: 2; transform: translateX(var(--shift)) scale(calc(1.04 - var(--progress) * .04)); }
+.ipad-device { z-index: 2; }
 .mac-device { opacity: var(--reveal); transform: translateY(calc((1 - var(--reveal)) * 54px)) scale(calc(.96 + var(--reveal) * .04)); }
 .stage-bottom { z-index: 3; width: 100%; min-height: 64px; display: flex; align-items: center; justify-content: center; position: relative; }
 .reveal-copy { margin: 0; padding: .65rem 1.1rem; border: 1px solid rgba(255,255,255,.12); border-radius: 999px; background: rgba(6,14,28,.9); color: #d3dff1; font-size: clamp(.9rem, 1.5vw, 1.15rem); opacity: var(--reveal); transform: translateY(calc((1 - var(--reveal)) * 12px)); }
@@ -118,8 +118,9 @@ h1 span { display: block; color: #8ebeff; }
 
 @media (min-width: 701px) {
   .device-scene, .lesson-scene, .canvas-scene { container-type: size; }
-  .ipad-device { width: min(100%, calc(145cqh - 85px)); justify-self: center; transform: translateX(var(--shift)); }
-  .mac-device { width: min(100%, calc(160cqh - 77px)); justify-self: center; transform: translateY(calc((1 - var(--reveal)) * 20px)) scale(calc(.96 + var(--reveal) * .04)); }
+  .device-scene { display: block; }
+  .ipad-device { position: absolute; left: var(--ipad-left); top: 50%; width: min(48%, calc(145cqh - 85px)); transform: translate(-50%, -50%) scale(calc(1.04 - var(--progress) * .04)); }
+  .mac-device { position: absolute; left: 75%; top: 50%; width: min(48%, calc(160cqh - 77px)); transform: translate(-50%, calc(-50% + (1 - var(--reveal)) * 20px)) scale(calc(.96 + var(--reveal) * .04)); }
   .lesson-mac { width: min(calc(76% - var(--lesson-reveal) * 16%), calc(160cqh - 77px)); }
   .lesson-ipad { width: min(53%, calc(145cqh - 70px)); transform: translate(calc(-50% - (1 - var(--lesson-reveal)) * 30px), -50%); }
   .canvas-mac { width: min(calc(82% - var(--canvas-reveal) * 20%), calc(160cqh - 77px)); }
@@ -197,7 +198,7 @@ h1 span { display: block; color: #8ebeff; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  :root { --progress: 1; --shift: 0%; --reveal: 1; }
+  :root { --progress: 1; --ipad-left: 25%; --reveal: 1; }
   .story { height: auto; min-height: 0; }
   .story-stage { position: relative; height: auto; min-height: 0; overflow: visible; }
   .stage-inner { min-height: 100vh; }

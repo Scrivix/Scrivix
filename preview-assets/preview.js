@@ -26,7 +26,7 @@
     if (reducedMotion.matches) {
       smartVideo.pause();
       story.style.removeProperty('--progress');
-      story.style.removeProperty('--shift');
+      story.style.removeProperty('--ipad-left');
       story.style.removeProperty('--reveal');
       lesson.style.removeProperty('--lesson-reveal');
       canvas.style.removeProperty('--canvas-reveal');
@@ -62,7 +62,7 @@
     const progress = clamp(-rect.top / distance);
     const reveal = clamp((progress - .22) / .43);
     story.style.setProperty('--progress', progress.toFixed(3));
-    story.style.setProperty('--shift', `${((1 - reveal) * 52).toFixed(1)}%`);
+    story.style.setProperty('--ipad-left', `${(50 - reveal * 25).toFixed(1)}%`);
     story.style.setProperty('--reveal', reveal.toFixed(3));
 
     const lessonRect = lesson.getBoundingClientRect();
