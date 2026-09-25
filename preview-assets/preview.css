@@ -100,9 +100,16 @@ h1 span { display: block; color: #8ebeff; }
 .download-links .primary-link { margin-top: 0; }
 .app-store-link { background: #172b46; }
 .app-store-link:hover { background: #294569; }
-.next-chapter .requirements-note { margin-top: 1rem !important; font-size: .88rem !important; color: #6a7b90 !important; }
+.education-link { background: #fff; color: #1b4b87; box-shadow: inset 0 0 0 1px #8ab7ee; }
+.education-link:hover { background: #e9f3ff; }
+.next-chapter .education-note { margin-top: 1rem !important; font-size: .9rem !important; color: #546985 !important; }
+.next-chapter .requirements-note { margin-top: .5rem !important; font-size: .88rem !important; color: #6a7b90 !important; }
 .next-chapter .video-call-note { max-width: 720px !important; margin-top: 2rem !important; color: #344966 !important; font-size: clamp(1rem, 1.4vw, 1.16rem) !important; line-height: 1.6 !important; }
-.next-chapter .preview-note { margin-top: 6rem !important; max-width: 500px !important; font-size: .84rem !important; color: #79869a !important; }
+.creator-note { width: min(760px, 100%); margin: clamp(4rem, 8vw, 6rem) auto 0; padding: clamp(1.7rem, 4vw, 3rem); border: 1px solid #d6e5f7; border-radius: 1.4rem; background: #eaf2fc; text-align: left; }
+.creator-note .eyebrow { margin-bottom: .8rem; }
+.creator-note h3 { margin: 0; color: #172b46; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.15; letter-spacing: -.04em; }
+.creator-note p:last-child { margin: 1rem 0 0; color: #455b77; font-size: clamp(1rem, 1.3vw, 1.13rem); line-height: 1.7; }
+.next-chapter .preview-note { margin-top: 3rem !important; max-width: 500px !important; font-size: .84rem !important; color: #79869a !important; }
 .site-footer { min-height: 90px; padding: 2rem; display: flex; justify-content: center; gap: clamp(1rem, 4vw, 3rem); flex-wrap: wrap; background: #0a1020; }
 .site-footer a { color: #aab8d0; font-size: .85rem; text-decoration: none; }
 
