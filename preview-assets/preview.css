@@ -119,7 +119,7 @@ h1 span { display: block; color: #8ebeff; }
 @media (min-width: 701px) {
   .device-scene, .lesson-scene, .canvas-scene { container-type: size; }
   .device-scene { display: block; }
-  .ipad-device { position: absolute; left: var(--ipad-left); top: 50%; width: min(44%, calc(160cqh - 77px)); transform: translate(-50%, -50%) scale(calc(1.04 - var(--reveal) * .04)); }
+  .ipad-device { position: absolute; left: var(--ipad-left); top: 50%; width: min(44%, calc(160cqh - 77px)); transform: translate(-50%, -50%) scale(calc(1.04 - var(--reveal) * .125)); }
   .mac-device { position: absolute; left: 73%; top: 50%; width: min(44%, calc(160cqh - 77px)); transform: translate(-50%, calc(-50% + (1 - var(--reveal)) * 20px)) scale(calc(.96 + var(--reveal) * .04)); }
   .lesson-mac { width: min(calc(76% - var(--lesson-reveal) * 16%), calc(160cqh - 77px)); }
   .lesson-ipad { width: min(53%, calc(145cqh - 70px)); transform: translate(calc(-50% - (1 - var(--lesson-reveal)) * 30px), -50%); }
@@ -198,7 +198,7 @@ h1 span { display: block; color: #8ebeff; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  :root { --progress: 1; --ipad-left: 27%; --reveal: 1; }
+  :root { --progress: 1; --ipad-left: 29%; --reveal: 1; }
   .story { height: auto; min-height: 0; }
   .story-stage { position: relative; height: auto; min-height: 0; overflow: visible; }
   .stage-inner { min-height: 100vh; }
