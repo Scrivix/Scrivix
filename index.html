@@ -1,180 +1,163 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrivix — Wireless Presentation Slate</title>
-    
-    <!-- Standard SEO -->
-    <meta name="description" content="Turn your iPad into a wireless drawing slate. Overlay annotations onto your live presentations and macOS apps in real time.">
-
-    <!-- Open Graph / Social Sharing Meta Tags -->
-    <meta property="og:site_name" content="Scrivix">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://scrivix.us/">
-    <meta property="og:title" content="Scrivix — Wireless Presentation Slate">
-    <meta property="og:description" content="Turn your iPad into a wireless drawing slate. Overlay annotations onto your live presentations and macOS apps in real time.">
-    <meta property="og:image" content="https://scrivix.us/social-card.jpg">
-
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:domain" content="scrivix.us">
-    <meta name="twitter:url" content="https://scrivix.us/">
-    <meta name="twitter:title" content="Scrivix — Wireless Presentation Slate">
-    <meta name="twitter:description" content="Turn your iPad into a wireless drawing slate. Overlay annotations onto your live presentations and macOS apps in real time.">
-    <meta name="twitter:image" content="https://scrivix.us/social-card.jpg">
-
-    <style>
-        :root {
-            --bg-color: #0b0f19;
-            --text-color: #f3f4f6;
-            --accent-color: #3b82f6;
-            --accent-hover: #2563eb;
-            --card-bg: #111827;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            padding: 40px 20px;
-        }
-        
-        h1 {
-            font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            font-size: 4.5rem; 
-            font-weight: 900;  
-            letter-spacing: -0.04em; 
-            color: #ffffff; 
-            margin-bottom: 5px;
-        }
-
-        .blue-x {
-            color: var(--accent-color);
-        }
-
-        .subtitle {
-            font-size: 1.25rem;
-            color: #9ca3af;
-            margin-bottom: 40px;
-            line-height: 1.6;
-        }
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid #1f2937;
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-        }
-        .features-list {
-            text-align: left;
-            margin: 0 auto;
-            padding: 0;
-            list-style: none;
-        }
-        .features-list li {
-            margin-bottom: 12px;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-        }
-        .features-list li::before {
-            content: "✓";
-            color: #10b981;
-            font-weight: bold;
-            margin-right: 12px;
-            font-size: 1.1rem;
-        }
-        .btn-download {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: white;
-            text-decoration: none;
-            padding: 16px 32px;
-            font-weight: 600;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            transition: background 0.2s ease, transform 0.1s ease;
-            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.4);
-        }
-        .btn-download:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-1px);
-        }
-        .footer {
-            margin-top: 40px;
-            font-size: 0.85rem;
-            color: #4b5563;
-        }
-        .footer-links a {
-            color: #4b5563;
-            font-size: 0.85rem;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-        .youtube-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            vertical-align: middle;
-        }
-
-        .youtube-icon {
-            width: 20px;
-            height: 20px;
-            color: #ff0033;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-        }
-
-        .youtube-link:hover .youtube-icon {
-            opacity: 0.85;
-            transform: translateY(-1px);
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Write on your iPad and show it on your Mac. Scrivix lets you annotate over presentations, lessons, and apps while you move around the room.">
+  <link rel="canonical" href="https://scrivix.us/">
+  <meta property="og:site_name" content="Scrivix">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://scrivix.us/">
+  <meta property="og:title" content="Scrivix — Write on iPad. Show it on Mac.">
+  <meta property="og:description" content="Write on your iPad and show it on your Mac. Annotate over lessons, presentations, and apps from anywhere in the room.">
+  <meta property="og:image" content="https://scrivix.us/social-card.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Scrivix — Write on iPad. Show it on Mac.">
+  <meta name="twitter:description" content="Write on your iPad and show it on your Mac. Annotate over lessons, presentations, and apps from anywhere in the room.">
+  <meta name="twitter:image" content="https://scrivix.us/social-card.jpg">
+  <title>Scrivix — Write on iPad. Show it on Mac.</title>
+  <link rel="stylesheet" href="preview-assets/preview.css?v=education-note-1">
+  <script src="preview-assets/preview.js?v=smart-shape-mobile-1" defer></script>
 </head>
 <body>
-
-    <div class="container">
-        <h1>Scrivi<span class="blue-x">x</span></h1>
-        
-        <p class="subtitle">Turn your iPad into a high-performance wireless drawing slate. Seamlessly overlay annotations onto your live presentations, live video, PowerPoints, Keynote, and macOS apps in real time.</p>
-        
-        <div class="card">
-            <ul class="features-list">
-                <li>Ultra-low latency local network connection</li>
-                <li>Write directly over Keynote & full-screen apps</li>
-                <li>Fluid 120Hz responsive stroke engine</li>
-                <li>Completely local and secure data pipeline</li>
-            </ul>
-        </div>
-
-        <a href="https://github.com/Scrivix/Scrivix/releases/latest/download/Scrivix_Mac.zip" id="download-button" class="btn-download" download>Download Scrivix for Mac</a>
-        
-        <p class="footer">Requires macOS 13 or later. Companion iPad app available on the App Store.</p>
-                <p class="footer-links">
-            <a href="guide.html">User Guide</a> •
-            <a href="help.html">Troubleshooting</a> • 
-            <a href="privacy.html">Privacy Policy</a> •
-            <a href="https://www.youtube.com/channel/UCeeStUczI3w8vfCs0l04xYg" target="_blank" rel="noopener noreferrer" class="youtube-link" aria-label="Scrivix on YouTube">
-                <svg class="youtube-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M23.5 6.2s-.2-1.7-1-2.4c-.9-1-1.9-1-2.4-1C16.8 2.5 12 2.5 12 2.5s-4.8 0-8.1.3c-.5.1-1.5.1-2.4 1-.7.8-1 2.4-1 2.4S.2 8.1.2 10v1.9c0 1.9.3 3.8.3 3.8s.2 1.7 1 2.4c.9 1 2.1.9 2.6 1 1.9.2 7.9.3 7.9.3s4.8 0 8.1-.3c.5-.1 1.5-.1 2.4-1 .7-.8 1-2.4 1-2.4s.3-1.9.3-3.8V10c0-1.9-.3-3.8-.3-3.8zM9.7 14.8V7.9l6.2 3.5-6.2 3.4z"/>
-                </svg>
-            </a>
-        </p>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="index.html" aria-label="Scrivix home">Scrivi<span>x</span></a>
+    <div class="header-right">
+      <a class="header-link" href="https://github.com/Scrivix/Scrivix/releases/latest">Get Scrivix <span aria-hidden="true">↗</span></a>
     </div>
+  </header>
+
+  <main id="main">
+    <section class="story" aria-labelledby="story-title">
+      <div class="story-stage">
+        <div class="stage-inner">
+          <p class="eyebrow">Meet Scrivix Remote</p>
+          <h1 id="story-title">Your ideas, <span>up on the big screen.</span></h1>
+          <p class="intro">Write on your iPad. See it on your Mac.</p>
+
+          <div class="device-scene" aria-label="The same red annotation appears in Scrivix Remote on iPad and on a Mac display">
+            <figure class="device ipad-device">
+              <div class="device-top"><span class="device-dot"></span><span>Scrivix Remote · iPad</span></div>
+              <img src="preview-assets/ipad-remote.jpg" width="2048" height="1411" alt="Scrivix Remote on iPad, showing drawing tools and red handwriting over a live Mac screen" fetchpriority="high">
+            </figure>
+            <figure class="device mac-device">
+              <div class="device-top"><span class="device-dot"></span><span>On your Mac</span></div>
+              <img src="preview-assets/mac-annotation.jpg" width="2048" height="1280" alt="The Mac display showing the same red handwriting over a beach wallpaper">
+            </figure>
+          </div>
+
+          <div class="stage-bottom">
+            <p class="reveal-copy">One thought. Two screens. <strong>Anywhere in the room.</strong></p>
+            <span class="scroll-cue" aria-hidden="true">Scroll to see it connect <span>↓</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lesson-story" aria-labelledby="lesson-title">
+      <div class="lesson-stage">
+        <div class="lesson-inner">
+          <p class="eyebrow">A closer look</p>
+          <h2 id="lesson-title">Make the lesson <span>easy to follow.</span></h2>
+          <p class="lesson-intro">Circle the idea. Point to the next step. Let the whole room see what you mean.</p>
+
+          <div class="lesson-scene" aria-label="The same marked-up math lesson shown on a Mac and in Scrivix Remote on iPad">
+            <figure class="device lesson-mac">
+              <div class="device-top"><span class="device-dot"></span><span>On your Mac</span></div>
+              <img src="preview-assets/lesson-mac.jpg" width="2880" height="1800" alt="A math lesson on a Mac with the product of powers rule circled and arrows pointing to key details" loading="lazy">
+            </figure>
+            <figure class="device lesson-ipad">
+              <div class="device-top"><span class="device-dot"></span><span>From Scrivix Remote</span></div>
+              <img src="preview-assets/lesson-ipad.jpg" width="2420" height="1668" alt="The same annotated math lesson on iPad with the Scrivix Circle tool selected" loading="lazy">
+            </figure>
+          </div>
+
+          <p class="lesson-caption">Your marks stay in sync as you teach.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="canvas-story" aria-labelledby="canvas-title">
+      <div class="canvas-stage">
+        <div class="canvas-inner">
+          <p class="eyebrow">Room to think</p>
+          <h2 id="canvas-title">Start with a <span>fresh canvas.</span></h2>
+          <p class="canvas-intro">Switch to graph paper, lined paper, or your own image and work through an idea on iPad, and show each step on your Mac.</p>
+
+          <div class="canvas-scene" aria-label="A graph-paper whiteboard with the same handwritten math example on iPad and Mac">
+            <figure class="device canvas-mac">
+              <div class="device-top"><span class="device-dot"></span><span>On your Mac</span></div>
+              <img src="preview-assets/canvas-mac.png" width="2880" height="1800" alt="A graph-paper whiteboard on Mac with a handwritten line graph and equation" loading="lazy">
+            </figure>
+            <figure class="device canvas-ipad">
+              <div class="device-top"><span class="device-dot"></span><span>From Scrivix Remote</span></div>
+              <img src="preview-assets/canvas-ipad.jpg" width="2420" height="1668" alt="Scrivix Remote on iPad showing drawing controls and the matching graph-paper lesson" loading="lazy">
+            </figure>
+          </div>
+
+          <p class="canvas-caption">A whiteboard when you need one. Your Mac stays in view.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="smart-shape-demo" aria-labelledby="smart-shape-title">
+      <div class="smart-shape-stage">
+        <div class="smart-shape-inner">
+          <p class="eyebrow">Smart shapes</p>
+          <h2 id="smart-shape-title">A quick sketch. <span>A cleaner shape.</span></h2>
+          <p class="smart-shape-intro">Draw a shape with Apple Pencil, then hold briefly to let Scrivix refine it.</p>
+          <div class="smart-shape-player">
+            <video class="smart-shape-video" width="1600" height="1200" controls muted playsinline preload="metadata" aria-label="Demonstration of Scrivix smart shape recognition">
+              <source src="preview-assets/smart-shape-demo.mp4" type="video/mp4">
+              Your browser does not support this video.
+            </video>
+            <button class="smart-shape-play" type="button">▶ Watch the demo</button>
+          </div>
+          <a class="smart-shape-open" href="preview-assets/smart-shape-demo.mp4">Open video directly ↗</a>
+          <div class="smart-shape-progress" aria-hidden="true"><span></span></div>
+          <p class="smart-shape-cue">Scroll to watch the shape take form ↓</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="next-chapter" aria-labelledby="next-title">
+      <p class="eyebrow">Made for the moment</p>
+      <h2 id="next-title">Stay with your audience.<br><span>Keep your ideas moving.</span></h2>
+      <p>Scrivix turns your iPad into a wireless drawing surface for your Mac. Annotate a lesson, explain a detail, or mark up a presentation as it happens.</p>
+      <ul class="selling-points">
+        <li><strong>Write from your iPad.</strong> Draw and highlight on your Mac with Apple Pencil while you move around the room.</li>
+        <li><strong>Present over familiar apps.</strong> Annotate over Keynote, PowerPoint, PDFs, browsers, videos, and more without changing the original file.</li>
+        <li><strong>Control your Mac remotely.</strong> Click, drag, scroll, and use supported zoom gestures from iPad.</li>
+        <li><strong>Choose the right tool.</strong> Use Brush to draw, Highlighter to emphasize, Laser Pointer to point, plus Fill, erasers, undo, and redo.</li>
+        <li><strong>Add precise shapes.</strong> Use the shape tools for a single arrow, double arrow, straight line, rectangle, or circle.</li>
+        <li><strong>Draw a smart shape.</strong> Sketch a rough rectangle, triangle, line, or circle, then briefly hold Apple Pencil down to snap it into a cleaner shape.</li>
+        <li><strong>Change your canvas.</strong> Switch between a transparent overlay and whiteboard, graph, lined, or photo backgrounds.</li>
+        <li><strong>Save a clean screenshot.</strong> Capture the canvas or presentation without toolbar controls in the saved image.</li>
+        <li><strong>Keep the session local.</strong> Pair with a four-digit code; your drawings, screen stream, and controls are always local and private.</li>
+        <li><strong>No sign-up, account, or subscription is required.</strong></li>
+      </ul>
+      <div class="download-links">
+        <a class="primary-link" href="https://github.com/Scrivix/Scrivix/releases/latest">Download Scrivix for Mac <span aria-hidden="true">↗</span></a>
+        <a class="primary-link app-store-link" href="https://apps.apple.com/us/app/scrivix-remote/id6782099217">Get Scrivix Remote for iPad <span aria-hidden="true">↗</span></a>
+        <a class="primary-link education-link" href="https://apps.apple.com/us/app/scrivix-remote-education/id6804890288">Get Scrivix Remote Education <span aria-hidden="true">↗</span></a>
+      </div>
+      <p class="education-note">For schools and districts purchasing iPad apps in volume, choose the Education app.</p>
+      <p class="requirements-note">To annotate and control your Mac, install the companion Mac app too.</p>
+      <p class="video-call-note">Works with Zoom, Google Meet, and Microsoft Teams when you share your entire screen on a video call.</p>
+      <aside class="creator-note" aria-labelledby="creator-note-title">
+        <p class="eyebrow">A note from the creator</p>
+        <h3 id="creator-note-title">Made by a teacher, for teachers.</h3>
+        <p>I designed Scrivix with help from AI. My goal is to make it simple for busy educators to present, explain, and annotate while keeping a lesson moving. Thanks for taking a look—I hope you’ll give it a try.</p>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="guide.html">User guide</a>
+    <a href="help.html">Help</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="https://www.youtube.com/channel/UCeeStUczI3w8vfCs0l04xYg" target="_blank" rel="noopener noreferrer">YouTube</a>
+  </footer>
 </body>
 </html>
