@@ -25,7 +25,7 @@ figure { margin: 0; }
 .header-link { font-size: .85rem; text-decoration: none; color: #dceaff; }
 .header-link:hover, .site-footer a:hover { color: var(--blue); }
 
-.story { height: 300vh; min-height: 1800px; background: radial-gradient(ellipse at 50% 38%, #1b335a 0%, #0c172a 46%, #080d1a 77%); }
+.story { height: 210vh; min-height: 1400px; background: radial-gradient(ellipse at 50% 38%, #1b335a 0%, #0c172a 46%, #080d1a 77%); }
 .story-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 620px; overflow: hidden; }
 .stage-inner { width: min(1440px, 100%); height: 100%; margin: auto; padding: clamp(5.7rem, 11vh, 8rem) clamp(1.2rem, 4vw, 4rem) 1.3rem; display: flex; flex-direction: column; align-items: center; text-align: center; }
 .eyebrow { margin: 0 0 .95rem; color: #85b9ff; font-size: .74rem; font-weight: 700; letter-spacing: .19em; text-transform: uppercase; }
@@ -119,8 +119,8 @@ h1 span { display: block; color: #8ebeff; }
 @media (min-width: 701px) {
   .device-scene, .lesson-scene, .canvas-scene { container-type: size; }
   .device-scene { display: block; }
-  .ipad-device { position: absolute; left: var(--ipad-left); top: 50%; width: min(48%, calc(160cqh - 77px)); transform: translate(-50%, -50%) scale(calc(1.04 - var(--reveal) * .04)); }
-  .mac-device { position: absolute; left: 75%; top: 50%; width: min(48%, calc(160cqh - 77px)); transform: translate(-50%, calc(-50% + (1 - var(--reveal)) * 20px)) scale(calc(.96 + var(--reveal) * .04)); }
+  .ipad-device { position: absolute; left: var(--ipad-left); top: 50%; width: min(44%, calc(160cqh - 77px)); transform: translate(-50%, -50%) scale(calc(1.04 - var(--reveal) * .04)); }
+  .mac-device { position: absolute; left: 73%; top: 50%; width: min(44%, calc(160cqh - 77px)); transform: translate(-50%, calc(-50% + (1 - var(--reveal)) * 20px)) scale(calc(.96 + var(--reveal) * .04)); }
   .lesson-mac { width: min(calc(76% - var(--lesson-reveal) * 16%), calc(160cqh - 77px)); }
   .lesson-ipad { width: min(53%, calc(145cqh - 70px)); transform: translate(calc(-50% - (1 - var(--lesson-reveal)) * 30px), -50%); }
   .canvas-mac { width: min(calc(82% - var(--canvas-reveal) * 20%), calc(160cqh - 77px)); }
@@ -198,7 +198,7 @@ h1 span { display: block; color: #8ebeff; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  :root { --progress: 1; --ipad-left: 25%; --reveal: 1; }
+  :root { --progress: 1; --ipad-left: 27%; --reveal: 1; }
   .story { height: auto; min-height: 0; }
   .story-stage { position: relative; height: auto; min-height: 0; overflow: visible; }
   .stage-inner { min-height: 100vh; }
