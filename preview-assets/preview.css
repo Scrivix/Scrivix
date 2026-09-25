@@ -110,8 +110,11 @@ h1 span { display: block; color: #8ebeff; }
 .creator-note h3 { margin: 0; color: #172b46; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.15; letter-spacing: -.04em; }
 .creator-note p:last-child { margin: 1rem 0 0; color: #455b77; font-size: clamp(1rem, 1.3vw, 1.13rem); line-height: 1.7; }
 .next-chapter .preview-note { margin-top: 3rem !important; max-width: 500px !important; font-size: .84rem !important; color: #79869a !important; }
-.site-footer { min-height: 90px; padding: 2rem; display: flex; justify-content: center; gap: clamp(1rem, 4vw, 3rem); flex-wrap: wrap; background: #0a1020; }
+.site-footer { min-height: 90px; padding: 2rem; display: flex; align-items: center; justify-content: center; gap: clamp(1rem, 4vw, 3rem); flex-wrap: wrap; background: #0a1020; }
 .site-footer a { color: #aab8d0; font-size: .85rem; text-decoration: none; }
+.site-footer .youtube-link { display: inline-flex; align-items: center; color: #ff0033; }
+.youtube-icon { width: 23px; height: 23px; transition: opacity .2s ease, transform .2s ease; }
+.youtube-link:hover .youtube-icon { opacity: .82; transform: translateY(-1px); }
 
 @media (min-width: 701px) {
   .device-scene, .lesson-scene, .canvas-scene { container-type: size; }
