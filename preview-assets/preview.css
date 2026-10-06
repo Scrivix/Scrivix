@@ -85,7 +85,7 @@ h1 span { display: block; color: #8ebeff; }
 .smart-shape-progress span { display: block; width: var(--smart-progress); height: 100%; border-radius: inherit; background: #8ab9ff; }
 .smart-shape-cue { margin: .7rem 0 0; color: #bbcae1; font-size: .85rem; letter-spacing: .03em; }
 
-.ultimate-section { padding: clamp(5rem, 10vw, 9rem) 1.5rem; background: linear-gradient(180deg, #e5eefb 0%, #f4f7fc 100%); color: #132238; }
+.ultimate-section { padding: clamp(5rem, 10vw, 9rem) 1.5rem clamp(3.5rem, 6vw, 6rem); background: linear-gradient(180deg, #e5eefb 0%, #f4f7fc 100%); color: #132238; }
 .ultimate-inner { width: min(1240px, 100%); margin: auto; }
 .ultimate-inner > .eyebrow { margin-bottom: 1.1rem; color: #286fc9; text-align: center; }
 .ultimate-inner > h2 { max-width: 960px; margin: 0 auto; font-size: clamp(2.7rem, 5.6vw, 5.8rem); line-height: 1.06; letter-spacing: -.065em; text-align: center; }
@@ -111,7 +111,7 @@ h1 span { display: block; color: #8ebeff; }
 .ultimate-copy .ultimate-future { margin-top: 1.3rem; color: #2b6eba; font-size: .95rem; font-weight: 650; }
 .ultimate-save-visual { width: min(520px, 100%); justify-self: center; }
 
-.next-chapter { padding: clamp(6rem, 14vw, 13rem) 1.5rem; text-align: center; background: #f3f6fb; color: #101b2f; }
+.next-chapter { padding: clamp(4rem, 7vw, 7rem) 1.5rem clamp(6rem, 14vw, 13rem); text-align: center; background: #f3f6fb; color: #101b2f; }
 .next-chapter .eyebrow { color: #2565c1; }
 .next-chapter h2 { margin: 0 auto; max-width: 1050px; font-size: clamp(2.5rem, 6vw, 6rem); line-height: 1.08; letter-spacing: -.065em; }
 .next-chapter h2 span { color: #627187; }
@@ -209,7 +209,7 @@ h1 span { display: block; color: #8ebeff; }
   .smart-shape-open { display: inline-block; margin-top: 1rem; color: #bbd7ff; font-size: .9rem; text-underline-offset: .2rem; }
   .smart-shape-progress, .smart-shape-cue { display: none; }
 
-  .ultimate-section { padding: 4.5rem 1rem; }
+  .ultimate-section { padding: 4.5rem 1rem 3.5rem; }
   .ultimate-inner > h2 { font-size: clamp(2.45rem, 9vw, 3.7rem); }
   .ultimate-intro { margin-bottom: 2.5rem; font-size: 1rem; }
   .ultimate-time { flex-direction: column; align-items: flex-start; gap: .5rem; margin: -1.3rem auto 2.5rem; padding: 1rem 1.1rem; }
