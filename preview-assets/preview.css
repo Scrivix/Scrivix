@@ -91,7 +91,10 @@ h1 span { display: block; color: #8ebeff; }
 .ultimate-inner > h2 { max-width: 960px; margin: 0 auto; font-size: clamp(2.7rem, 5.6vw, 5.8rem); line-height: 1.06; letter-spacing: -.065em; text-align: center; }
 .ultimate-inner > h2 span { color: #5286c3; }
 .ultimate-intro { max-width: 720px; margin: 1.3rem auto clamp(3rem, 6vw, 5rem); color: #4e6280; font-size: clamp(1.05rem, 1.55vw, 1.25rem); line-height: 1.55; text-align: center; }
-.ultimate-time { width: min(980px, 100%); margin: -2.4rem auto clamp(3rem, 5vw, 4rem); padding: 1.15rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; border: 1px solid #b8d2f3; border-radius: 1.1rem; background: #e3efff; }
+.ultimate-release-note { width: min(980px, 100%); margin: -1.7rem auto 1.3rem; padding: 1rem 1.4rem; display: flex; align-items: center; justify-content: center; gap: 1.2rem; border: 1px solid #b8d2f3; border-radius: 1rem; background: #fff; color: #1d4f8a; text-align: left; }
+.ultimate-release-note strong { flex: 0 0 auto; font-size: .95rem; }
+.ultimate-release-note p { margin: 0; color: #405a79; font-size: .92rem; line-height: 1.5; }
+.ultimate-time { width: min(980px, 100%); margin: 0 auto clamp(3rem, 5vw, 4rem); padding: 1.15rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; border: 1px solid #b8d2f3; border-radius: 1.1rem; background: #e3efff; }
 .ultimate-time h3 { flex: 0 0 auto; margin: 0; color: #1d4f8a; font-size: clamp(1.05rem, 1.6vw, 1.3rem); letter-spacing: -.025em; }
 .ultimate-time p { max-width: 560px; margin: 0; color: #405a79; font-size: .96rem; line-height: 1.55; }
 .ultimate-feature { display: grid; grid-template-columns: minmax(260px, .72fr) minmax(0, 1.28fr); align-items: center; gap: clamp(1.5rem, 4vw, 3.5rem); margin-top: 1.3rem; padding: clamp(1.2rem, 3vw, 2.5rem); border: 1px solid #d9e5f5; border-radius: 1.6rem; background: #fff; box-shadow: 0 20px 55px rgba(39,76,127,.08); }
@@ -106,10 +109,10 @@ h1 span { display: block; color: #8ebeff; }
 .ultimate-visual figcaption, .ultimate-save-visual figcaption, .ultimate-menu-detail figcaption { margin-top: .7rem; color: #60748f; font-size: .82rem; line-height: 1.4; }
 .ultimate-gallery { min-width: 0; }
 .ultimate-menu-detail { width: min(300px, 48%); margin: 1.1rem 0 0 auto; }
-.ultimate-menu-detail img, .ultimate-save-visual img { width: 100%; height: auto; border: 1px solid #d8e2ef; border-radius: 1rem; }
+.ultimate-menu-detail img { width: 100%; height: auto; border: 1px solid #d8e2ef; border-radius: 1rem; }
+.ultimate-save-visual img { display: block; width: 100%; height: auto; border-radius: .95rem; clip-path: inset(2px round .95rem); }
 .ultimate-feature--save { min-height: 320px; }
-.ultimate-copy .ultimate-future { margin-top: 1.3rem; color: #2b6eba; font-size: .95rem; font-weight: 650; }
-.ultimate-save-visual { width: min(520px, 100%); justify-self: center; }
+.ultimate-save-visual { width: min(440px, 100%); justify-self: center; padding: .35rem; overflow: hidden; border-radius: 1.2rem; background: #f4f8fe; box-shadow: 0 12px 32px rgba(39,76,127,.1); }
 
 .next-chapter { padding: clamp(4rem, 7vw, 7rem) 1.5rem clamp(6rem, 14vw, 13rem); text-align: center; background: #f3f6fb; color: #101b2f; }
 .next-chapter .eyebrow { color: #2565c1; }
@@ -212,7 +215,8 @@ h1 span { display: block; color: #8ebeff; }
   .ultimate-section { padding: 4.5rem 1rem 3.5rem; }
   .ultimate-inner > h2 { font-size: clamp(2.45rem, 9vw, 3.7rem); }
   .ultimate-intro { margin-bottom: 2.5rem; font-size: 1rem; }
-  .ultimate-time { flex-direction: column; align-items: flex-start; gap: .5rem; margin: -1.3rem auto 2.5rem; padding: 1rem 1.1rem; }
+  .ultimate-release-note { flex-direction: column; align-items: flex-start; gap: .35rem; margin: -1.2rem auto 1.1rem; padding: .95rem 1.05rem; }
+  .ultimate-time { flex-direction: column; align-items: flex-start; gap: .5rem; margin: 0 auto 2.5rem; padding: 1rem 1.1rem; }
   .ultimate-time p { font-size: .92rem; }
   .ultimate-feature { display: block; padding: 1.15rem; border-radius: 1.2rem; }
   .ultimate-copy { margin-bottom: 1.4rem; }
