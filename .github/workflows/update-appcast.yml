@@ -41,7 +41,21 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ steps.release.outputs.tag }}
         run: |
-          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | grep -qx "Scrivix_Mac.zip"
+          # GitHub can start this workflow before the release client finishes uploading
+          # its assets. Give the expected ZIP a short window to appear.
+          for attempt in {1..12}; do
+            if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | grep -qx "Scrivix_Mac.zip"; then
+              echo "Found Scrivix_Mac.zip."
+              exit 0
+            fi
+            if [ "$attempt" -lt 12 ]; then
+              echo "Scrivix_Mac.zip is not available yet (attempt $attempt/12); retrying in 5 seconds."
+              sleep 5
+            fi
+          done
+
+          echo "Scrivix_Mac.zip was not found on release $TAG after waiting 60 seconds."
+          exit 1
 
       - name: Set up Sparkle tools
         uses: jozefizso/setup-sparkle@v2
