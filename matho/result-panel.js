@@ -1,0 +1,9 @@
+/* Accessible result overlay shared by student and presentation screens. */
+(function(root){
+class MathoResultPanel{
+ constructor(prefix){const q=s=>document.querySelector('#'+prefix+s);this.root=q('Panel');this.title=q('Title');this.message=q('Message');this.closeButton=q('Close');this.previousFocus=null;this.closeButton.onclick=()=>this.hide();this.root.addEventListener('click',e=>{if(e.target===this.root)this.hide();});this.root.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();this.hide();}if(e.key==='Tab'){e.preventDefault();this.closeButton.focus?.();}});const decor=q('Confetti');if(decor)decor.innerHTML=Array.from({length:24},(_,i)=>'<span style="--x:'+((i*37)%100)+'%;--delay:'+((i%6)*.1)+'s;--color:'+['#e4bc71','#9dc4b2','#b7b4d7','#e5aa94','#98c4d4'][i%5]+'"></span>').join('');}
+ show(title,message,winner){this.previousFocus=this.root.hidden?document.activeElement:this.previousFocus;this.title.textContent=title;this.message.textContent=message;this.root.classList.toggle('is-winner',!!winner);this.root.hidden=false;this.closeButton.focus?.();}
+ hide(){const wasOpen=!this.root.hidden;this.root.hidden=true;if(wasOpen&&this.previousFocus?.isConnected)this.previousFocus.focus?.();}
+}
+root.MathoResultPanel=MathoResultPanel;if(typeof module!=='undefined')module.exports=MathoResultPanel;
+})(globalThis);

@@ -36,3 +36,16 @@
 .auto-draw{margin:18px 0;padding:15px;border:1px solid #cbd6c3;border-radius:10px;background:#f1f4eb}.auto-draw .live-label{margin:0 0 10px}.auto-draw-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.auto-draw-controls input{width:88px;min-height:44px;padding:10px;border:1px solid #b8c8ae;border-radius:7px;color:var(--ink);background:white;font:600 16px 'DM Sans',sans-serif}.auto-draw-controls button{min-height:44px}.auto-draw-controls button[aria-pressed=true]{background:#244f41;color:white;border-color:#244f41}.auto-draw-status{display:flex;gap:14px;align-items:center;margin-top:12px}.auto-draw-status strong{font:700 25px Manrope,sans-serif;font-variant-numeric:tabular-nums}.auto-draw-status span{font-size:12px;line-height:1.5;color:#536b55}.auto-draw .live-note{font-size:11px;margin:10px 0 0}.display .auto-draw{display:none}
 
 .classic-timer{display:grid;grid-template-columns:minmax(200px,1fr) auto minmax(220px,1fr);gap:10px 20px;align-items:center;margin:20px 0 0}.classic-timer .live-label,.classic-timer .auto-draw-status{margin:0}.classic-timer .live-note{grid-column:1 / -1;margin:0}@media(max-width:850px){.classic-timer{grid-template-columns:1fr}.classic-timer .live-note{grid-column:1}.auto-draw-controls input{width:80px}}
+
+/* Stable dimensions: scrolling/address-bar changes must not resize answer cells. */
+.student-page #studentBoard{grid-template-rows:32px repeat(5,72px)}
+.student-page #studentBoard .board-square{overflow:hidden;line-height:normal;-webkit-appearance:none;appearance:none}
+.square-scroll{display:block;width:100%;max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;padding:6px 2px;line-height:1.8;-webkit-overflow-scrolling:touch}
+.square-answer{display:block;width:max-content;min-width:100%;text-align:center;line-height:1.8}
+.square-answer mjx-container{display:inline-block!important;vertical-align:middle;margin:0!important}
+.numeric-answer{display:inline-block;vertical-align:middle;line-height:1.2;font-variant-numeric:tabular-nums}
+.feedback-setting{display:flex;align-items:flex-start;gap:9px;font-size:13px;line-height:1.6;margin:18px 0 0}.feedback-setting input{margin-top:5px;flex-shrink:0}
+@media(max-width:1024px) and (min-width:761px){.student-page #studentBoard{grid-template-rows:32px repeat(5,76px)}}
+@media(max-width:760px){.student-page #studentBoard{grid-template-rows:30px repeat(5,72px)}}
+
+.student-page #studentBoard .board-square{font-size:22px}.square-scroll{padding:4px 1px;line-height:1.2}.square-answer{line-height:1.2}.student-page .numeric-answer{font-family:Manrope,system-ui,sans-serif;font-weight:700;font-size:32px;line-height:1.2}
