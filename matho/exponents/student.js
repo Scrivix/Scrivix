@@ -1,6 +1,6 @@
 const R=MathoRules,$=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),math=s=>`<span>\\(${esc(s)}\\)</span>`;
 let peer=null,conn=null,game=null,marks=[],seq=0,online=false,credentials=null,joining=false,lastSeen=0,retryTimer=null,typesetting=Promise.resolve(),suppressRetry=false,attempt=0;
-const studentResultPanel=new MathoResultPanel('studentResult');let lastResultId=null;
+const studentResultPanel=new MathoResultPanel('studentResult',{autoDismissMs:10000});let lastResultId=null;
 const callSound=new MathoCallSound('matho-call-sound');
 function renderSoundToggle(){const ready=callSound.enabled&&callSound.context?.state==='running';$('#soundToggle').textContent=ready?'Sound: on':'Sound: off';$('#soundToggle').setAttribute('aria-pressed',String(!!ready));}
 $('#soundToggle').onclick=async()=>{const requested=!(callSound.enabled&&callSound.context?.state==='running');await callSound.setEnabled(requested);renderSoundToggle();if(callSound.enabled)callSound.play();else if(requested)toast('Sound is unavailable in this browser. You can keep playing silently.');};renderSoundToggle();
