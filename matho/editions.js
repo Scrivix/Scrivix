@@ -1,0 +1,7 @@
+// Add future editions here. Each edition uses its own folder and saved-game keys.
+const MATHO_EDITIONS=[
+ {slug:'addition',title:'Addition',tag:'LITTLE SUMS · BIG SMILES',description:'Add numbers from 0 to 15. Answers grow from 0 to 30 as you move from M to O.',sample:'7 <span>+</span> 8',detail:'Numbers 0–15 · answers up to 30',color:'gold',label:'Open addition'},
+ {slug:'exponents',title:'Exponents',tag:'POWERS · PATTERNS · PRACTICE',description:'Practice exponent rules, simplify expressions, and find missing powers. Questions get harder from M to O.',sample:'x<sup>2</sup> <span>·</span> x<sup>3</sup>',detail:'Exponent rules · missing powers',color:'purple',label:'Open exponents'}
+];
+const catalogue=document.querySelector('#editions');
+for(const edition of MATHO_EDITIONS){const card=document.createElement('article');card.className='edition-card '+edition.color;card.innerHTML=`<div class="edition-sample" aria-hidden="true">${edition.sample}</div><div class="edition-content"><div class="eyebrow">${edition.tag}</div><h2>${edition.title}</h2><p>${edition.description}</p><span class="edition-detail">${edition.detail}</span><a class="edition-primary" href="${edition.slug}/">${edition.label} <span>→</span></a><div class="edition-secondary"><a href="${edition.slug}/room.html">Host student game</a><a href="${edition.slug}/join.html">Student join ↗</a></div></div>`;catalogue.append(card);}
