@@ -7,3 +7,5 @@
 @media(max-width:440px){.board{grid-template-columns:minmax(0,1fr)}.column-calls{min-height:80px;padding:8px 18px}.no-calls{margin:20px 0}.history-question,.display .history-question{font-size:24px}.history-answer{font-size:19px}.column-head strong{font-size:30px}.column-head span{font-size:11px}.hero-math,.display .hero-math{font-size:25px}.intro h1,.display .intro h1{font-size:25px}.empty-title{font-size:25px}}
 
 .display .live-section-link{display:none}
+
+.edition-nav{margin:24px 0;font-size:13px}.edition-nav a{color:var(--green);font-weight:600}.display .edition-nav{display:none}
