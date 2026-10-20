@@ -31,7 +31,7 @@ class MathoHttpsPeer extends Events{
    let result,lastError;
    // Reuse the request ID on retry; the server deduplicates messages.
    for(let attempt=0;attempt<2;attempt++){
-    try{result=await fetch(url,{method:body?'POST':'GET',headers:{'Authorization':'Bearer '+this.secret,...(body?{'Content-Type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,cache:'no-store',keepalive:path==='/v1/send',signal:controller.signal});break;}catch(error){lastError=error;if(attempt||controller.signal.aborted)throw error;}
+    try{result=await fetch(url,{method:body?'POST':'GET',headers:{'Authorization':'Bearer '+this.secret,...(body?{'Content-Type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,cache:'no-store',keepalive:path==='/v1/send'&&(body.kind==='close'||body.payload?.type==='ended'),signal:controller.signal});break;}catch(error){lastError=error;if(attempt||controller.signal.aborted)throw error;}
    }
    if(!result)throw lastError;const data=await result.json();
    if(!result.ok){const error=Error(data.error||'The room service could not connect.');error.status=result.status;error.type=result.status===404?'peer-unavailable':result.status===403&&path==='/v1/rooms'?'unavailable-id':'network';throw error;}
