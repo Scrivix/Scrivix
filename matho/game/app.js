@@ -38,6 +38,8 @@ function renderClassroomPattern(){
  $('#classroomPatternDiagram').innerHTML=MathoRules.patternDiagram(state.pattern||'normal');
  $('#classroomPatternName').textContent=goal.label;
  $('#classroomPatternDescription').textContent=goal.description;
+ const code=typeof state.roomCode==='string'&&/^[A-Z2-9]{8}$/.test(state.roomCode)?state.roomCode:'';
+ $('#classroomRoom').hidden=!code;$('#classroomRoomCode').textContent=code;
 }
 
 if(!display){
