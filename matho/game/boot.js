@@ -26,7 +26,7 @@
   for(const node of document.querySelectorAll('[data-game-page]'))node.href=MATHO_SET.url(node.dataset.gamePage).href;
   const invite=document.querySelector('#inviteHelp');
   if(invite)invite.textContent='Share this link, or ask students to open '+new URL('../join/',location.href).href+' and enter the code.';
-  const engine=document.createElement('script');engine.src=new URL({caller:'app.js',room:'room.js',student:'student.js'}[page]+'?v=safari-audio-1',base);
+  const engine=document.createElement('script');engine.src=new URL({caller:'app.js',room:'room.js',student:'student.js'}[page]+'?v=native-audio-1',base);
   await new Promise((resolve,reject)=>{engine.onload=resolve;engine.onerror=()=>reject(Error('The game could not load. Please refresh and try again.'));document.body.append(engine);});
   loading.hidden=true;document.body.removeAttribute('data-loading');
  }catch(error){

@@ -5,8 +5,8 @@ function claimKey(){return game?JSON.stringify([game.epoch,game.pattern||'normal
 function canClaim(){return online&&game&&game.calls.length>0&&!game.pending&&R.hasMarkedPattern(marks,game.pattern||'normal')&&claimKey()!==lastClaimKey;}
 const studentResultPanel=new MathoResultPanel('studentResult',{autoDismissMs:10000});let lastResultId=null;
 const callSound=new MathoCallSound(MATHO_SET.keys.sound);
-function renderSoundToggle(){const ready=callSound.enabled&&callSound.context?.state==='running';$('#soundToggle').textContent=ready?'Sound: on':'Sound: off';$('#soundToggle').setAttribute('aria-pressed',String(!!ready));}
-$('#soundToggle').onclick=async()=>{const requested=!(callSound.enabled&&callSound.context?.state==='running');await callSound.setEnabled(requested);renderSoundToggle();if(callSound.enabled)callSound.play();else if(requested)toast('Sound is unavailable in this browser. You can keep playing silently.');};renderSoundToggle();
+function renderSoundToggle(){const ready=callSound.ready;$('#soundToggle').textContent=ready?'Sound: on':'Sound: off';$('#soundToggle').setAttribute('aria-pressed',String(!!ready));}
+$('#soundToggle').onclick=async()=>{const requested=!(callSound.ready);await callSound.setEnabled(requested);renderSoundToggle();if(callSound.enabled){if(!callSound.media)callSound.play();}else if(requested)toast('Sound is unavailable in this browser. You can keep playing silently.');};renderSoundToggle();
 function typeset(el){typesetting=typesetting.catch(()=>{}).then(async()=>{if(window.MathJax?.typesetPromise){await MathJax.startup.promise;MathJax.typesetClear?.([el]);await MathJax.typesetPromise([el]);}});}
 function status(s,error=false){$('#studentStatus').textContent=s;$('#studentStatus').classList.toggle('error',error);}
 function toast(s){$('#studentToast').textContent=s;$('#studentToast').hidden=false;setTimeout(()=>$('#studentToast').hidden=true,5000);}

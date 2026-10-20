@@ -41,6 +41,7 @@ function renderClassroomPattern(){
 }
 
 if(!display){
+ expressionSound.attachPlayer($('#soundPlayer'));
  expressionSound.bindToggle($('#expressionSoundToggle'),'New expression sound',toast);
  $('#testCallerSound').onclick=async()=>{if(!await expressionSound.test())toast('Sound could not start. Check Safari’s tab mute and your computer volume, then try again.');};
  window.addEventListener('click',event=>{if(!event.target?.closest?.('#expressionSoundToggle,#testCallerSound'))expressionSound.unlock();});

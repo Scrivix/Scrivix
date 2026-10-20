@@ -40,6 +40,7 @@ $('#clearWinner').onclick=()=>{room.winner=null;persist();publishClassic();$('#c
 
 const claimSound=new MathoCallSound(CLASSIC+'-claim-sound');
 const expressionSound=new MathoCallSound(CLASSIC+'-expression-sound');
+claimSound.attachPlayer($('#soundPlayer'));
 claimSound.bindToggle($('#claimSoundToggle'),'MATHO alerts',toast);
 expressionSound.bindToggle($('#expressionSoundToggle'),'New expression sound',toast);
 $('#testTeacherSound').onclick=async()=>{if(!await claimSound.test())toast('Sound could not start. Check Safari’s tab mute and your computer volume, then try again.');};
