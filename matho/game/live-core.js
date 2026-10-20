@@ -17,7 +17,8 @@ full:{label:'Full board',description:'Mark every square on your board. The cente
 function pattern(id){return PATTERNS[id]||PATTERNS.normal;}
 function patternDiagram(id){const p=pattern(id);return '<div class="pattern-diagram" aria-hidden="true">'+Array.from({length:25},(_,i)=>'<span class="'+(p.sample.includes(i)?'target':'')+'"></span>').join('')+'</div>';}
 function cleanMarks(marks){return Array.isArray(marks)?[...new Set(marks.filter(n=>Number.isInteger(n)&&n>=0&&n<25&&n!==12))].sort((a,b)=>a-b):[];}
+function hasMarkedPattern(marks,patternId='normal'){if(!PATTERNS[patternId])return false;const selected=new Set(cleanMarks(marks));selected.add(12);return PATTERNS[patternId].sets.some(line=>line.every(i=>selected.has(i)));}
 function isBingo(board,marks,calls,patternId='normal'){if(!Array.isArray(board)||board.length!==25||!PATTERNS[patternId])return false;const selected=new Set(cleanMarks(marks));selected.add(12);const called=new Set(calls.map(c=>c.letter+':'+canonical(c.answer)));return PATTERNS[patternId].sets.some(line=>line.every(i=>selected.has(i)&&(board[i].free||called.has(board[i].letter+':'+canonical(board[i].answer)))));}
 function incorrectMarkCount(board,marks,calls){const called=new Set(calls.map(c=>c.letter+':'+canonical(c.answer)));return cleanMarks(marks).filter(i=>board[i]&&!board[i].free&&!called.has(board[i].letter+':'+canonical(board[i].answer))).length;}
-const api={LETTERS,canonical,shuffled,choices,validateBank,makeBoard,lines,PATTERNS,pattern,patternDiagram,cleanMarks,isBingo,incorrectMarkCount};root.MathoRules=api;if(typeof module!=='undefined')module.exports=api;
+const api={LETTERS,canonical,shuffled,choices,validateBank,makeBoard,lines,PATTERNS,pattern,patternDiagram,cleanMarks,hasMarkedPattern,isBingo,incorrectMarkCount};root.MathoRules=api;if(typeof module!=='undefined')module.exports=api;
 })(globalThis);
