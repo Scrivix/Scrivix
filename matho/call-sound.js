@@ -5,10 +5,10 @@ class MathoCallSound{
  constructor(storageKey){this.key=storageKey;this.context=null;this.media=null;this.mediaReady=false;this.enabled=false;this.onchange=()=>{};try{this.enabled=localStorage.getItem(storageKey)==='on';}catch{}}
  static isNewCall(previous,next){return !!previous&&previous.epoch===next.epoch&&Array.isArray(previous.calls)&&Array.isArray(next.calls)&&next.calls.length>previous.calls.length&&next.calls.at(-1)?.id!==previous.calls.at(-1)?.id;}
  get ready(){return this.enabled&&(this.mediaReady||this.context?.state==='running');}
- ensureMedia(){if(!this.media&&typeof root.Audio==='function'){this.media=new root.Audio(CHIME);this.media.preload='auto';this.media.volume=.85;this.media.addEventListener('playing',()=>{this.mediaReady=true;this.enabled=true;this.save();this.onchange();});this.media.addEventListener('error',()=>{this.mediaReady=false;this.onchange();});}return this.media;}
+ ensureMedia(fresh=false){if(fresh&&this.media){this.media.pause();this.media.remove?.();this.media=null;this.mediaReady=false;}if(!this.media&&typeof root.Audio==='function'){this.media=new root.Audio(CHIME);this.media.preload='auto';this.media.volume=.85;this.media.addEventListener('playing',()=>{this.mediaReady=true;this.enabled=true;this.save();this.onchange();});this.media.addEventListener('error',()=>{this.mediaReady=false;this.onchange();});}if(this.media&&this.playerContainer&&this.media.parentNode!==this.playerContainer){this.media.controls=true;this.media.setAttribute('aria-label','MATHO sound check');this.media.style.maxWidth='100%';this.playerContainer.append(this.media);}return this.media;}
  save(){try{localStorage.setItem(this.key,this.enabled?'on':'off');}catch{}}
- attachPlayer(container){const audio=this.ensureMedia();if(audio&&container){audio.controls=true;audio.setAttribute('aria-label','MATHO sound check');audio.style.maxWidth='100%';container.append(audio);}}
- async startMedia(){try{const audio=this.ensureMedia();audio.muted=false;audio.currentTime=0;const playing=audio.play();await playing;this.mediaReady=true;this.onchange();return true;}catch{this.mediaReady=false;this.onchange();return false;}}
+ attachPlayer(container){this.playerContainer=container;this.ensureMedia();}
+ async startMedia(options={}){try{const audio=this.ensureMedia(!!options.fresh);audio.muted=false;audio.currentTime=0;const playing=audio.play();await playing;this.mediaReady=true;this.onchange();return true;}catch{this.mediaReady=false;this.onchange();return false;}}
  async unlock({fresh=false}={}){
   if(!this.enabled)return false;
   if(typeof root.Audio==='function')return this.mediaReady;
@@ -28,7 +28,7 @@ class MathoCallSound{
    this.onchange();return ctx===this.context&&ctx.state==='running';
   }catch{this.onchange();return false;}
  }
- async setEnabled(value,options={}){this.enabled=!!value;if(typeof root.Audio==='function'){if(this.enabled)this.enabled=await this.startMedia();else this.media?.pause();}else if(this.enabled&&!await this.unlock(options))this.enabled=false;this.save();this.onchange();return this.enabled;}
+ async setEnabled(value,options={}){this.enabled=!!value;if(typeof root.Audio==='function'){if(this.enabled)this.enabled=await this.startMedia(options);else this.media?.pause();}else if(this.enabled&&!await this.unlock(options))this.enabled=false;this.save();this.onchange();return this.enabled;}
  async test(){if(!await this.setEnabled(true,{fresh:true}))return false;return this.media?true:this.play();}
  play(){
   if(!this.enabled)return false;

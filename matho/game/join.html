@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MATHO · Loading game</title>
 <link rel="stylesheet" href="../style.css?v=shared-1">
-<link rel="stylesheet" href="../live.css?v=classroom-invite-1">
+<link rel="stylesheet" href="../live.css?v=round-review-1">
 <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]},options:{enableMenu:false},startup:{typeset:false}};</script>
 <link rel="stylesheet" href="../results.css?v=shared-1">
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
@@ -16,13 +16,13 @@
 </script>
 <script defer src="../auto-draw.js?v=1">
 </script>
-<script defer src="../call-sound.js?v=4">
+<script defer src="../call-sound.js?v=5">
 </script>
-<script defer src="live-core.js?v=claims-1">
+<script defer src="live-core.js?v=round-review-1">
 </script>
 <script defer src="question-set.js?v=shared-1">
 </script>
-<script defer src="boot.js?v=classroom-invite-1">
+<script defer src="boot.js?v=round-review-1">
 </script>
 </head>
 <body data-page="student" data-loading="true" class="student-page">
@@ -71,6 +71,7 @@
 </div>
 <div class="student-layout">
 <section class="live-card student-board-card">
+<div id="roundReview" class="round-review" role="status" hidden><strong>Round review</strong><p id="roundReviewText"></p></div>
 <div class="eyebrow" data-copy="studentBoardLabel">YOUR MATHO BOARD</div>
 <div id="studentBoard" class="room-board">
 </div>
