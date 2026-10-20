@@ -60,3 +60,5 @@ body[data-loading]>.shell,body[data-loading]>.live-shell{display:none}
 .game-loading[hidden]{display:none}
 
 #claimBingo:disabled{opacity:.45;cursor:not-allowed}#claimBingo:disabled:hover{background:var(--green)}
+
+.classroom-pattern{display:flex;align-items:center;gap:20px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 22px;margin:0 0 20px}.classroom-pattern h2{font-size:24px;margin:5px 0}.classroom-pattern p{font-size:16px;margin:0;color:var(--muted)}.classroom-pattern .pattern-diagram{width:82px;min-width:82px}.classroom-pattern[hidden]{display:none!important}@media(max-width:650px){.classroom-pattern{gap:14px;padding:14px}.classroom-pattern h2{font-size:20px}.classroom-pattern p{font-size:14px}}
