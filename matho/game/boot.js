@@ -14,7 +14,7 @@
   // Student pages need instructions and connection keys, never the answer bank.
   if(page!=='student'){
    if(!/^[a-z0-9-]+\.json$/.test(config.bankFile))throw Error('This question bank is unavailable.');
-   const bankResponse=await fetch(new URL('../sets/'+config.bankFile+'?v=shared-1',base));
+   const bankResponse=await fetch(new URL('../sets/'+config.bankFile+'?v=saved-label-1',base));
    if(!bankResponse.ok)throw Error('The question bank could not load. Please refresh and try again.');
    config.bank=await bankResponse.json();MathoRules.validateBank(config.bank);
   }

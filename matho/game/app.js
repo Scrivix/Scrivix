@@ -9,7 +9,7 @@ const classroomResultPanel=new MathoResultPanel('classroomResult');let displayed
 const channel=typeof BroadcastChannel!=='undefined'?new BroadcastChannel(CHANNEL):null;
 let typesetting=Promise.resolve();function typeset(element){typesetting=typesetting.catch(()=>{}).then(async()=>{if(window.MathJax?.typesetPromise){await MathJax.startup.promise;await MathJax.typesetPromise([element]);}});}
 function toast(s){$('#message').textContent=s;$('#message').style.display='block';setTimeout(()=>$('#message').style.display='none',4500);}
-function save(){state.revision=Date.now();try{localStorage.setItem(KEY,JSON.stringify(state));$('#connection').textContent='● Saved on this laptop';}catch{toast('Browser storage is unavailable. Keep this window open.');}channel?.postMessage(state);render();}
+function save(){state.revision=Date.now();try{localStorage.setItem(KEY,JSON.stringify(state));$('#connection').textContent='● Progress saved in this browser';}catch{toast('Browser storage is unavailable. Keep this window open.');}channel?.postMessage(state);render();}
 function receive(s){if(s&&Array.isArray(s.bank)&&Array.isArray(s.called)){state=s;render();}}
 window.addEventListener('storage',e=>{if(e.key===KEY&&e.newValue){try{receive(JSON.parse(e.newValue));}catch{}}});if(channel)channel.onmessage=e=>receive(e.data);
 function available(){const filter=$('#filter').value;return state.bank.filter(q=>q.enabled&&!state.called.some(c=>c.id===q.id)&&(filter==='all'||q.letter===filter));}
