@@ -1,0 +1,34 @@
+{
+  "id": "multiplication",
+  "title": "Multiplication",
+  "storagePrefix": "matho-multiplication",
+  "joinPrefix": "MU",
+  "bankFile": "multiplication-bank.json",
+  "copy": {
+    "studentInstructions": "Multiply the two numbers. Tap the answer under the matching letter. Tap again to unmark. Complete the winning pattern, then call MATHO!",
+    "roomIntro": "Students join with a room code and a display name. Each gets a different board with a free center square. Both factors are positive integers from 1 to 15. Products grow in magnitude from M to O. Choose the winning pattern below.",
+    "roomHeading": "Multiply. Think. Find your square.",
+    "roomWelcome": "Let’s play multiplication MATHO!",
+    "callerHeading": "A little multiplication. A lot of MATHO.",
+    "callerSubtitle": "Multiply the two numbers. Find your answer. Call MATHO!",
+    "callerControls": "Ready for the next product?",
+    "callerLink": "Multiplication caller",
+    "joinIntro": "Get the code from your teacher. Let’s multiply!",
+    "studentBoardLabel": "YOUR MULTIPLICATION BOARD",
+    "footer": "Multiply it out. Find your square.",
+    "bankIntro": "Both factors are positive integers from 1 to 15. Answer ranges by column: M 1–18; A 20–45; T 48–80; H 81–126; O 130–225. Changes save in this browser; start a new game to edit questions already called.",
+    "callerBrand": "MULTIPLICATION EDITION",
+    "roomBrand": "MULTIPLICATION · PLAY TOGETHER",
+    "studentBrand": "MULTIPLICATION · YOUR NUMBER BOARD"
+  },
+  "hints": {
+    "caller": {
+      "default": "Multiply the two numbers. Find your answer in column {letter}."
+    },
+    "student": {
+      "default": "Multiply the two numbers. Check column {letter}."
+    }
+  },
+  "presentationSubtitle": "Match the letter. Multiply. Mark your answer.",
+  "exportFilename": "matho-multiplication-question-bank.json"
+}

@@ -1,7 +1,7 @@
 (async function(){
  const $=id=>document.getElementById(id),params=new URLSearchParams(location.search);
  let sets;
- try{const response=await fetch('../sets/index.json?v=join-1');if(!response.ok)throw Error();sets=await response.json();}
+ try{const response=await fetch('../sets/index.json?v=sets-2');if(!response.ok)throw Error();sets=await response.json();}
  catch{$('entryError').textContent='Could not load the games. Please refresh and try again.';$('entryButton').disabled=true;return;}
  for(const set of sets){const option=document.createElement('option');option.value=set.slug;option.textContent=set.title;$('edition').append(option);}
  $('code').value=(params.get('room')||'').toUpperCase();$('name').value=params.get('name')||'';

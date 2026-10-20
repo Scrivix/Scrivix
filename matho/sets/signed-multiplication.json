@@ -1,0 +1,34 @@
+{
+  "id": "signed-multiplication",
+  "title": "Signed Multiplication",
+  "storagePrefix": "matho-signed-multiplication",
+  "joinPrefix": "SM",
+  "bankFile": "signed-multiplication-bank.json",
+  "copy": {
+    "studentInstructions": "Multiply the numbers and check the signs. Tap the answer under the matching letter. Tap again to unmark. Complete the winning pattern, then call MATHO!",
+    "roomIntro": "Students join with a room code and a display name. Each gets a different board with a free center square. Factors are positive or negative integers with magnitudes from 1 to 15; zero is not included. Products grow in magnitude from M to O. Choose the winning pattern below.",
+    "roomHeading": "Multiply. Think. Find your square.",
+    "roomWelcome": "Let’s play signed multiplication MATHO!",
+    "callerHeading": "A little multiplication. A lot of MATHO.",
+    "callerSubtitle": "Multiply the numbers and check the signs. Find your answer. Call MATHO!",
+    "callerControls": "Ready for the next product?",
+    "callerLink": "Signed Multiplication caller",
+    "joinIntro": "Get the code from your teacher. Let’s multiply!",
+    "studentBoardLabel": "YOUR SIGNED MULTIPLICATION BOARD",
+    "footer": "Multiply it out. Find your square.",
+    "bankIntro": "Factors are positive or negative integers with magnitudes from 1 to 15; zero is not included. Answer magnitudes by column: M 1–18; A 20–45; T 48–80; H 81–126; O 130–225. Each magnitude includes a positive and a negative answer. Changes save in this browser; start a new game to edit questions already called.",
+    "callerBrand": "SIGNED MULTIPLICATION EDITION",
+    "roomBrand": "SIGNED MULTIPLICATION · PLAY TOGETHER",
+    "studentBrand": "SIGNED MULTIPLICATION · YOUR NUMBER BOARD"
+  },
+  "hints": {
+    "caller": {
+      "default": "Multiply the numbers and check the signs. Find your answer in column {letter}."
+    },
+    "student": {
+      "default": "Multiply the numbers and check the signs. Check column {letter}."
+    }
+  },
+  "presentationSubtitle": "Match the letter. Multiply and check the signs. Mark your answer.",
+  "exportFilename": "matho-signed-multiplication-question-bank.json"
+}

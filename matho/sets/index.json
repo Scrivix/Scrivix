@@ -2,10 +2,10 @@
   {
     "slug": "addition",
     "title": "Addition",
-    "tag": "LITTLE SUMS \u00b7 BIG SMILES",
+    "tag": "LITTLE SUMS · BIG SMILES",
     "description": "Add numbers from 0 to 15. Answers grow from 0 to 30 as you move from M to O.",
     "sample": "7 <span>+</span> 8",
-    "detail": "Numbers 0\u201315 \u00b7 answers up to 30",
+    "detail": "Numbers 0–15 · answers up to 30",
     "color": "gold",
     "label": "Open addition",
     "joinPrefix": "AD"
@@ -13,12 +13,34 @@
   {
     "slug": "exponents",
     "title": "Exponents",
-    "tag": "POWERS \u00b7 PATTERNS \u00b7 PRACTICE",
+    "tag": "POWERS · PATTERNS · PRACTICE",
     "description": "Practice exponent rules, simplify expressions, and find missing powers. Questions get harder from M to O.",
-    "sample": "x<sup>2</sup> <span>\u00b7</span> x<sup>3</sup>",
-    "detail": "Exponent rules \u00b7 missing powers",
+    "sample": "x<sup>2</sup> <span>·</span> x<sup>3</sup>",
+    "detail": "Exponent rules · missing powers",
     "color": "purple",
     "label": "Open exponents",
     "joinPrefix": "EX"
+  },
+  {
+    "slug": "multiplication",
+    "title": "Multiplication",
+    "tag": "TIMES TABLES · BIG THINKING",
+    "description": "Multiply positive numbers from 1 to 15. Products grow from M to O, with answers up to 225.",
+    "sample": "7 <span>×</span> 8",
+    "detail": "Factors 1–15 · answers up to 225",
+    "color": "gold",
+    "label": "Open multiplication",
+    "joinPrefix": "MU"
+  },
+  {
+    "slug": "signed-multiplication",
+    "title": "Signed Multiplication",
+    "tag": "SIGNS · PRODUCTS · PRACTICE",
+    "description": "Multiply positive and negative factors with magnitudes from 1 to 15. Products grow in magnitude from M to O.",
+    "sample": "(−7) <span>×</span> 8",
+    "detail": "Factors ±1–±15 · answers −225 to 225",
+    "color": "purple",
+    "label": "Open signed multiplication",
+    "joinPrefix": "SM"
   }
 ]
