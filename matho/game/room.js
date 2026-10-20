@@ -41,5 +41,5 @@ $('#clearWinner').onclick=()=>{room.winner=null;persist();publishClassic();$('#c
 const claimSound=new MathoCallSound(CLASSIC+'-claim-sound');
 function renderClaimSound(){const ready=claimSound.enabled&&claimSound.context?.state==='running';$('#claimSoundToggle').textContent=ready?'MATHO alerts: on':'MATHO alerts: off';$('#claimSoundToggle').setAttribute('aria-pressed',String(!!ready));}
 $('#claimSoundToggle').onclick=async()=>{const requested=!(claimSound.enabled&&claimSound.context?.state==='running');await claimSound.setEnabled(requested);renderClaimSound();if(claimSound.enabled)claimSound.play();else if(requested)toast('Sound is unavailable in this browser. MATHO claims still appear below.');};
-window.addEventListener('pointerdown',()=>{claimSound.unlock().then(renderClaimSound);});
+window.addEventListener('pointerdown',event=>{if(event.target?.closest?.('#claimSoundToggle'))return;claimSound.unlock().then(renderClaimSound);});
 renderClaimSound();
