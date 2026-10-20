@@ -31,5 +31,6 @@
   },
   "presentationSubtitle": "Match the column. Simplify the expression. Mark your answer.",
   "exportFilename": "matho-question-bank.json",
-  "bankFile": "exponents-bank.json"
+  "bankFile": "exponents-bank.json",
+  "joinPrefix": "EX"
 }
