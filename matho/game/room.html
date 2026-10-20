@@ -15,13 +15,13 @@
 </script>
 <script defer src="../auto-draw.js?v=1">
 </script>
-<script defer src="../call-sound.js?v=2">
+<script defer src="../call-sound.js?v=3">
 </script>
 <script defer src="live-core.js?v=claims-1">
 </script>
 <script defer src="question-set.js?v=shared-1">
 </script>
-<script defer src="boot.js?v=pattern-display-1">
+<script defer src="boot.js?v=safari-audio-1">
 </script>
 </head>
 <body data-page="room" data-loading="true">
@@ -136,8 +136,10 @@
 <section class="live-card teacher-roster">
 <div class="eyebrow">STUDENTS & BINGO CLAIMS</div>
 <h2 id="studentCount">Waiting for students</h2>
+<button id="expressionSoundToggle" type="button" aria-pressed="false">New expression sound: off</button>
 <button id="claimSoundToggle" type="button" aria-pressed="false">MATHO alerts: off</button>
-<p class="live-note">Turn on to hear a chime when a student calls MATHO.</p>
+<button id="testTeacherSound" type="button">Test MATHO alert</button>
+<p class="live-note">Turn on each sound you want. Enabling a sound plays a preview. Test MATHO alert also enables alerts. Only a correct MATHO claim alerts you.</p>
 <p class="live-note">Inspect a board or check a submitted claim. Students receive a celebration or encouragement, with an optional incorrect-mark count—never which squares were incorrect. Claims are checked against the selected winning pattern; the center is free.</p>
 <label class="feedback-setting">
 <input id="shareIncorrect" type="checkbox"> Include an incorrect-mark count in unsuccessful checks</label>
