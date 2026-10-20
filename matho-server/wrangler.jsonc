@@ -1,0 +1,23 @@
+{
+  "name": "matho-rooms",
+  "main": "server/worker.mjs",
+  "compatibility_date": "2026-10-20",
+  "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "matho-live.scrivix.us",
+      "custom_domain": true
+    }
+  ],
+  "vars": {
+    "MATHO_ORIGINS": "https://scrivix.us,http://localhost:8879,http://127.0.0.1:8879,http://localhost:8765,http://127.0.0.1:8765"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "matho-rooms",
+      "database_id": "6dbfa102-db13-4907-bad7-aea13f0cc8e6",
+      "migrations_dir": "migrations"
+    }
+  ]
+}
