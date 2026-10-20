@@ -2,7 +2,7 @@ const R=MathoRules,$=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>
 let peer=null,conn=null,game=null,marks=[],seq=0,online=false,credentials=null,joining=false,lastSeen=0,retryTimer=null,typesetting=Promise.resolve(),suppressRetry=false,attempt=0;
 let lastClaimKey='';
 function claimKey(){return game?JSON.stringify([game.epoch,game.pattern||'normal',game.calls.map(c=>c.id),R.cleanMarks(marks)]):'';}
-function canClaim(){return online&&game&&!game.pending&&R.hasMarkedPattern(marks,game.pattern||'normal')&&claimKey()!==lastClaimKey;}
+function canClaim(){return online&&game&&game.calls.length>0&&!game.pending&&R.hasMarkedPattern(marks,game.pattern||'normal')&&claimKey()!==lastClaimKey;}
 const studentResultPanel=new MathoResultPanel('studentResult',{autoDismissMs:10000});let lastResultId=null;
 const callSound=new MathoCallSound(MATHO_SET.keys.sound);
 function renderSoundToggle(){const ready=callSound.enabled&&callSound.context?.state==='running';$('#soundToggle').textContent=ready?'Sound: on':'Sound: off';$('#soundToggle').setAttribute('aria-pressed',String(!!ready));}
@@ -12,7 +12,7 @@ function status(s,error=false){$('#studentStatus').textContent=s;$('#studentStat
 function toast(s){$('#studentToast').textContent=s;$('#studentToast').hidden=false;setTimeout(()=>$('#studentToast').hidden=true,5000);}
 function send(m){try{if(conn?.open)conn.send(m);}catch{}}
 function saveCredentials(){try{sessionStorage.setItem(MATHO_SET.keys.student,JSON.stringify(credentials));}catch{}}
-function disableControls(){document.querySelectorAll('#studentBoard button').forEach(b=>b.disabled=!online||!!game?.pending||b.dataset.free==='true');$('#claimBingo').disabled=!canClaim();$('#clearMarks').disabled=!online||!!game?.pending;}
+function disableControls(){document.querySelectorAll('#studentBoard button').forEach(b=>b.disabled=!online||!!game?.pending||b.dataset.free==='true');$('#claimBingo').disabled=!canClaim();$('#claimHelp').textContent=!game?.calls.length?'Waiting for the first expression. Call MATHO is off until the game begins.':'Complete the winning pattern before calling MATHO. After a check, change your marks or wait for another expression to try again.';$('#clearMarks').disabled=!online||!!game?.pending;}
 function boardHTML(){const selected=new Set(marks);return R.LETTERS.map(l=>`<div class="board-letter" style="--accent:var(--${l})">${l}</div>`).join('')+game.board.map((s,i)=>`<button type="button" class="board-square ${s.free?'free':''}" data-square="${i}" data-free="${!!s.free}" aria-label="${s.free?'Free center square':esc(s.letter+' '+s.answer)}" aria-pressed="${!!s.free||selected.has(i)}">${s.free?'<span>✦</span>FREE':squareAnswer(s.answer)}</button>`).join('');}
 function renderBoard(){if(!game)return;$('#studentBoard').innerHTML=boardHTML();disableControls();typeset($('#studentBoard'));}
 function renderCalls(){const q=game.calls.at(-1);$('#studentCurrent').innerHTML=q?`<span class="letter-badge" style="--accent:var(--${q.letter})">${q.letter}</span>${math(q.question)}`:'Waiting for the first call';$('#studentHint').textContent=q?MATHO_SET.hint('student',q.letter):'';$('#studentCalls').innerHTML=game.calls.slice(0,-1).reverse().map(q=>`<div class="room-call"><span>${q.letter}</span><div>${math(q.question)}</div></div>`).join('')||'<p class="live-note">Previous expressions stay here.</p>';typeset($('#studentCurrent'));typeset($('#studentCalls'));}
