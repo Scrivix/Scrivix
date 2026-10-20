@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MATHO · Loading game</title>
+<meta name="description" content="MATHO math bingo with shared teacher, student, and classroom screens.">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]},options:{enableMenu:false},startup:{typeset:false}};</script>
+<link rel="stylesheet" href="../style.css?v=shared-1">
+<link rel="stylesheet" href="../live.css?v=shared-1">
+<link rel="stylesheet" href="../results.css?v=shared-1">
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<script defer src="../result-panel.js?v=2">
+</script>
+<script defer src="../auto-draw.js?v=1">
+</script>
+<script defer src="../call-sound.js?v=1">
+</script>
+<script defer src="live-core.js?v=shared-1">
+</script>
+<script defer src="question-set.js?v=shared-1">
+</script>
+<script defer src="boot.js?v=shared-1">
+</script>
+</head>
+<body data-page="caller" data-loading="true">
+<div class="shell">
+<header>
+<a class="brand" data-game-page="" href="./">
+<span style="color:var(--M)">M</span>
+<span style="color:var(--A)">A</span>
+<span style="color:var(--T)">T</span>
+<span style="color:var(--H)">H</span>
+<span style="color:var(--O)">O</span>
+<small data-copy="callerBrand">MATHO</small>
+</a>
+<div class="header-actions">
+<span id="connection" class="status">● Saved on this laptop</span>
+<button id="openDisplay">Open classroom display ↗</button>
+<button id="fullscreen">Full screen ⛶</button>
+</div>
+</header>
+<main>
+<div class="intro">
+<div>
+<div class="eyebrow" id="viewLabel">TEACHER DESK</div>
+<h1 id="heading" data-copy="callerHeading">A little luck. A lot of math.</h1>
+<p id="subtitle" data-copy="callerSubtitle">Draw an expression. Let the thinking begin.</p>
+</div>
+<div class="progress">
+<strong id="calledCount">0</strong>
+<span>expressions called</span>
+</div>
+</div>
+<section class="play-area">
+<article class="current">
+<div class="card-top">
+<span class="eyebrow">CURRENT CALL</span>
+<span id="callNumber">Ready when you are</span>
+</div>
+<div id="currentMath" class="hero-math">
+<span class="empty-title">Let’s play MATHO.</span>
+</div>
+<div id="currentHint">Open the classroom display, then draw your first expression.</div>
+<div id="answerArea">
+<span>ANSWER · TEACHER ONLY</span>
+<div id="answerMath">—</div>
+</div>
+</article>
+<aside id="controls">
+<div class="eyebrow">THE NEXT MOVE</div>
+<h2 data-copy="callerControls">Keep the room thinking.</h2>
+<p>Random picks, without repeats.</p>
+<label for="filter">Draw from</label>
+<select id="filter">
+<option value="all">All columns · M A T H O</option>
+<option>M</option>
+<option>A</option>
+<option>T</option>
+<option>H</option>
+<option>O</option>
+</select>
+<button id="next" class="primary">Next expression <span>→</span>
+</button>
+<p id="remaining">
+</p>
+<div class="small-actions">
+<button id="undo">Undo last call</button>
+<button id="reset" title="Clear all calls on both screens and keep the question bank">New game ↻</button>
+</div>
+<a class="live-section-link" data-game-page="room.html" href="room.html">Host a student game ↗</a>
+<p class="tip">Move the classroom window onto your projector. Keep this window on your laptop.</p>
+</aside>
+</section>
+<section class="auto-draw classic-timer" aria-label="Automatic expression timer">
+<label class="live-label" for="autoSeconds">Auto draw · seconds between calls</label>
+<div class="auto-draw-controls">
+<input id="autoSeconds" type="number" min="5" max="600" step="1" value="30" inputmode="numeric" aria-describedby="autoHelp">
+<button id="autoToggle" type="button" aria-pressed="false">Start auto draw</button>
+</div>
+<div class="auto-draw-status">
+<strong id="autoCountdown" aria-label="Time until next expression">0:30</strong>
+<span id="autoStatus" role="status">Auto draw is off.</span>
+</div>
+<p id="autoHelp" class="live-note">5–600 seconds. Start begins a full countdown. Manual Next restarts it.</p>
+</section>
+<section class="history-section">
+<div class="section-heading">
+<div>
+<div class="eyebrow">THE CALL BOARD</div>
+<h2>Every expression stays in play.</h2>
+</div>
+<span id="historyCount">No calls yet</span>
+</div>
+<div id="board" class="board">
+</div>
+</section>
+<section id="bankSection">
+<details>
+<summary>Question & answer bank <span id="bankCount">
+</span>
+<span class="edit-label">Review & edit ↓</span>
+</summary>
+<p class="bank-intro" data-copy="bankIntro">LaTeX is supported. O questions ask for the missing exponent. Changes save on this browser; start a new game to edit questions already called.</p>
+<div id="reviewNote" class="notice">
+</div>
+<div id="bank">
+</div>
+<div class="bank-actions">
+<button id="export">Download question bank</button>
+<label class="import-button">Import question bank<input id="import" type="file" accept="application/json,.json" hidden>
+</label>
+</div>
+</details>
+</section>
+<nav class="edition-nav">
+<a href="../">← All games</a>
+</nav>
+<footer>MATHO <span data-copy="footer">Think it through. Find your square.</span>
+</footer>
+<div id="message" role="status" aria-live="polite">
+</div>
+</main>
+</div>
+<div id="classroomResultPanel" class="result-panel" role="dialog" aria-modal="true" aria-labelledby="classroomResultTitle" aria-describedby="classroomResultMessage" hidden>
+<section class="result-card">
+<div id="classroomResultConfetti" class="result-confetti" aria-hidden="true">
+</div>
+<div class="result-eyebrow">MATHO · KEEP THINKING, KEEP PLAYING</div>
+<div class="result-symbol" aria-hidden="true">
+<span class="winner-star">★</span>
+<span class="retry-star">✦</span>
+</div>
+<h2 id="classroomResultTitle">
+</h2>
+<p id="classroomResultMessage">
+</p>
+<button id="classroomResultClose" type="button">Back to the game</button>
+</section>
+</div>
+<p id="gameLoading" class="game-loading" role="status">Loading MATHO…</p>
+<noscript>
+<p>Turn on JavaScript to play MATHO.</p>
+</noscript>
+</body>
+</html>

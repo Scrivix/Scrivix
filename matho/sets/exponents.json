@@ -1,0 +1,35 @@
+{
+  "id": "exponents",
+  "title": "Exponents",
+  "storagePrefix": "matho",
+  "copy": {
+    "studentInstructions": "Tap an answer if you think it matches a called expression in that column. Tap again to unmark. Complete the winning pattern shown below, then press Call MATHO!",
+    "roomIntro": "Students join with a room code and a display name. Each gets a different board with a free center square. Choose the winning pattern for your game below.",
+    "roomHeading": "Different boards. One classroom.",
+    "roomWelcome": "Bring everyone into the game.",
+    "callerHeading": "A little luck. A lot of math.",
+    "callerSubtitle": "Draw an expression. Let the thinking begin.",
+    "callerControls": "Keep the room thinking.",
+    "callerLink": "Classic caller",
+    "joinIntro": "Your teacher has the code. You bring the math.",
+    "studentBoardLabel": "YOUR MATHO BOARD",
+    "footer": "Think it through. Find your square.",
+    "bankIntro": "LaTeX is supported. O questions ask for the missing exponent. Changes save on this browser; start a new game to edit questions already called.",
+    "callerBrand": "EXPONENT EDITION",
+    "roomBrand": "PLAY TOGETHER",
+    "studentBrand": "YOUR BOARD. YOUR THINKING."
+  },
+  "hints": {
+    "caller": {
+      "default": "Simplify. Find your answer in column {letter}.",
+      "O": "What number goes in the blank?"
+    },
+    "student": {
+      "default": "Simplify and check column {letter}.",
+      "O": "What number goes in the blank? Check column O."
+    }
+  },
+  "presentationSubtitle": "Match the column. Simplify the expression. Mark your answer.",
+  "exportFilename": "matho-question-bank.json",
+  "bankFile": "exponents-bank.json"
+}

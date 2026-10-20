@@ -1,5 +1,4 @@
-// Addition edition: every addend is 0–15; answers cover 0–30.
-const DEFAULT_BANK=[
+[
   {
     "id": "M1",
     "letter": "M",
@@ -248,4 +247,4 @@ const DEFAULT_BANK=[
     "enabled": true,
     "note": ""
   }
-];
+]

@@ -1,0 +1,378 @@
+[
+  {
+    "id": "M1",
+    "letter": "M",
+    "question": "b^3 \\cdot b^7",
+    "answer": "b^{10}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M2",
+    "letter": "M",
+    "question": "a^3 \\cdot a^5",
+    "answer": "a^8",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M3",
+    "letter": "M",
+    "question": "a \\cdot a \\cdot a",
+    "answer": "a^3",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M4",
+    "letter": "M",
+    "question": "b^7 \\cdot b^2",
+    "answer": "b^9",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M5",
+    "letter": "M",
+    "question": "a^4 \\cdot a^3 \\cdot a^6",
+    "answer": "a^{13}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M6",
+    "letter": "M",
+    "question": "a^{20} \\cdot a^6",
+    "answer": "a^{26}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M7",
+    "letter": "M",
+    "question": "b^5 \\cdot b^5 \\cdot b^5",
+    "answer": "b^{15}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M8",
+    "letter": "M",
+    "question": "b^4 \\cdot b^2 \\cdot b",
+    "answer": "b^7",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M9",
+    "letter": "M",
+    "question": "a^4 \\cdot a^{10} \\cdot a^{10}",
+    "answer": "a^{24}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A1",
+    "letter": "A",
+    "question": "(2^3)^5",
+    "answer": "2^{15}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A2",
+    "letter": "A",
+    "question": "(x^4)^3",
+    "answer": "x^{12}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A3",
+    "letter": "A",
+    "question": "(7^2)^4",
+    "answer": "7^8",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A4",
+    "letter": "A",
+    "question": "(2^2)^8",
+    "answer": "2^{16}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A5",
+    "letter": "A",
+    "question": "(x^{12})^2",
+    "answer": "x^{24}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A6",
+    "letter": "A",
+    "question": "(7^3)^3",
+    "answer": "7^9",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A7",
+    "letter": "A",
+    "question": "(2^{10})^3",
+    "answer": "2^{30}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A8",
+    "letter": "A",
+    "question": "(x^5)^4",
+    "answer": "x^{20}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A9",
+    "letter": "A",
+    "question": "(7^5)^2",
+    "answer": "7^{10}",
+    "enabled": true,
+    "note": "Scan appears to give 4^10; corrected to 7^10."
+  },
+  {
+    "id": "A10",
+    "letter": "A",
+    "question": "(2^7)^3",
+    "answer": "2^{21}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T1",
+    "letter": "T",
+    "question": "(2y)^3",
+    "answer": "8y^3",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T2",
+    "letter": "T",
+    "question": "(3y^3)^2",
+    "answer": "9y^6",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T3",
+    "letter": "T",
+    "question": "(4v)^2",
+    "answer": "16v^2",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T4",
+    "letter": "T",
+    "question": "(2v)^3",
+    "answer": "8v^3",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T5",
+    "letter": "T",
+    "question": "(yz^3)^2",
+    "answer": "y^2z^6",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T6",
+    "letter": "T",
+    "question": "(y^3z^4)^3",
+    "answer": "y^9z^{12}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T7",
+    "letter": "T",
+    "question": "(y^3vz^5)^2",
+    "answer": "y^6v^2z^{10}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T8",
+    "letter": "T",
+    "question": "(4v^3)^2",
+    "answer": "16v^6",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T9",
+    "letter": "T",
+    "question": "(5z^2)^2",
+    "answer": "25z^4",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T10",
+    "letter": "T",
+    "question": "(7v^3z)^2",
+    "answer": "49v^6z^2",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H1",
+    "letter": "H",
+    "question": "p^2 \\cdot (qr)^2",
+    "answer": "p^2q^2r^2",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H2",
+    "letter": "H",
+    "question": "3p \\cdot (2pq)^3",
+    "answer": "24p^4q^3",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H3",
+    "letter": "H",
+    "question": "(2p^2r) \\cdot 3r",
+    "answer": "6p^2r^2",
+    "enabled": true,
+    "note": "Expression confirmed by teacher; answer corrected from scan to 6p^2r^2."
+  },
+  {
+    "id": "H4",
+    "letter": "H",
+    "question": "3pr \\cdot (pr)^3",
+    "answer": "3p^4r^4",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H5",
+    "letter": "H",
+    "question": "(2p^2) \\cdot p^2",
+    "answer": "16p^{10}",
+    "enabled": false,
+    "note": "Scan gives 16p^10 but shows no outer exponent. Possibly intended: (2p^2)^4 · p^2. Excluded pending review."
+  },
+  {
+    "id": "H6",
+    "letter": "H",
+    "question": "(5p^3q^5)^2 \\cdot p^2q",
+    "answer": "25p^8q^{11}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H7",
+    "letter": "H",
+    "question": "(p^7q^2r^3)^2 \\cdot r^5",
+    "answer": "p^{14}q^4r^{11}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H8",
+    "letter": "H",
+    "question": "(10p^3)^2 \\cdot pr",
+    "answer": "100p^7r",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O1",
+    "letter": "O",
+    "question": "x^7 \\cdot x^{\\square}=x^{11}",
+    "answer": "4",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O2",
+    "letter": "O",
+    "question": "y^{\\square} \\cdot y^5 \\cdot y^4=y^{12}",
+    "answer": "3",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O3",
+    "letter": "O",
+    "question": "(x^{\\square})^5=x^{10}",
+    "answer": "2",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O4",
+    "letter": "O",
+    "question": "(x^2y^3)^5=x^{10}y^{\\square}",
+    "answer": "15",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O5",
+    "letter": "O",
+    "question": "(2x^4)^2=4x^{\\square}",
+    "answer": "8",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O6",
+    "letter": "O",
+    "question": "(x^2)^5=x^{\\square}",
+    "answer": "10",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O7",
+    "letter": "O",
+    "question": "(4y^{\\square})^3=64y^{27}",
+    "answer": "9",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O8",
+    "letter": "O",
+    "question": "(x^3y^2)^{\\square}=x^{21}y^{14}",
+    "answer": "7",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O9",
+    "letter": "O",
+    "question": "x^4 \\cdot x^{\\square}=x^9",
+    "answer": "5",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O10",
+    "letter": "O",
+    "question": "y^7 \\cdot y^2 \\cdot y \\cdot y^2=y^{\\square}",
+    "answer": "12",
+    "enabled": true,
+    "note": ""
+  }
+]

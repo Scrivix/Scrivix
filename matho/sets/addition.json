@@ -1,0 +1,33 @@
+{
+  "id": "addition",
+  "title": "Addition",
+  "storagePrefix": "matho-addition",
+  "copy": {
+    "studentInstructions": "Add the two numbers. Tap the answer under the matching letter. Tap again to unmark. Complete the winning pattern shown below, then press Call MATHO!",
+    "roomIntro": "Students join with a room code and a display name. Each gets a different board with a free center square. Answers get bigger from M to O. Choose the winning pattern below.",
+    "roomHeading": "Little sums. A whole lot of fun.",
+    "roomWelcome": "Let’s play addition MATHO!",
+    "callerHeading": "Little sums. Big smiles.",
+    "callerSubtitle": "Add the numbers. Find your answer. Call MATHO!",
+    "callerControls": "Ready, set, add!",
+    "callerLink": "Addition caller",
+    "joinIntro": "Get the code from your teacher. Let’s add!",
+    "studentBoardLabel": "YOUR ADDITION BOARD",
+    "footer": "Add it up. Find your square.",
+    "bankIntro": "Every number being added is between 0 and 15. Answers run from 0 to 30. Each letter has its own answer range: M 0–5, A 6–11, T 12–17, H 18–23, O 24–30. Changes save on this browser; start a new game to edit questions already called.",
+    "callerBrand": "ADDITION EDITION",
+    "roomBrand": "ADDITION · PLAY TOGETHER",
+    "studentBrand": "ADDITION · YOUR NUMBER BOARD"
+  },
+  "hints": {
+    "caller": {
+      "default": "Add the numbers. Find your answer in column {letter}."
+    },
+    "student": {
+      "default": "Add the numbers and check column {letter}."
+    }
+  },
+  "presentationSubtitle": "Match the letter. Add the numbers. Mark your answer.",
+  "exportFilename": "matho-addition-question-bank.json",
+  "bankFile": "addition-bank.json"
+}
