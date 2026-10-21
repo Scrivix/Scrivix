@@ -30,7 +30,7 @@ $('#autoSeconds').onchange=()=>{try{autoTimer.setSeconds(Number($('#autoSeconds'
 
 window.addEventListener('load',()=>{typeset($('.play-area'));typeset($('#board'));});render();
 
-function renderClassroomWinner(){if(!display)return;if(!state.winner){classroomResultPanel.hide();return;}if(displayedWinnerId===state.winner.id)return;displayedWinnerId=state.winner.id;classroomResultPanel.show(state.winner.name+' got a MATHO!','A confirmed win! Let’s celebrate some great thinking.',true);}
+function renderClassroomWinner(){if(!display)return;if(!state.winner){classroomResultPanel.hide();return;}if(displayedWinnerId===state.winner.id)return;displayedWinnerId=state.winner.id;classroomResultPanel.show(state.winner.name+(state.winner.names?.length>1?' got MATHO!':' got a MATHO!'),'A confirmed win! Let’s celebrate some great thinking.',true);}
 
 function renderClassroomPattern(){
  const panel=$('#classroomPattern');panel.hidden=!display;if(!display)return;
