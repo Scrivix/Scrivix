@@ -1,13 +1,13 @@
 
 const fs=require('fs'),vm=require('vm'),assert=require('assert'),{EventEmitter}=require('events');
-const nodes=new Map(),commands=[],timers=[],peers=[];let clock=Date.now(),watchdog,beat=0;
+const nodes=new Map(),commands=[],timers=[],peers=[];let clock=Date.now(),watchdog,tick,beat=0;
 const node=id=>{if(!nodes.has(id))nodes.set(id,{value:'30',hidden:false,textContent:'',innerHTML:'',disabled:false,setAttribute(){},showModal(){this.open=true;},close(){this.open=false;}});return nodes.get(id);};
 class Link extends EventEmitter{constructor(){super();this.open=true;}send(m){commands.push(m);}close(){this.open=false;this.emit('close');}}
 class Peer extends EventEmitter{constructor(){super();peers.push(this);queueMicrotask(()=>this.emit('open'));}connect(){this.link=new Link();queueMicrotask(()=>this.link.emit('open'));return this.link;}destroy(){this.destroyed=true;this.link?.close();}}
 const R=require(process.cwd()+'/matho/game/live-core.js'),crypto=require('crypto').webcrypto,key=crypto.randomUUID(),relay='matho-teacher-'+crypto.randomUUID()+'-v1-MUABC234';
 const context={Peer,MathoRules:R,crypto,URLSearchParams,console,Date:{now:()=>clock},JSON,Set,Map,Promise,
 document:{getElementById:node,querySelectorAll:()=>[],activeElement:null},window:{addEventListener(){}},location:{hash:'#'+new URLSearchParams({relay,key})},
-confirm:()=>true,setTimeout:fn=>{timers.push(fn);return timers.length;},clearTimeout(){},setInterval:fn=>{watchdog=fn;}};vm.createContext(context);
+confirm:()=>true,setTimeout:fn=>{timers.push(fn);return timers.length;},clearTimeout(){},setInterval:(fn,ms)=>{if(ms===5000)watchdog=fn;else tick=fn;}};vm.createContext(context);
 (async()=>{
  vm.runInContext(fs.readFileSync('matho/game/remote.js','utf8'),context);await new Promise(setImmediate);
  assert.equal(commands[0].type,'teacher-hello');assert.equal(commands[0].key,key);
@@ -15,6 +15,13 @@ confirm:()=>true,setTimeout:fn=>{timers.push(fn);return timers.length;},clearTim
  const state={type:'state',role:'teacher-remote',code:'MUABC234',epoch:crypto.randomUUID(),round:1,pattern:'normal',calls:[],students:[],remaining:89,locked:false,roundComplete:false,review:false,timer:{running:false,seconds:30,secondsLeft:30}};
  state.heartbeat='host:'+ (++beat);conn.emit('data',state);assert.equal(node('remoteMain').hidden,false);assert.equal(node('remoteNext').disabled,false);
  node('remoteNext').onclick();assert.equal(commands.at(-1).action,'next');assert(!commands.at(-1).key);
+ const beforeTickCommands=commands.length;
+ state.timer={running:true,seconds:40,secondsLeft:40,remainingMs:40000};state.heartbeat='host:'+ (++beat);conn.emit('data',state);
+ assert.equal(node('remoteTimer').textContent,'0:40');clock+=1000;tick();assert.equal(node('remoteTimer').textContent,'0:39');clock+=1000;tick();assert.equal(node('remoteTimer').textContent,'0:38');
+ state.timer={running:false,seconds:40,secondsLeft:38,remainingMs:38000};state.heartbeat='host:'+ (++beat);conn.emit('data',state);clock+=5000;tick();assert.equal(node('remoteTimer').textContent,'0:38');
+ state.timer.running=true;state.heartbeat='host:'+ (++beat);conn.emit('data',state);clock+=38000;tick();assert.equal(node('remoteTimer').textContent,'0:00');assert.equal(commands.length,beforeTickCommands);
+ state.timer.remainingMs=30000;state.timer.secondsLeft=30;state.heartbeat='host:'+ (++beat);conn.emit('data',state);assert.equal(node('remoteTimer').textContent,'0:30');
+
  state.students=[{token:crypto.randomUUID(),name:'Ada',board:Array.from({length:25},(_,i)=>({letter:'M',answer:String(i),free:i===12})),marks:[0,1,2,3,4],seq:5,claim:{marks:[0,1,2,3,4]},feedback:'',connected:true}];state.heartbeat='host:'+ (++beat);conn.emit('data',state);
  node('remoteRoster').onclick({target:{closest:s=>s==='[data-check]'?{dataset:{check:state.students[0].token}}:null}});
  assert.equal(commands.at(-1).action,'check');assert.equal(commands.at(-1).claimSeq,5);

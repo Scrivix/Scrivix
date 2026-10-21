@@ -2,11 +2,14 @@
 /* A remote is an authenticated controller, never a replacement host. */
 (function(){
  const $=id=>document.getElementById(id),R=MathoRules,params=new URLSearchParams(location.hash.slice(1));
- const relay=params.get('relay'),key=params.get('key');let peer=null,conn=null,state=null,stopped=false,lastSeen=0,retry=null,inspected=null,attempt=0,lastHeartbeat=null;
+ const relay=params.get('relay'),key=params.get('key');let peer=null,conn=null,state=null,stopped=false,lastSeen=0,retry=null,inspected=null,attempt=0,lastHeartbeat=null,timerAnchor=0,timerRemainingMs=0,timerConnected=false;
+ const clock=()=>globalThis.performance?.now?.()??Date.now();
+ function remainingTimerMs(){return Math.max(0,timerRemainingMs-(state?.timer.running&&timerConnected&&!stopped?clock()-timerAnchor:0));}
+ function renderCountdown(){if(!state)return;const seconds=Math.ceil(remainingTimerMs()/1000);$('remoteTimer').textContent=Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');$('remoteTimerBox').setAttribute('data-running',String(!!state.timer.running&&timerConnected));$('remoteTimerState').textContent=!timerConnected?'Waiting for laptop':state.timer.running?(seconds===0?'Waiting for next expression…':'Auto draw running'):'Auto draw paused';}
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const math=s=>'\\('+esc(s)+'\\)';let typesetting=Promise.resolve();
  function typeset(el){typesetting=typesetting.catch(()=>{}).then(async()=>{if(window.MathJax?.typesetPromise){await MathJax.startup.promise;MathJax.typesetClear?.([el]);await MathJax.typesetPromise([el]);}});}
- function status(message,ok=false){$('remoteStatus').textContent=message;$('remoteMain').hidden=!state;document.querySelectorAll('[data-remote-action]').forEach(b=>b.disabled=!ok);}
+ function status(message,ok=false){if(!ok&&timerConnected){timerRemainingMs=remainingTimerMs();timerAnchor=clock();}timerConnected=ok;renderCountdown();$('remoteStatus').textContent=message;$('remoteMain').hidden=!state;document.querySelectorAll('[data-remote-action]').forEach(b=>b.disabled=!ok);}
  function notice(message){$('remoteNotice').textContent=message;}
  function stop(message){stopped=true;attempt++;clearTimeout(retry);conn?.close();peer?.destroy();status(message);$('remoteMain').hidden=true;notice(message);}
  function command(action,extra={}){
@@ -26,7 +29,7 @@
   $('remoteLock').textContent=state.locked?'Unlock joining':'Lock joining';
   $('remoteAuto').disabled=state.roundComplete;$('remoteAuto').textContent=state.timer.running?'Pause auto draw':'Start / resume auto draw';
   if(document.activeElement!==$('remoteSeconds'))$('remoteSeconds').value=state.timer.seconds;$('remoteSeconds').disabled=state.roundComplete;
-  $('remoteTimer').textContent=Math.floor(state.timer.secondsLeft/60)+':'+String(state.timer.secondsLeft%60).padStart(2,'0');
+  renderCountdown();
   $('remoteWinners').textContent=state.winner?'MATHO: '+state.winner.name:'';
   $('remoteReview').hidden=!state.roundComplete;$('remoteReview').disabled=!!state.review||pending>0;
   if(inspected)renderInspection();typeset($('remoteCurrent'));typeset($('remoteAnswer'));
@@ -48,7 +51,7 @@
     if(m?.type==='remote-denied'){stop('This private link is no longer valid. Scan a new QR code from your laptop.');return;}
     if(m?.type==='remote-notice'){notice(m.message);return;}
     if(m?.type!=='state'||m.role!=='teacher-remote')return;
-    if(m.heartbeat&&m.heartbeat===lastHeartbeat)return;if(m.heartbeat)lastHeartbeat=m.heartbeat;state=m;lastSeen=Date.now();status('Connected to laptop',true);notice('Your laptop is hosting. Boards '+(state.roundComplete?'are locked for this round.':'and claims update here.'));render();
+    if(m.heartbeat&&m.heartbeat===lastHeartbeat)return;if(m.heartbeat)lastHeartbeat=m.heartbeat;state=m;timerRemainingMs=Number.isFinite(m.timer.remainingMs)?m.timer.remainingMs:m.timer.secondsLeft*1000;timerAnchor=clock();lastSeen=Date.now();status('Connected to laptop',true);notice('Your laptop is hosting. Boards '+(state.roundComplete?'are locked for this round.':'and claims update here.'));render();
    });
    conn.on('close',()=>{if(generation===attempt)reconnect();});conn.on('error',()=>{if(generation===attempt)reconnect();});
   });peer.on('error',()=>{if(generation===attempt)reconnect();});setTimeout(()=>{if(generation===attempt&&!stopped&&(!lastSeen||Date.now()-lastSeen>14000))reconnect();},15000);
@@ -63,6 +66,7 @@
  $('remoteRoster').onclick=event=>{const inspect=event.target.closest('[data-inspect]'),check=event.target.closest('[data-check]');if(inspect){inspected=inspect.dataset.inspect;renderInspection();$('remoteInspect').showModal();}if(check){const s=state.students.find(s=>s.token===check.dataset.check);if(s?.claim)command('check',{student:s.token,claimSeq:s.seq});}};
  $('remoteCloseInspect').onclick=()=>{inspected=null;$('remoteInspect').close();};
  setInterval(()=>{if(!stopped&&state&&Date.now()-lastSeen>20000)reconnect();},5000);
+ setInterval(renderCountdown,200);
  window.addEventListener('beforeunload',()=>{stopped=true;peer?.destroy();});
  if(!/^matho-teacher-[-a-f0-9]{36}-v1-[A-Z2-9]{8}$/.test(relay||'')||!/^[-a-f0-9]{36}$/.test(key||'')){stop('Open this page by scanning the private teacher QR code on your laptop.');return;}
  connect();
