@@ -120,6 +120,7 @@
 </div>
 <p id="liveRemaining" class="live-note">
 </p>
+<section class="room-settings" aria-label="Sound and display settings"><div class="eyebrow">SOUNDS & DISPLAY</div><div class="live-actions"><button id="expressionSoundToggle" type="button" aria-pressed="false">New expression sound: off</button><button id="claimSoundToggle" type="button" aria-pressed="false">MATHO alerts: off</button></div><p class="live-note">Sounds play on this teacher device. Turning a sound on plays a short preview.</p><label class="feedback-setting"><input id="showClassroomClock" type="checkbox"> Show countdown on the classroom display</label><label class="feedback-setting"><input id="showStudentClock" type="checkbox"> Show countdown on student screens</label><p class="live-note">Countdowns are hidden by default and appear when auto draw is started.</p></section>
 <section class="auto-draw" aria-label="Automatic expression timer">
 <label class="live-label" for="autoSeconds">Auto draw · seconds between calls</label>
 <div class="auto-draw-controls">
@@ -143,12 +144,6 @@
 <section class="live-card teacher-roster">
 <div class="eyebrow">STUDENTS & BINGO CLAIMS</div>
 <h2 id="studentCount">Waiting for students</h2>
-<button id="expressionSoundToggle" type="button" aria-pressed="false">New expression sound: off</button>
-<button id="claimSoundToggle" type="button" aria-pressed="false">MATHO alerts: off</button>
-<div id="soundPlayer"></div><p class="live-note">Sound check: use the audio player’s play button if the test button is silent.</p>
-<button id="testTeacherSound" type="button">Test MATHO alert</button>
-<p id="teacherSoundStatus" class="live-note" role="status"></p>
-<p class="live-note">Turn on each sound you want. Enabling a sound plays a preview. Test MATHO alert also enables alerts. Only a correct MATHO claim alerts you.</p>
 <p class="live-note">Inspect a board or check a submitted claim. Students receive a celebration or encouragement, with an optional incorrect-mark count—never which squares were incorrect. Claims are checked against the selected winning pattern; the center is free.</p>
 <label class="feedback-setting">
 <input id="shareIncorrect" type="checkbox"> Include an incorrect-mark count in unsuccessful checks</label>

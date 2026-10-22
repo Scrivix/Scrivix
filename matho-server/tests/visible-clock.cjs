@@ -1,0 +1,13 @@
+const vm=require('vm'),fs=require('fs'),assert=require('assert');
+let now=10000,tick;const el={};const ctx={document:{querySelector:()=>el},Date:{now:()=>now},setInterval:f=>{tick=f}};
+vm.createContext(ctx);vm.runInContext(fs.readFileSync('matho/visible-clock.js','utf8'),ctx);
+ctx.MathoVisibleClock.update(null);assert.equal(el.hidden,true);
+ctx.MathoVisibleClock.update({running:true,remainingMs:30000,sentAt:now});assert.equal(el.textContent,'Next expression in 0:30');
+now+=1000;tick();assert.equal(el.textContent,'Next expression in 0:29');
+now+=2000;ctx.MathoVisibleClock.update({running:false,remainingMs:27000,sentAt:now});now+=5000;tick();assert.equal(el.textContent,'Paused · 0:27');
+ctx.MathoVisibleClock.update({running:true,remainingMs:27000,sentAt:now});now+=30000;tick();assert.equal(el.textContent,'Next expression in 0:00');
+ctx.MathoVisibleClock.update(null);assert.equal(el.hidden,true);
+assert(!fs.readFileSync('matho/game/student.js','utf8').includes('callSound'));
+assert(!fs.readFileSync('matho/game/join.html','utf8').includes('soundToggle'));
+assert(!fs.readFileSync('matho/game/room.html','utf8').includes('testTeacherSound'));
+console.log('PASS audience countdown: running, paused, resumed, delayed, hidden; student audio removed.');

@@ -41,7 +41,7 @@ class MathoCallSound{
  bindToggle(button,label,notify=()=>{}){
   const render=()=>{button.textContent=label+': '+(this.ready?'on':this.enabled?'tap to enable':'off');button.setAttribute('aria-pressed',String(!!this.ready));};
   this.onchange=render;
-  button.onclick=async()=>{button.disabled=true;try{if(this.ready){await this.setEnabled(false);return;}if(await this.setEnabled(true,{fresh:true})){if(!this.media)this.play();}else notify('Sound could not start. Try the test-sound button and check that Safari’s tab and your computer are not muted.');}finally{button.disabled=false;render();}};
+  button.onclick=async()=>{button.disabled=true;try{if(this.ready){await this.setEnabled(false);return;}if(await this.setEnabled(true,{fresh:true})){if(!this.media)this.play();}else notify('Sound could not start. Check that this browser tab and your computer are not muted, then try turning the sound on again.');}finally{button.disabled=false;render();}};
   render();
  }
 }
