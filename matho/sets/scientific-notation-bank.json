@@ -1,0 +1,402 @@
+[
+  {
+    "id": "M1",
+    "letter": "M",
+    "question": "3 \\times 10^{2}",
+    "answer": "300",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M2",
+    "letter": "M",
+    "question": "6 \\times 10^{3}",
+    "answer": "6000",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M3",
+    "letter": "M",
+    "question": "8 \\times 10^{4}",
+    "answer": "80000",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M4",
+    "letter": "M",
+    "question": "2.5 \\times 10^{2}",
+    "answer": "250",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M5",
+    "letter": "M",
+    "question": "4.2 \\times 10^{3}",
+    "answer": "4200",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M6",
+    "letter": "M",
+    "question": "7.1 \\times 10^{4}",
+    "answer": "71000",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M7",
+    "letter": "M",
+    "question": "1.6 \\times 10^{3}",
+    "answer": "1600",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M8",
+    "letter": "M",
+    "question": "9.3 \\times 10^{2}",
+    "answer": "930",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M9",
+    "letter": "M",
+    "question": "5.4 \\times 10^{4}",
+    "answer": "54000",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M10",
+    "letter": "M",
+    "question": "3.8 \\times 10^{3}",
+    "answer": "3800",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A1",
+    "letter": "A",
+    "question": "4{,}500",
+    "answer": "4.5 \\times 10^{3}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A2",
+    "letter": "A",
+    "question": "72{,}000",
+    "answer": "7.2 \\times 10^{4}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A3",
+    "letter": "A",
+    "question": "260{,}000",
+    "answer": "2.6 \\times 10^{5}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A4",
+    "letter": "A",
+    "question": "8{,}100{,}000",
+    "answer": "8.1 \\times 10^{6}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A5",
+    "letter": "A",
+    "question": "19{,}000",
+    "answer": "1.9 \\times 10^{4}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A6",
+    "letter": "A",
+    "question": "630{,}000",
+    "answer": "6.3 \\times 10^{5}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A7",
+    "letter": "A",
+    "question": "5{,}700{,}000",
+    "answer": "5.7 \\times 10^{6}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A8",
+    "letter": "A",
+    "question": "34{,}000",
+    "answer": "3.4 \\times 10^{4}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A9",
+    "letter": "A",
+    "question": "980{,}000",
+    "answer": "9.8 \\times 10^{5}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A10",
+    "letter": "A",
+    "question": "2{,}100{,}000",
+    "answer": "2.1 \\times 10^{6}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T1",
+    "letter": "T",
+    "question": "4 \\times 10^{-2}",
+    "answer": "0.04",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T2",
+    "letter": "T",
+    "question": "7 \\times 10^{-3}",
+    "answer": "0.007",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T3",
+    "letter": "T",
+    "question": "2.5 \\times 10^{-2}",
+    "answer": "0.025",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T4",
+    "letter": "T",
+    "question": "6.2 \\times 10^{-3}",
+    "answer": "0.0062",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T5",
+    "letter": "T",
+    "question": "8.4 \\times 10^{-4}",
+    "answer": "0.00084",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T6",
+    "letter": "T",
+    "question": "1.7 \\times 10^{-2}",
+    "answer": "0.017",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T7",
+    "letter": "T",
+    "question": "3.6 \\times 10^{-4}",
+    "answer": "0.00036",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T8",
+    "letter": "T",
+    "question": "9.1 \\times 10^{-3}",
+    "answer": "0.0091",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T9",
+    "letter": "T",
+    "question": "5.3 \\times 10^{-4}",
+    "answer": "0.00053",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T10",
+    "letter": "T",
+    "question": "2.8 \\times 10^{-3}",
+    "answer": "0.0028",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H1",
+    "letter": "H",
+    "question": "0.0032",
+    "answer": "3.2 \\times 10^{-3}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H2",
+    "letter": "H",
+    "question": "0.00075",
+    "answer": "7.5 \\times 10^{-4}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H3",
+    "letter": "H",
+    "question": "0.0000124",
+    "answer": "1.24 \\times 10^{-5}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H4",
+    "letter": "H",
+    "question": "0.000608",
+    "answer": "6.08 \\times 10^{-4}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H5",
+    "letter": "H",
+    "question": "0.0000096",
+    "answer": "9.6 \\times 10^{-6}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H6",
+    "letter": "H",
+    "question": "0.0000437",
+    "answer": "4.37 \\times 10^{-5}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H7",
+    "letter": "H",
+    "question": "0.00209",
+    "answer": "2.09 \\times 10^{-3}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H8",
+    "letter": "H",
+    "question": "0.00000815",
+    "answer": "8.15 \\times 10^{-6}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H9",
+    "letter": "H",
+    "question": "0.000504",
+    "answer": "5.04 \\times 10^{-4}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H10",
+    "letter": "H",
+    "question": "0.00000162",
+    "answer": "1.62 \\times 10^{-6}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O1",
+    "letter": "O",
+    "question": "10{,}050{,}000",
+    "answer": "1.005 \\times 10^{7}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O2",
+    "letter": "O",
+    "question": "0.00000702",
+    "answer": "7.02 \\times 10^{-6}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O3",
+    "letter": "O",
+    "question": "3{,}045{,}000",
+    "answer": "3.045 \\times 10^{6}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O4",
+    "letter": "O",
+    "question": "0.00000804",
+    "answer": "8.04 \\times 10^{-6}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O5",
+    "letter": "O",
+    "question": "20{,}060{,}000",
+    "answer": "2.006 \\times 10^{7}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O6",
+    "letter": "O",
+    "question": "0.0000507",
+    "answer": "5.07 \\times 10^{-5}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O7",
+    "letter": "O",
+    "question": "60{,}010{,}000",
+    "answer": "6.001 \\times 10^{7}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O8",
+    "letter": "O",
+    "question": "0.00000903",
+    "answer": "9.03 \\times 10^{-6}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O9",
+    "letter": "O",
+    "question": "42{,}050{,}000",
+    "answer": "4.205 \\times 10^{7}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O10",
+    "letter": "O",
+    "question": "0.00001008",
+    "answer": "1.008 \\times 10^{-5}",
+    "enabled": true,
+    "note": ""
+  }
+]

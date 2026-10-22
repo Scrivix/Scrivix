@@ -1,0 +1,44 @@
+{
+  "id": "scientific-notation",
+  "title": "Scientific Notation",
+  "storagePrefix": "matho-scientific-notation",
+  "copy": {
+    "studentInstructions": "Convert between scientific notation and standard form. Use the direction shown with each call, then mark the matching answer in that column. Scientific notation uses a coefficient from 1 up to, but not including, 10.",
+    "roomIntro": "Practice conversions with large numbers and small decimals. M and T: scientific notation to standard form. A, H, and O: standard form to scientific notation. Choose the winning pattern below.",
+    "roomHeading": "Small decimals. Big numbers. Clear thinking.",
+    "roomWelcome": "Let’s play scientific notation MATHO!",
+    "callerHeading": "Big or small, find its form.",
+    "callerSubtitle": "Convert the number. Match the letter. Find your square.",
+    "callerControls": "Ready for the next conversion?",
+    "callerLink": "Scientific notation caller",
+    "joinIntro": "Get your teacher’s code. Let’s convert!",
+    "studentBoardLabel": "YOUR SCIENTIFIC NOTATION BOARD",
+    "footer": "Move the decimal. Find your square.",
+    "bankIntro": "50 conversions using positive numbers, including large values and small decimals. M: scientific notation to large standard-form numbers. A: large standard-form numbers to scientific notation. T: scientific notation to small decimals. H: small decimals to scientific notation. O: harder conversions to scientific notation, mixing large and small values with zeros inside the coefficient. Scientific notation always uses 1 ≤ coefficient < 10. Changes save in this browser; start a new game to edit questions already called.",
+    "callerBrand": "SCIENTIFIC NOTATION EDITION",
+    "roomBrand": "SCIENTIFIC NOTATION · PLAY TOGETHER",
+    "studentBrand": "SCIENTIFIC NOTATION · YOUR CONVERSION BOARD"
+  },
+  "hints": {
+    "caller": {
+      "M": "Write the number in standard form. Find your answer in column {letter}.",
+      "A": "Write the number in scientific notation. Find your answer in column {letter}.",
+      "T": "Write the small decimal in standard form. Find your answer in column {letter}.",
+      "H": "Write the small decimal in scientific notation. Find your answer in column {letter}.",
+      "O": "Write the number in scientific notation. Check whether the exponent should be positive or negative. Find your answer in column {letter}.",
+      "default": "Convert the number and find your answer in column {letter}."
+    },
+    "student": {
+      "M": "Write the number in standard form. Check column {letter}.",
+      "A": "Write the number in scientific notation. Check column {letter}.",
+      "T": "Write the small decimal in standard form. Check column {letter}.",
+      "H": "Write the small decimal in scientific notation. Check column {letter}.",
+      "O": "Write the number in scientific notation. Check whether the exponent should be positive or negative. Check column {letter}.",
+      "default": "Convert the number and check column {letter}."
+    }
+  },
+  "presentationSubtitle": "Convert between scientific notation and standard form. Follow the direction under each call.",
+  "exportFilename": "matho-scientific-notation-question-bank.json",
+  "bankFile": "scientific-notation-bank.json",
+  "joinPrefix": "SN"
+}

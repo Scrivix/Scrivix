@@ -3,7 +3,7 @@
  const catalogue=document.querySelector('#editions');
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  try{
-  const response=await fetch('sets/index.json?v=sets-2');
+  const response=await fetch('sets/index.json?v=scientific-1');
   if(!response.ok)throw Error('Could not load question sets.');
   const editions=await response.json();
   for(const edition of editions){

@@ -42,5 +42,16 @@
     "color": "purple",
     "label": "Open signed multiplication",
     "joinPrefix": "SM"
+  },
+  {
+    "slug": "scientific-notation",
+    "title": "Scientific Notation",
+    "tag": "BIG NUMBERS · SMALL DECIMALS",
+    "description": "Convert large numbers and small decimals between scientific notation and standard form. Conversions get harder from M to O.",
+    "sample": "3.2 <span>×</span> 10<sup>5</sup>",
+    "detail": "Both directions · positive and negative exponents",
+    "color": "purple",
+    "label": "Open scientific notation",
+    "joinPrefix": "SN"
   }
 ]
