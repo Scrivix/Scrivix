@@ -77,13 +77,6 @@ $('#addQuestionForm').onsubmit=event=>{
 
 if(location.hash==='#bankSection')$('details').open=true;
 
-$('#restoreDefaultBank').onclick=()=>{
- if(!confirm('Replace this browser’s question bank with the current built-in questions and clear caller progress? Download your bank first if you want to keep custom questions. Student rooms already running keep their original bank.'))return;
- autoTimer.stop('Built-in question bank loaded.');
- state.bank=structuredClone(DEFAULT_BANK);state.called=[];state.winner=null;save();
- toast('Built-in questions loaded. Create a new student room to use them on student boards.');
-};
-
 function renderQuestionBoard(){
  const current=state.called.at(-1);
  if(!display){
