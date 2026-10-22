@@ -3,18 +3,18 @@
   "title": "Scientific Notation",
   "storagePrefix": "matho-scientific-notation",
   "copy": {
-    "studentInstructions": "Convert between scientific notation and standard form. Use the direction shown with each call, then mark the matching answer in that column. Scientific notation uses a coefficient from 1 up to, but not including, 10.",
-    "roomIntro": "Practice conversions with large numbers and small decimals. M and T: scientific notation to standard form. A, H, and O: standard form to scientific notation. Choose the winning pattern below.",
+    "studentInstructions": "Convert between scientific notation and standard form. Answers in each column deliberately share the same leading digits, so check the decimal placement and exponent. Mark the matching answer in the called column.",
+    "roomIntro": "Convert large numbers and small decimals in both directions. Every answer in each column shares the same coefficient, so students must work out the exponent or decimal placement. M and T ask for standard form; A, H, and O ask for scientific notation.",
     "roomHeading": "Small decimals. Big numbers. Clear thinking.",
     "roomWelcome": "Let’s play scientific notation MATHO!",
     "callerHeading": "Big or small, find its form.",
-    "callerSubtitle": "Convert the number. Match the letter. Find your square.",
+    "callerSubtitle": "Same leading digits. Different powers of ten. Work out the conversion.",
     "callerControls": "Ready for the next conversion?",
     "callerLink": "Scientific notation caller",
     "joinIntro": "Get your teacher’s code. Let’s convert!",
     "studentBoardLabel": "YOUR SCIENTIFIC NOTATION BOARD",
     "footer": "Move the decimal. Find your square.",
-    "bankIntro": "50 conversions using positive numbers, including large values and small decimals. M: scientific notation to large standard-form numbers. A: large standard-form numbers to scientific notation. T: scientific notation to small decimals. H: small decimals to scientific notation. O: harder conversions to scientific notation, mixing large and small values with zeros inside the coefficient. Scientific notation always uses 1 ≤ coefficient < 10. Changes save in this browser; start a new game to edit questions already called.",
+    "bankIntro": "38 conversions designed to require decimal-place and exponent reasoning. Every answer within a column shares the same coefficient: M 3.2, A 4.5, T 2, H 6.04, O 1.005. M and T convert scientific notation to standard form; A, H, and O convert standard form to scientific notation. O mixes large and small values with zeros inside the coefficient. To replace a previously saved bank, choose Use built-in questions below, then create a new student room. Changes you make remain saved in this browser.",
     "callerBrand": "SCIENTIFIC NOTATION EDITION",
     "roomBrand": "SCIENTIFIC NOTATION · PLAY TOGETHER",
     "studentBrand": "SCIENTIFIC NOTATION · YOUR CONVERSION BOARD"
@@ -40,5 +40,6 @@
   "presentationSubtitle": "Convert between scientific notation and standard form. Follow the direction under each call.",
   "exportFilename": "matho-scientific-notation-question-bank.json",
   "bankFile": "scientific-notation-bank.json",
-  "joinPrefix": "SN"
+  "joinPrefix": "SN",
+  "bankRevision": 2
 }
