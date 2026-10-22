@@ -2,15 +2,15 @@
 (function(){
  const L=MathoLibrary,custom=MATHO_SET.config.id.startsWith('custom-'),panel=document.createElement('div');
  panel.className='notice';panel.id='librarySavePanel';
- panel.innerHTML='<strong>MY TEACHER LIBRARY</strong><p id="librarySaveStatus" role="status"></p><div class="bank-actions"><button id="saveLibraryCopy" type="button"></button><a href="../library/">Open my library / connect another device ↗</a></div>';
+ panel.innerHTML='<strong>MY TEACHER LIBRARY</strong><p id="librarySaveStatus" role="status"></p><div class="bank-actions"><button id="saveLibraryCopy" type="button"></button><a href="../library/">My question sets ↗</a></div>';
  $('#bankSection details').insertBefore(panel,$('#bankSection .bank-intro'));
  const button=$('#saveLibraryCopy'),status=$('#librarySaveStatus');
- button.textContent=custom?'Save a separate copy':'Save this set to my library';
+ button.textContent=custom?'Save a separate copy':'Open my question sets';button.hidden=custom;
  let lastSaved=JSON.stringify(MATHO_SET.bank),timer=null,saving=false,again=false;
  function message(text){status.textContent=text;}
  if(custom)$('#addQuestionForm p:last-child').textContent='Questions in this library set save online automatically while connected. Offline changes stay on this device until saved. Existing student rooms keep their original questions; create a new room to use edits.';
  if(custom)message(MATHO_SET.config.libraryOffline?'Offline draft loaded. Changes will save when you reconnect.':state.libraryDirty?'This device has unsaved changes. Saving will preserve any newer version on another device.':'Saved in your private teacher library. Changes save automatically. Keep your private connection link to open it elsewhere.');
- else message('Save a private copy online to edit and use from your iPad, home computer, or school computer. Your original questions stay saved in this browser.');
+ else message('For questions that follow you between devices, open My question sets and choose Edit questions. Questions edited on this local caller stay in this browser.');
  async function sync(){
   if(!custom||JSON.stringify(state.bank)===lastSaved&&!state.libraryDirty)return;
   if(saving){again=true;return;}saving=true;message('Saving to your teacher library…');
@@ -20,7 +20,7 @@
    lastSaved=signature;state.libraryRevision=result.revision;state.libraryDirty=JSON.stringify(state.bank)!==signature;
    localStorage.setItem(KEY,JSON.stringify(state));
    message(state.libraryDirty?'More changes waiting to save…':'Saved online · available on your other connected devices.');
-  }catch(e){message(e.message+' Use “Save a separate copy” to keep this draft online without replacing anything.');}
+  }catch(e){button.hidden=false;message(e.message+' Use “Save a separate copy” to keep this draft online without replacing anything.');}
   finally{saving=false;if(again){again=false;clearTimeout(timer);timer=setTimeout(sync,1500);}}
  }
  window.addEventListener('matho-bank-saved',()=>{
@@ -31,6 +31,7 @@
  window.addEventListener('online',sync);
  window.addEventListener('beforeunload',e=>{if(custom&&state.libraryDirty){e.preventDefault();e.returnValue='';}});
  button.onclick=async()=>{
+  if(!custom){location.assign(new URL('../library/',location.href).href);return;}
   button.disabled=true;
   try{
    if(!L.credentials())await L.create();

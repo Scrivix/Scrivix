@@ -16,7 +16,7 @@ async function runBoot({page='caller',custom=true,saved,cloud=next,error,cached,
 (async()=>{
  let r=await runBoot({page:'student',custom:true,credentials:false});assert.equal(r.privateReads,0);assert.equal(r.publicReads,1);assert.equal(r.context.DEFAULT_BANK,undefined);assert(!r.loads.some(x=>String(x).includes('library-editor')));
  r=await runBoot({page:'student',custom:false,credentials:false});assert.equal(r.requests.length,1);assert(!r.requests.some(x=>x.includes('bank.json')));
- r=await runBoot({custom:false});assert.equal(r.requests.length,2);assert.equal(r.validated,1);assert(r.loads.some(x=>String(x).includes('app.js?v=library-1')));
+ r=await runBoot({custom:false});assert.equal(r.requests.length,2);assert.equal(r.validated,1);assert(r.loads.some(x=>String(x).includes('app.js?v=simple-library-1')));
  r=await runBoot({saved:{bank,called:[],libraryRevision:2,libraryDirty:true}});assert.equal(r.context.DEFAULT_BANK.length,1);assert.equal(r.context.MATHO_SET.config.libraryRevision,2,'Pending local draft retains its original revision');
  r=await runBoot({saved:{bank,called:[],libraryRevision:2,libraryDirty:false}});assert.equal(r.context.DEFAULT_BANK.length,2);assert.equal(r.backups.length,1);
  r=await runBoot({saved:{bank,called:[],libraryRevision:2},cached:true,error:Error('offline')});assert.equal(r.context.DEFAULT_BANK.length,1);assert(r.context.MATHO_SET.config.libraryOffline);

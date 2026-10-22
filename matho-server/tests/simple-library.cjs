@@ -1,0 +1,28 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const flush=async()=>{for(let i=0;i<4;i++)await new Promise(setImmediate);};
+(async()=>{
+ const nodes={},local=new Map(),created=[],navigations=[],sets=[{id:'custom-saved',title:'Addition',updated:1}];
+ const node=id=>nodes[id]||(nodes[id]={value:'',dataset:{},textContent:'',innerHTML:'',hidden:false,open:false,focus(){this.focused=true;},scrollIntoView(){},append(){}});
+ const catalogue=[{slug:'addition',title:'Addition'},{slug:'exponents',title:'Exponents'}],bank=[{id:'M1',letter:'M',question:'1+1',answer:'2',enabled:true},{id:'M2',letter:'M',question:'2+2',answer:'4',enabled:true}];
+ local.set('matho-exponents-game-v1',JSON.stringify({bank}));
+ const ctx={URL,URLSearchParams,Set,Date,document:{getElementById:node,createElement:()=>({})},location:{hash:'',origin:'https://scrivix.us',pathname:'/matho/library/',search:'',assign:u=>navigations.push(u)},history:{replaceState(){}},localStorage:{getItem:k=>local.get(k)||null},MathoLibrary:{credentials:()=>({}),list:async()=>({sets:structuredClone(sets)}),backup(){},createSet:async(title,bank,config)=>{const s={id:'custom-new-'+created.length,title,bank:structuredClone(bank),config,updated:2};created.push(s);sets.push(s);return s;},gameUrl:(id,page='')=>new URL('https://scrivix.us/matho/game/'+page+'?set='+id)},fetch:async url=>({ok:true,json:async()=>url.includes('index.json')?catalogue:url.includes('bank.json')?[]:{id:'exponents',title:'Exponents',storagePrefix:'matho-exponents',bankFile:'exponents-bank.json'}}),console};
+ vm.createContext(ctx);await vm.runInContext(fs.readFileSync('matho/library/library.js','utf8'),ctx);
+ assert.equal((node('librarySets').innerHTML.match(/<h3>Addition<\/h3>/g)||[]).length,1,'Saved default is shown once');
+ assert(node('librarySets').innerHTML.includes('Exponents'));assert(!node('librarySets').innerHTML.includes('Save a library copy'));
+ const event={target:{dataset:{openSet:'exponents',page:'edit'},disabled:false}};
+ await node('librarySets').onclick(event);assert.equal(created.length,1);assert.equal(created[0].bank.length,2,'Existing local additions seed the set');assert(navigations.at(-1).includes('#bankSection'));
+ await node('librarySets').onclick({target:{dataset:{openSet:'exponents',page:'host'}}});assert.equal(created.length,1,'Reopening the same set reuses the saved bank');assert(navigations.at(-1).includes('room.html'));
+ node('newSetButton').onclick();assert(node('newSetSection').open);assert(node('setTitle').focused);
+ node('setTitle').value='Geometry';await node('newLibrarySet').onsubmit({preventDefault(){},submitter:{}});assert.equal(created[1].title,'Geometry');assert.equal(created[1].bank.length,0,'A new set opens as an editable draft');
+ const app=fs.readFileSync('matho/game/app.js','utf8'),block=app.slice(app.indexOf('/* Question removals'));
+ const listeners={},undo={},backups=[],saves=[],state={bank:structuredClone(bank),called:[]};
+ const removeContext={state,KEY:'bank',MATHO_SET:{config:{id:'addition'}},display:false,structuredClone,Set,MathoLibrary:{backup:(key,bank)=>backups.push(structuredClone(bank))},document:{createElement:()=>undo},$:s=>s==='#bank'?{addEventListener:(event,fn)=>listeners[event]=fn}:{prepend(){}},save:()=>saves.push(1),toast(){}};
+ vm.createContext(removeContext);vm.runInContext(block,removeContext);
+ const remove=id=>listeners.click({target:{closest:()=>({dataset:{remove:id}})}});
+ remove('M1');assert.equal(state.bank.length,1);assert.equal(backups[0].length,2);assert(!undo.hidden);
+ undo.onclick();assert.equal(state.bank.length,2);assert(undo.hidden);
+ state.called=[structuredClone(bank[0])];remove('M1');assert.equal(state.bank.length,2,'Local caller keeps its called question locked');
+ removeContext.MATHO_SET.config.id='custom-test';remove('M1');assert.equal(state.bank.length,1,'Saved library can be edited after a previous game');assert.equal(state.called[0].question,'1+1','Current game snapshot stays intact');
+ state.bank.push({...bank[0],question:'another'});undo.onclick();assert.equal(new Set(state.bank.map(q=>q.id)).size,state.bank.length,'Undo never duplicates IDs');
+ console.log('PASS: one set chooser, reuse saved sets, preserve local additions, create new drafts, remove/undo with backups, edit after a game, and immutable call snapshots.');
+})().catch(e=>{console.error(e);process.exit(1);});
