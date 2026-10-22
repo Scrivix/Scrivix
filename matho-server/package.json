@@ -1,0 +1,11 @@
+{
+  "name": "matho-room-service",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "jose": "6.2.13"
+  },
+  "devDependencies": {
+    "wrangler": "4.151.3"
+  }
+}

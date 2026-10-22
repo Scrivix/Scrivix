@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS auth_users(id TEXT PRIMARY KEY,email TEXT NOT NULL UNIQUE,role TEXT NOT NULL CHECK(role IN ('owner','teacher')),active INTEGER NOT NULL DEFAULT 1,library_id TEXT NOT NULL REFERENCES teacher_libraries(id),created INTEGER NOT NULL);
+CREATE UNIQUE INDEX IF NOT EXISTS auth_one_owner ON auth_users(role) WHERE role='owner';
+CREATE TABLE IF NOT EXISTS auth_identities(provider TEXT NOT NULL,subject TEXT NOT NULL,user_id TEXT NOT NULL REFERENCES auth_users(id),PRIMARY KEY(provider,subject));
+CREATE TABLE IF NOT EXISTS auth_sessions(token_hash TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES auth_users(id),csrf TEXT NOT NULL,expires INTEGER NOT NULL,created INTEGER NOT NULL);
+CREATE INDEX IF NOT EXISTS auth_sessions_user ON auth_sessions(user_id,expires);
+CREATE TABLE IF NOT EXISTS auth_challenges(id TEXT PRIMARY KEY,nonce_hash TEXT NOT NULL,browser_hash TEXT NOT NULL,purpose TEXT NOT NULL,user_id TEXT,expires INTEGER NOT NULL);
+CREATE INDEX IF NOT EXISTS auth_challenges_expiry ON auth_challenges(expires);
+CREATE TABLE IF NOT EXISTS auth_invites(email TEXT PRIMARY KEY,created_by TEXT NOT NULL REFERENCES auth_users(id),created INTEGER NOT NULL,revoked INTEGER NOT NULL DEFAULT 0);
+CREATE TABLE IF NOT EXISTS auth_library_owners(library_id TEXT PRIMARY KEY REFERENCES teacher_libraries(id),user_id TEXT NOT NULL REFERENCES auth_users(id));
+CREATE INDEX IF NOT EXISTS auth_libraries_user ON auth_library_owners(user_id);
+CREATE TABLE IF NOT EXISTS auth_host_rooms(room TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES auth_users(id),code TEXT NOT NULL,kind TEXT NOT NULL,reserved_until INTEGER NOT NULL,reservation TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS auth_host_user ON auth_host_rooms(user_id,kind);
+CREATE INDEX IF NOT EXISTS auth_host_code ON auth_host_rooms(code,kind);
+CREATE TABLE IF NOT EXISTS auth_daily_rooms(user_id TEXT NOT NULL,day TEXT NOT NULL,total INTEGER NOT NULL,PRIMARY KEY(user_id,day));

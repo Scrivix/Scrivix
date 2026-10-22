@@ -2,7 +2,29 @@
  const L=MathoLibrary,$=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let catalogue=[],sets=[],autoOpening=false;
  const message=s=>$('libraryStatus').textContent=s;
  // Remove the key from the address bar before doing any network work.
- const incoming=location.hash;if(incoming)history.replaceState(null,'',location.pathname+location.search);
+ let incoming=location.hash;if(incoming)history.replaceState(null,'',location.pathname+location.search);
+ if(incoming)try{sessionStorage.setItem('matho-pending-library-migration',JSON.stringify(L.parse(location.origin+location.pathname+incoming)));}catch{}
+ await L.ready();
+ if(MathoTeacherAuth.enabled()){
+  incoming='';
+  if(!MathoTeacherAuth.account()){location.replace(MathoTeacherAuth.signin(location.href));return;}
+  const account=MathoTeacherAuth.account();
+  $('connectDeviceButton').hidden=true;$('deviceSection').hidden=true;
+  const section=document.createElement('section');section.className='library-card';
+  section.innerHTML='<div class="library-head"><p id="accountIdentity"></p><div class="library-actions"><button id="linkAppleAccount" hidden>Link Apple sign-in</button><button id="signOutTeacher">Sign out</button></div></div><details id="teacherAccess" hidden><summary>Teacher access</summary><p>Invite a teacher by their Google email address. They will get their own private question sets. This grants access; it does not send email.</p><form id="inviteTeacher"><label for="inviteEmail">Teacher’s Google email</label><input id="inviteEmail" type="email" required class="library-input"><button type="submit">Approve teacher</button></form><div id="teacherAccessList"></div></details>';
+  $('connectedLibrary').prepend(section);$('accountIdentity').textContent='Signed in as '+account.email+(account.role==='owner'?' · Owner':'');
+  $('signOutTeacher').onclick=async()=>{try{await MathoTeacherAuth.logout();}catch(e){message(e.message);}};
+  const apple=MathoTeacherAuth.config().appleClientId;
+  if(apple&&!account.providers.includes('apple')){$('linkAppleAccount').hidden=false;$('linkAppleAccount').onclick=()=>{const u=new URL('../signin/',location.href);u.searchParams.set('link','apple');location.assign(u.href);};}
+  if(account.role==='owner'){
+   $('teacherAccess').hidden=false;
+   async function teachers(){const data=await MathoTeacherAuth.api('teachers');$('teacherAccessList').innerHTML=data.invitations.filter(i=>!i.revoked).map(i=>'<div class="library-version"><span>'+esc(i.email)+'</span><button data-revoke-teacher="'+esc(i.email)+'">Remove access</button></div>').join('')||'<p>Only you have access. Add up to '+data.limit+' invited teachers.</p>';}
+   $('inviteTeacher').onsubmit=async e=>{e.preventDefault();try{await MathoTeacherAuth.api('teachers',{method:'POST',body:{email:$('inviteEmail').value,action:'invite'}});$('inviteEmail').value='';await teachers();message('Teacher approved. They can sign in at scrivix.us/matho/.');}catch(error){message(error.message);}};
+   $('teacherAccessList').onclick=async e=>{const address=e.target.dataset.revokeTeacher;if(!address||!confirm('Remove this teacher’s access and end their active games?'))return;try{await MathoTeacherAuth.api('teachers',{method:'POST',body:{email:address,action:'revoke'}});await teachers();}catch(error){message(error.message);}};
+   teachers().catch(e=>message(e.message));
+  }
+ }
+
  async function loadCatalogue(){
   if(catalogue.length)return;
   const r=await fetch('../sets/index.json?v=simple-library-1');if(!r.ok)throw Error('The question sets could not load. Please refresh.');
@@ -38,7 +60,7 @@
    }
    for(const saved of sets)if(!used.has(saved.id))cards.push(savedCard(saved));
    $('librarySets').innerHTML=cards.join('');
-   message('Choose a set to edit or play. Your saved sets follow you across connected devices.');
+   message(L.migrationWarning||'Choose a set to edit or play. Your question changes save to your teacher account.');
   }catch(e){message(e.message);}
  }
  async function openRequested(){

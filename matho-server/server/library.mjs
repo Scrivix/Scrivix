@@ -30,12 +30,13 @@ export function configOf(input,id,title){
  for(const k of ['boardFontSize','boardNumericFontSize','boardNarrowFontSize','boardNarrowNumericFontSize','boardMobileFontSize','boardMobileNumericFontSize'])if(Number.isFinite(source[k])&&source[k]>=10&&source[k]<=40)config[k]=source[k];
  return config;
 }
-export function createLibrary(db,{origins=['https://scrivix.us'],now=()=>Date.now()}={}){
+export function createLibrary(db,{origins=['https://scrivix.us'],now=()=>Date.now(),accounts=null}={}){
  const first=(sql,...v)=>db.prepare(sql).bind(...v).first(),run=(sql,...v)=>db.prepare(sql).bind(...v).run();
  const all=async(sql,...v)=>(await db.prepare(sql).bind(...v).all()).results;
  const buckets=new Map();
  function limit(ip){const t=now();let b=buckets.get(ip);if(!b||t>b.until)b={count:0,until:t+3600000};if(++b.count>10)throw fail(429,'Please wait before creating another library.');buckets.set(ip,b);if(buckets.size>10000)for(const [k,v]of buckets)if(v.until<t)buckets.delete(k);}
  async function auth(request,id){
+  if(accounts?.enabled){await accounts.authorizeLibrary(request,id);return;}
   const key=request.headers.get('Authorization')?.replace(/^Bearer /,'');
   if(!hex(id,32)||!hex(key,64))throw fail(403,'Connect your private teacher library first.');
   const lib=await first('SELECT key_hash FROM teacher_libraries WHERE id=?',id);
@@ -63,6 +64,7 @@ export function createLibrary(db,{origins=['https://scrivix.us'],now=()=>Date.no
     if(!body||typeof body!=='object'||Array.isArray(body))throw fail(400,'Invalid request.');
    }
    if(path==='/v1/libraries'&&request.method==='POST'){
+    if(accounts?.enabled)throw fail(401,'Sign in to create and manage your teacher library.');
     limit(request.headers.get('CF-Connecting-IP')||'local');
     const id=random(16),key=random(32);
     await run('INSERT INTO teacher_libraries(id,key_hash,created) VALUES(?,?,?)',id,await hash(key),now());

@@ -7,6 +7,7 @@
   if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id))throw Error('Choose a question set from All games.');
   const page=document.body.dataset.page;
   if(!['caller','room','student'].includes(page))throw Error('This game page is unavailable.');
+  if(page!=='student'){await MathoLibrary.ready();if(MathoTeacherAuth.enabled()&&!MathoTeacherAuth.account()){location.replace(MathoTeacherAuth.signin(location.href));return;}}
   const custom=/^custom-[a-f0-9]{32}$/.test(id);
   let config;
   if(custom){
@@ -35,7 +36,7 @@
     }
    }
   }else{
-   const response=await fetch(new URL('../sets/'+id+'.json?v=connected-teacher-1',base));
+   const response=await fetch(new URL('../sets/'+id+'.json?v=accounts-1',base));
    if(!response.ok)throw Error('That question set could not be loaded. Choose a set from All games.');
    config=await response.json();
    const classroom=new URLSearchParams(location.search).get('view')==='display';
@@ -49,7 +50,7 @@
    // Students load directions and connection keys, never the answer bank.
    if(page!=='student'){
     if(!/^[a-z0-9-]+\.json$/.test(config.bankFile))throw Error('This question bank is unavailable.');
-    const bankResponse=await fetch(new URL('../sets/'+config.bankFile+'?v=connected-teacher-1',base));
+    const bankResponse=await fetch(new URL('../sets/'+config.bankFile+'?v=accounts-1',base));
     if(!bankResponse.ok)throw Error('The question bank could not load. Please refresh and try again.');
     config.bank=await bankResponse.json();MathoRules.validateBank(config.bank);
    }
@@ -63,7 +64,7 @@
   for(const node of document.querySelectorAll('[data-game-page]'))node.href=MATHO_SET.url(node.dataset.gamePage).href;
   const invite=document.querySelector('#inviteHelp');
   if(invite)invite.textContent='Share this link, or ask students to open '+new URL('../join/',location.href).href+' and enter the code.';
-  const engine=document.createElement('script');engine.src=new URL({caller:'app.js',room:'room.js',student:'student.js'}[page]+'?v=connected-teacher-1',base);
+  const engine=document.createElement('script');engine.src=new URL({caller:'app.js',room:'room.js',student:'student.js'}[page]+'?v=accounts-1',base);
   await new Promise((resolve,reject)=>{engine.onload=resolve;engine.onerror=()=>reject(Error('The game could not load. Please refresh and try again.'));document.body.append(engine);});
   if(page==='caller'&&new URLSearchParams(location.search).get('view')!=='display'){
    const editor=document.createElement('script');editor.src=new URL('../library-editor.js?v=simple-1',base);

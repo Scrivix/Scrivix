@@ -9,14 +9,14 @@ async function runBoot({page='caller',custom=true,saved,cloud=next,error,cached,
  const body={dataset:{page},classList:{add(){}},removeAttribute(){},append(script){loads.push(script.src.href||script.src);queueMicrotask(()=>script.onload?.());}};
  const document={currentScript:{src:'https://scrivix.us/matho/game/boot.js'},body,querySelector:s=>nodes[s]||(nodes[s]={append(){}}),querySelectorAll:()=>[],createElement:()=>({})};
  let validated=0,privateReads=0,publicReads=0;
- const context={URL,URLSearchParams,location,document,sessionStorage:{getItem:()=>recovering?JSON.stringify({code:'ADAB2345'}):null},localStorage:{getItem:k=>map.get(k)||null,setItem:(k,v)=>map.set(k,v)},MathoQuestionSet:{create:config=>({config,bank:config.bank})},MathoRules:{validateBank(){validated++;}},MathoLibrary:{credentials:()=>credentials?{id:'lib'}:null,async read(){privateReads++;if(error)throw error;return{config:{...cfg},bank:cloud,revision:3};},async publicConfig(){publicReads++;return {...cfg};},backup(...args){backups.push(args);}},fetch:async url=>{requests.push(String(url));return {ok:true,json:async()=>String(url).includes('bank')?bank:{id:'addition',title:'Addition',copy:{},bankFile:'addition-bank.json'}};},console};
+ const context={URL,URLSearchParams,location,document,sessionStorage:{getItem:()=>recovering?JSON.stringify({code:'ADAB2345'}):null},localStorage:{getItem:k=>map.get(k)||null,setItem:(k,v)=>map.set(k,v)},MathoQuestionSet:{create:config=>({config,bank:config.bank})},MathoRules:{validateBank(){validated++;}},MathoTeacherAuth:{enabled:()=>false,account:()=>null},MathoLibrary:{ready:async()=>{},credentials:()=>credentials?{id:'lib'}:null,async read(){privateReads++;if(error)throw error;return{config:{...cfg},bank:cloud,revision:3};},async publicConfig(){publicReads++;return {...cfg};},backup(...args){backups.push(args);}},fetch:async url=>{requests.push(String(url));return {ok:true,json:async()=>String(url).includes('bank')?bank:{id:'addition',title:'Addition',copy:{},bankFile:'addition-bank.json'}};},console};
  vm.createContext(context);await vm.runInContext(boot,context);
  return {context,map,nodes,requests,loads,validated,privateReads,publicReads,backups,redirects};
 }
 (async()=>{
  let r=await runBoot({page:'student',custom:true,credentials:false});assert.equal(r.privateReads,0);assert.equal(r.publicReads,1);assert.equal(r.context.DEFAULT_BANK,undefined);assert(!r.loads.some(x=>String(x).includes('library-editor')));
  r=await runBoot({page:'student',custom:false,credentials:false});assert.equal(r.requests.length,1);assert(!r.requests.some(x=>x.includes('bank.json')));
- r=await runBoot({custom:false,credentials:false});assert.equal(r.requests.length,2);assert.equal(r.validated,1);assert(r.loads.some(x=>String(x).includes('app.js?v=connected-teacher-1')));
+ r=await runBoot({custom:false,credentials:false});assert.equal(r.requests.length,2);assert.equal(r.validated,1);assert(r.loads.some(x=>String(x).includes('app.js?v=accounts-1')));
  r=await runBoot({saved:{bank,called:[],libraryRevision:2,libraryDirty:true}});assert.equal(r.context.DEFAULT_BANK.length,1);assert.equal(r.context.MATHO_SET.config.libraryRevision,2,'Pending local draft retains its original revision');
  r=await runBoot({saved:{bank,called:[],libraryRevision:2,libraryDirty:false}});assert.equal(r.context.DEFAULT_BANK.length,2);assert.equal(r.backups.length,1);
  r=await runBoot({saved:{bank,called:[],libraryRevision:2},cached:true,error:Error('offline')});assert.equal(r.context.DEFAULT_BANK.length,1);assert(r.context.MATHO_SET.config.libraryOffline);
@@ -38,4 +38,3 @@ async function runBoot({page='caller',custom=true,saved,cloud=next,error,cached,
  assert(!fs.readFileSync('matho/game/app.js','utf8').includes('restoreDefaultBank'));
  console.log('PASS: student loader privacy, online loading, offline drafts, stale-edit protection, empty draft editing, autosave, conflict retention, safe copy, and removal of destructive defaults button.');
 })().catch(e=>{console.error(e);process.exit(1);});
-
