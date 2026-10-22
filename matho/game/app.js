@@ -48,3 +48,31 @@ if(!display){
  $('#testCallerSound').onclick=async()=>{if(!await expressionSound.test())toast('Sound could not start. Check Safari’s tab mute and your computer volume, then try again.');};
  window.addEventListener('click',event=>{if(!event.target?.closest?.('#expressionSoundToggle,#testCallerSound'))expressionSound.unlock();});
 }
+
+function previewNewQuestion(){
+ const question=$('#newQuestionText').value.trim(),answer=$('#newAnswerText').value.trim();
+ $('#newQuestionPreview').innerHTML=question?math(question):'Question preview';
+ $('#newAnswerPreview').innerHTML=answer?math(answer):'Answer preview';
+ typeset($('#addQuestionForm'));
+}
+$('#newQuestionText').addEventListener('input',previewNewQuestion);
+$('#newAnswerText').addEventListener('input',previewNewQuestion);
+$('#addQuestionForm').onsubmit=event=>{
+ event.preventDefault();
+ const letter=$('#newQuestionColumn').value,question=$('#newQuestionText').value.trim(),answer=$('#newAnswerText').value.trim(),status=$('#addQuestionStatus');
+ if(!letters.includes(letter)||!question||!answer){status.textContent='Choose a column and enter both a question and its answer.';return;}
+ if(question.length>500||answer.length>200){status.textContent='Keep the question under 500 characters and the answer under 200.';return;}
+ if(state.bank.some(q=>q.letter===letter&&MathoRules.canonical(q.question)===MathoRules.canonical(question))){status.textContent='That question is already in column '+letter+'. Edit its existing entry instead.';return;}
+ const used=new Set([...state.bank,...state.called].map(q=>String(q.id)));let number=1;
+ for(const id of used){const match=id.match(new RegExp('^'+letter+'(\\d+)$'));if(match)number=Math.max(number,Number(match[1])+1);}
+ while(used.has(letter+number))number++;
+ const entry={id:letter+number,letter,question,answer,enabled:true,note:''};
+ let insertion=-1;state.bank.forEach((q,i)=>{if(q.letter===letter)insertion=i+1;});
+ if(insertion<0){insertion=state.bank.findIndex(q=>letters.indexOf(q.letter)>letters.indexOf(letter));if(insertion<0)insertion=state.bank.length;}
+ state.bank.splice(insertion,0,entry);save();
+ $('#newQuestionText').value='';$('#newAnswerText').value='';previewNewQuestion();
+ status.textContent='Added '+entry.id+' to column '+letter+'. It is saved with this question bank. Create a new student room to use it on student boards.';
+ $('#newQuestionText').focus();
+};
+
+if(location.hash==='#bankSection')$('details').open=true;

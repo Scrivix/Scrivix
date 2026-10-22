@@ -4,7 +4,7 @@ function typeset(el){typesetting=typesetting.catch(()=>{}).then(async()=>{if(win
 function toast(s){$('#teacherToast').textContent=s;$('#teacherToast').hidden=false;setTimeout(()=>$('#teacherToast').hidden=true,5000);}
 function status(s,error=false){$('#roomStatus').textContent=s;$('#roomStatus').classList.toggle('error',error);}
 function persist(){if(room)try{sessionStorage.setItem(SESSION,JSON.stringify(room));}catch{toast('Room recovery storage is full. Keep this window open.');}}
-function publishClassic(){if(!room)return;const s={bank:room.bank,called:room.calls,roomCode:room.ended?null:room.code,pattern:room.pattern||'normal',winner:room.winner||null,revision:Date.now()};try{localStorage.setItem(CLASSIC,JSON.stringify(s));const c=new BroadcastChannel(MATHO_SET.keys.channel);c.postMessage(s);c.close();}catch{}}
+function publishClassic(){if(!room)return;let bank=room.bank;try{const saved=JSON.parse(localStorage.getItem(CLASSIC));if(Array.isArray(saved?.bank)&&saved.bank.length)bank=saved.bank;}catch{}const s={bank,called:room.calls,roomCode:room.ended?null:room.code,pattern:room.pattern||'normal',winner:room.winner||null,revision:Date.now()};try{localStorage.setItem(CLASSIC,JSON.stringify(s));const c=new BroadcastChannel(MATHO_SET.keys.channel);c.postMessage(s);c.close();}catch{}}
 function publicCalls(){return room.calls.map(({id,letter,question})=>({id,letter,question}));}
 function send(conn,data){try{if(conn?.open)conn.send(data);}catch{}}
 function sync(student){const l=links.get(student.token);send(l?.conn,{type:'state',epoch:room.epoch,code:room.code,round:room.round,pattern:room.pattern||'normal',board:student.board,name:student.name,marks:student.marks,ack:student.seq,calls:publicCalls(),feedback:student.feedback||'',resultId:student.resultId||null,incorrectCount:Number.isInteger(student.incorrectCount)?student.incorrectCount:null,roundComplete:!!room.roundComplete,review:room.review?R.reviewBoard(student.board,student.marks,room.calls):null,pending:!!student.claim});}
@@ -118,3 +118,5 @@ $('#closeTeacherPair').onclick=()=>$('#teacherRemoteDialog').close();
 $('#copyTeacherRemote').onclick=async()=>{try{await navigator.clipboard.writeText($('#privateTeacherLink').href);$('#remotePairStatus').textContent='Private link copied. Open it only on your own device.';}catch{$('#remotePairStatus').textContent='Use the QR code, or open the private link and copy its address.';}};
 $('#disconnectTeacherRemote').onclick=()=>{stopTeacherRemote();if(room){delete room.remote;persist();}$('#teacherRemoteDialog').close();toast('Teacher remote disconnected. Connect iPad creates a new private link.');};
 if(room?.remote)startTeacherRemote();
+
+$('#editQuestionBank').href=MATHO_SET.url('').href+'#bankSection';

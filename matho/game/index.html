@@ -7,7 +7,7 @@
 <meta name="description" content="MATHO math bingo with shared teacher, student, and classroom screens.">
 <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]},options:{enableMenu:false},startup:{typeset:false}};</script>
 <link rel="stylesheet" href="../style.css?v=shared-1">
-<link rel="stylesheet" href="../live.css?v=round-review-1">
+<link rel="stylesheet" href="../live.css?v=add-question-1">
 <link rel="stylesheet" href="../results.css?v=shared-1">
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
@@ -21,7 +21,7 @@
 </script>
 <script defer src="question-set.js?v=shared-1">
 </script>
-<script defer src="boot.js?v=multi-winner-1">
+<script defer src="boot.js?v=add-question-1">
 </script>
 </head>
 <body data-page="caller" data-loading="true">
@@ -127,13 +127,23 @@
 <details>
 <summary>Question & answer bank <span id="bankCount">
 </span>
-<span class="edit-label">Review & edit ↓</span>
+<span class="edit-label">Review, edit & add ↓</span>
 </summary>
 <p class="bank-intro" data-copy="bankIntro">LaTeX is supported. O questions ask for the missing exponent. Changes save on this browser; start a new game to edit questions already called.</p>
 <div id="reviewNote" class="notice">
 </div>
 <div id="bank">
 </div>
+<form id="addQuestionForm" class="add-question">
+<h3>Add a question</h3>
+<p class="live-note">Choose its MATHO column and enter the question and correct answer. Use ordinary numbers or LaTeX, such as <code>x^2</code>, <code>\frac{3}{4}</code>, or <code>3.2 \times 10^5</code>.</p>
+<div class="new-question-fields"><label class="live-label" for="newQuestionColumn">Column<select id="newQuestionColumn"><option>M</option><option>A</option><option>T</option><option>H</option><option>O</option></select></label>
+<div><label class="live-label" for="newQuestionText">Question<input id="newQuestionText" class="live-input" type="text" required maxlength="500" autocomplete="off" spellcheck="false"></label><div id="newQuestionPreview" class="preview" aria-label="Question preview">Question preview</div></div>
+<div><label class="live-label" for="newAnswerText">Correct answer<input id="newAnswerText" class="live-input" type="text" required maxlength="200" autocomplete="off" spellcheck="false"></label><div id="newAnswerPreview" class="preview" aria-label="Answer preview">Answer preview</div></div></div>
+<button class="live-primary" type="submit">Add question</button>
+<p id="addQuestionStatus" class="live-note" role="status" aria-live="polite"></p>
+<p class="live-note">Questions save in this browser for this set. Add questions before creating a student room; an existing room keeps its original bank, including on New Round. Download the question bank below to keep a copy or move it to another computer.</p>
+</form>
 <div class="bank-actions">
 <button id="export">Download question bank</button>
 <label class="import-button">Import question bank<input id="import" type="file" accept="application/json,.json" hidden>
