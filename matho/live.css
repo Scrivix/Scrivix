@@ -82,3 +82,15 @@ body[data-loading]>.shell,body[data-loading]>.live-shell{display:none}
 .add-question{margin:24px 0;padding:22px;border:1px solid var(--line);border-radius:12px;background:var(--paper)}.add-question h3{margin:0 0 10px}.new-question-fields{display:grid;grid-template-columns:90px minmax(0,1fr) minmax(0,1fr);gap:16px;margin-bottom:18px}.new-question-fields>div{min-width:0}.new-question-fields .preview{overflow-x:auto;padding:10px 0;min-height:46px}.add-question code{overflow-wrap:anywhere}@media(max-width:650px){.new-question-fields{grid-template-columns:1fr}.add-question{padding:16px}}
 
 .live-header nav{flex-wrap:wrap}
+
+/* Let previous calls use the full desktop card instead of a short nested window. */
+@media(min-width:761px){
+ .student-page .student-layout{grid-template-rows:auto minmax(180px,1fr) auto}
+ .student-page .student-history-card{display:flex;flex-direction:column;min-height:180px}
+ .student-page .student-history-card #studentCalls{height:0;min-height:0;flex:1 1 0%;max-height:none;overflow:auto;overscroll-behavior:contain}
+}
+@media(max-width:760px){
+ .student-page .student-history-card #studentCalls{height:auto;max-height:none;overflow:visible}
+}
+
+#celebrationControls{position:relative;font-size:12px;max-width:290px}#celebrationControls summary{cursor:pointer;font-weight:700;padding:10px}#celebrationControls[open]{background:var(--paper);padding:10px;border:1px solid var(--line);border-radius:10px}#celebrationControls button{margin:5px 0}#celebrationControls small{display:block;line-height:1.5}#celebrationPlayer audio{width:260px;max-width:100%}

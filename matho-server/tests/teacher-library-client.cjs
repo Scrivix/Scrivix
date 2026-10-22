@@ -2,26 +2,29 @@ const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const boot=fs.readFileSync('matho/game/boot.js','utf8'),editor=fs.readFileSync('matho/library-editor.js','utf8');
 const id='custom-'+'a'.repeat(32),bank=[{id:'M1',letter:'M',question:'one',answer:'1',enabled:true}],next=bank.concat({id:'M2',letter:'M',question:'two',answer:'2',enabled:true});
 const cfg={id,title:'Private',copy:{},storagePrefix:'matho-'+id};
-async function runBoot({page='caller',custom=true,saved,cloud=next,error,cached,credentials=true}={}){
- const map=new Map(),nodes={},requests=[],loads=[],backups=[];const key='matho-'+id+'-game-v1';
+async function runBoot({page='caller',custom=true,saved,cloud=next,error,cached,credentials=true,display=false,recovering=false}={}){
+ const map=new Map(),nodes={},requests=[],loads=[],backups=[],redirects=[];const key='matho-'+id+'-game-v1';
  if(saved)map.set(key,JSON.stringify(saved));if(cached)map.set(key+'-library-meta',JSON.stringify({config:cfg,libraryId:'lib'}));
- const location={href:'https://scrivix.us/matho/game/?set='+(custom?id:'addition'),search:'?set='+(custom?id:'addition')};
+ const location={replace:u=>redirects.push(u),hash:'',href:'https://scrivix.us/matho/game/?set='+(custom?id:'addition'),search:'?set='+(custom?id:'addition')+(display?'&view=display':'')};
  const body={dataset:{page},classList:{add(){}},removeAttribute(){},append(script){loads.push(script.src.href||script.src);queueMicrotask(()=>script.onload?.());}};
  const document={currentScript:{src:'https://scrivix.us/matho/game/boot.js'},body,querySelector:s=>nodes[s]||(nodes[s]={append(){}}),querySelectorAll:()=>[],createElement:()=>({})};
  let validated=0,privateReads=0,publicReads=0;
- const context={URL,URLSearchParams,location,document,localStorage:{getItem:k=>map.get(k)||null,setItem:(k,v)=>map.set(k,v)},MathoQuestionSet:{create:config=>({config,bank:config.bank})},MathoRules:{validateBank(){validated++;}},MathoLibrary:{credentials:()=>credentials?{id:'lib'}:null,async read(){privateReads++;if(error)throw error;return{config:{...cfg},bank:cloud,revision:3};},async publicConfig(){publicReads++;return {...cfg};},backup(...args){backups.push(args);}},fetch:async url=>{requests.push(String(url));return {ok:true,json:async()=>String(url).includes('bank')?bank:{id:'addition',title:'Addition',copy:{},bankFile:'addition-bank.json'}};},console};
+ const context={URL,URLSearchParams,location,document,sessionStorage:{getItem:()=>recovering?JSON.stringify({code:'ADAB2345'}):null},localStorage:{getItem:k=>map.get(k)||null,setItem:(k,v)=>map.set(k,v)},MathoQuestionSet:{create:config=>({config,bank:config.bank})},MathoRules:{validateBank(){validated++;}},MathoLibrary:{credentials:()=>credentials?{id:'lib'}:null,async read(){privateReads++;if(error)throw error;return{config:{...cfg},bank:cloud,revision:3};},async publicConfig(){publicReads++;return {...cfg};},backup(...args){backups.push(args);}},fetch:async url=>{requests.push(String(url));return {ok:true,json:async()=>String(url).includes('bank')?bank:{id:'addition',title:'Addition',copy:{},bankFile:'addition-bank.json'}};},console};
  vm.createContext(context);await vm.runInContext(boot,context);
- return {context,map,nodes,requests,loads,validated,privateReads,publicReads,backups};
+ return {context,map,nodes,requests,loads,validated,privateReads,publicReads,backups,redirects};
 }
 (async()=>{
  let r=await runBoot({page:'student',custom:true,credentials:false});assert.equal(r.privateReads,0);assert.equal(r.publicReads,1);assert.equal(r.context.DEFAULT_BANK,undefined);assert(!r.loads.some(x=>String(x).includes('library-editor')));
  r=await runBoot({page:'student',custom:false,credentials:false});assert.equal(r.requests.length,1);assert(!r.requests.some(x=>x.includes('bank.json')));
- r=await runBoot({custom:false});assert.equal(r.requests.length,2);assert.equal(r.validated,1);assert(r.loads.some(x=>String(x).includes('app.js?v=simple-library-1')));
+ r=await runBoot({custom:false,credentials:false});assert.equal(r.requests.length,2);assert.equal(r.validated,1);assert(r.loads.some(x=>String(x).includes('app.js?v=connected-teacher-1')));
  r=await runBoot({saved:{bank,called:[],libraryRevision:2,libraryDirty:true}});assert.equal(r.context.DEFAULT_BANK.length,1);assert.equal(r.context.MATHO_SET.config.libraryRevision,2,'Pending local draft retains its original revision');
  r=await runBoot({saved:{bank,called:[],libraryRevision:2,libraryDirty:false}});assert.equal(r.context.DEFAULT_BANK.length,2);assert.equal(r.backups.length,1);
  r=await runBoot({saved:{bank,called:[],libraryRevision:2},cached:true,error:Error('offline')});assert.equal(r.context.DEFAULT_BANK.length,1);assert(r.context.MATHO_SET.config.libraryOffline);
  r=await runBoot({saved:{bank,called:[],libraryRevision:2},cached:true,error:Object.assign(Error('denied'),{status:403})});assert.equal(r.context.document.body.dataset.loading,'error','Rejected credentials cannot use a cached teacher bank');
  r=await runBoot({cloud:[]});assert.equal(r.context.DEFAULT_BANK.length,0,'Unfinished set opens in editor');
+ r=await runBoot({custom:false});assert.equal(r.redirects.length,1);assert(new URL(r.redirects[0]).searchParams.get('open')==='addition');assert.equal(r.loads.length,0,'Connected teacher opens saved set before starting local engine');
+ r=await runBoot({custom:false,display:true});assert.equal(r.redirects.length,0,'Classroom window stays on its current game');
+ r=await runBoot({page:'room',custom:false,recovering:true});assert.equal(r.redirects.length,0,'A running legacy room recovers without redirect');
  const listeners={},nodes={},map=new Map(),timers=[],updates=[],copies=[];
  let state={bank:structuredClone(bank),called:[],libraryRevision:1,libraryDirty:false};
  const query=s=>nodes[s]||(nodes[s]={insertBefore(){},textContent:'',disabled:false});
@@ -35,3 +38,4 @@ async function runBoot({page='caller',custom=true,saved,cloud=next,error,cached,
  assert(!fs.readFileSync('matho/game/app.js','utf8').includes('restoreDefaultBank'));
  console.log('PASS: student loader privacy, online loading, offline drafts, stale-edit protection, empty draft editing, autosave, conflict retention, safe copy, and removal of destructive defaults button.');
 })().catch(e=>{console.error(e);process.exit(1);});
+

@@ -6,6 +6,7 @@ const math=s=>`<span class="math">\\(${esc(s)}\\)</span>`;
 let state;try{state=JSON.parse(localStorage.getItem(KEY));}catch{}if(!state||!Array.isArray(state.bank)||!Array.isArray(state.called))state={bank:structuredClone(DEFAULT_BANK),called:[],revision:0};
 const expressionSound=new MathoCallSound(KEY+'-expression-sound');
 const classroomResultPanel=new MathoResultPanel('classroomResult');let displayedWinnerId=null;
+const celebrationSound=new MathoCallSound(KEY+'-celebration-sound',{tone:'celebrate'});
 const channel=typeof BroadcastChannel!=='undefined'?new BroadcastChannel(CHANNEL):null;
 let typesetting=Promise.resolve();function typeset(element){typesetting=typesetting.catch(()=>{}).then(async()=>{if(window.MathJax?.typesetPromise){await MathJax.startup.promise;await MathJax.typesetPromise([element]);}});}
 function toast(s){$('#message').textContent=s;$('#message').style.display='block';setTimeout(()=>$('#message').style.display='none',4500);}
@@ -30,7 +31,7 @@ $('#autoSeconds').onchange=()=>{try{autoTimer.setSeconds(Number($('#autoSeconds'
 
 window.addEventListener('load',()=>{typeset($('.play-area'));typeset($('#board'));});render();
 
-function renderClassroomWinner(){if(!display)return;if(!state.winner){classroomResultPanel.hide();return;}if(displayedWinnerId===state.winner.id)return;displayedWinnerId=state.winner.id;classroomResultPanel.show(state.winner.name+(state.winner.names?.length>1?' got MATHO!':' got a MATHO!'),'A confirmed win! Let’s celebrate some great thinking.',true);}
+function renderClassroomWinner(){if(!display)return;if(!state.winner){classroomResultPanel.hide();return;}if(displayedWinnerId===state.winner.id)return;displayedWinnerId=state.winner.id;celebrationSound.play();classroomResultPanel.show(state.winner.name+(state.winner.names?.length>1?' got MATHO!':' got a MATHO!'),'A confirmed win! Let’s celebrate some great thinking.',true);}
 
 function renderClassroomPattern(){
  const panel=$('#classroomPattern');panel.hidden=!display;if(!display)return;
@@ -113,3 +114,10 @@ undoRemoval.onclick=()=>{
  }
  state.bank.splice(Math.min(removed.index,state.bank.length),0,question);save();undoRemoval.hidden=!removedQuestions.length;toast('Question restored.');
 };
+
+if(display){
+ $('#celebrationControls').hidden=false;
+ celebrationSound.attachPlayer($('#celebrationPlayer'));
+ celebrationSound.bindToggle($('#celebrationToggle'),'Celebration sound',toast);
+ $('#testCelebration').onclick=async()=>{if(!await celebrationSound.test())toast('Press play on the celebration audio player to enable sound on this screen.');};
+}

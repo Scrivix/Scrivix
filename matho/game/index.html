@@ -7,7 +7,7 @@
 <meta name="description" content="MATHO math bingo with shared teacher, student, and classroom screens.">
 <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]},options:{enableMenu:false},startup:{typeset:false}};</script>
 <link rel="stylesheet" href="../style.css?v=shared-1">
-<link rel="stylesheet" href="../live.css?v=add-question-1">
+<link rel="stylesheet" href="../live.css?v=student-history-2">
 <link rel="stylesheet" href="../results.css?v=shared-1">
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
@@ -15,14 +15,14 @@
 </script>
 <script defer src="../auto-draw.js?v=1">
 </script>
-<script defer src="../call-sound.js?v=claim-alert-1">
+<script defer src="../call-sound.js?v=celebration-1">
 </script>
 <script defer src="live-core.js?v=round-review-1">
 </script>
 <script defer src="question-set.js?v=shared-1">
 </script>
 <script defer src="../library-client.js?v=1"></script>
-<script defer src="boot.js?v=simple-library-1">
+<script defer src="boot.js?v=connected-teacher-1">
 </script>
 <link rel="stylesheet" href="../library.css?v=simple-1">
 </head>
@@ -38,6 +38,7 @@
 <small data-copy="callerBrand">MATHO</small>
 </a>
 <div class="header-actions">
+<details id="celebrationControls" hidden><summary>Celebration sound ♫</summary><button id="celebrationToggle" type="button" aria-pressed="false">Enable celebration sound</button><button id="testCelebration" type="button">Test celebration</button><div id="celebrationPlayer"></div><small>Enable once on this classroom screen.</small></details>
 <span id="connection" class="status">● Progress saved in this browser</span>
 <button id="openDisplay">Open classroom display ↗</button>
 <button id="fullscreen">Full screen ⛶</button>
