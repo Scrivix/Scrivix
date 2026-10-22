@@ -13,7 +13,7 @@ export default {async fetch(request,env){
  if(path.startsWith('/v1/auth/'))return pair.accounts.handle(request);
  if(path==='/v1/rooms'&&request.method==='POST'){const denied=await pair.accounts.hostAccess(request);if(denied)return denied;}
  const result=await (/^\/v1\/(libraries(?:\/|$)|custom-sets(?:\/|$)|library-rooms(?:\/|$)|library-health$)/.test(path)?pair.library(request):pair.relay(request));
- if(pair.accounts.enabled&&pair.origins.includes(request.headers.get('Origin'))){
+ if(pair.origins.includes(request.headers.get('Origin'))){
   const headers=new Headers(result.headers);headers.set('Access-Control-Allow-Credentials','true');headers.set('Access-Control-Allow-Headers','Authorization, Content-Type, X-Matho-CSRF');return new Response(result.body,{status:result.status,headers});
  }
  return result;

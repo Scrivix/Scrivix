@@ -10,7 +10,8 @@
     }
   ],
   "vars": {
-    "MATHO_ORIGINS": "https://scrivix.us,http://localhost:8879,http://127.0.0.1:8879,http://localhost:8765,http://127.0.0.1:8765"
+    "MATHO_ORIGINS": "https://scrivix.us,http://localhost:8879,http://127.0.0.1:8879,http://localhost:8765,http://127.0.0.1:8765",
+    "MATHO_GOOGLE_CLIENT_ID": "897992297598-ohtvb4dsb1gita1opnie7ljods3dp4nj.apps.googleusercontent.com"
   },
   "d1_databases": [
     {
