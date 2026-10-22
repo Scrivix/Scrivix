@@ -8,6 +8,7 @@
  button.textContent=custom?'Save a separate copy':'Save this set to my library';
  let lastSaved=JSON.stringify(MATHO_SET.bank),timer=null,saving=false,again=false;
  function message(text){status.textContent=text;}
+ if(custom)$('#addQuestionForm p:last-child').textContent='Questions in this library set save online automatically while connected. Offline changes stay on this device until saved. Existing student rooms keep their original questions; create a new room to use edits.';
  if(custom)message(MATHO_SET.config.libraryOffline?'Offline draft loaded. Changes will save when you reconnect.':state.libraryDirty?'This device has unsaved changes. Saving will preserve any newer version on another device.':'Saved in your private teacher library. Changes save automatically. Keep your private connection link to open it elsewhere.');
  else message('Save a private copy online to edit and use from your iPad, home computer, or school computer. Your original questions stay saved in this browser.');
  async function sync(){
