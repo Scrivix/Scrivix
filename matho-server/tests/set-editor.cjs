@@ -10,10 +10,10 @@ async function route(existing,localBank){
  const source=fs.readFileSync('matho/game/app.js','utf8'),a=source.indexOf("// The teacher's set page"),b=source.indexOf('/* Question removals',a),nodes=new Map();
  const node=s=>{if(!nodes.has(s))nodes.set(s,{textContent:'',value:'',innerHTML:'',open:false,before(){},append(){}});return nodes.get(s);};
  let hosted,validated=0,toasts=[];const R=require('../../matho/game/live-core.js');
- const c={display:false,$:node,document:{body:{classList:{add(){}}},createElement:()=>({append(){}})},MATHO_SET:{config:{title:'Test'},url:(page,p)=>new URL('https://scrivix.us/matho/game/'+page+'?pattern='+p.pattern)},MathoRules:{...R,validateBank:()=>validated++},esc:s=>s,state:{bank:[],libraryDirty:true},toast:s=>toasts.push(s),location:{assign:u=>hosted=u}};
+ const c={display:false,$:node,document:{body:{classList:{add(){}}},createElement:()=>({append(){}})},MATHO_SET:{config:{title:'Test'},url:(page,p)=>new URL('https://scrivix.us/matho/game/'+page+'?pattern='+p.pattern+'&start='+p.start)},MathoRules:{...R,validateBank:()=>validated++},esc:s=>s,state:{bank:[],libraryDirty:true},toast:s=>toasts.push(s),location:{assign:u=>hosted=u}};
  vm.createContext(c);vm.runInContext(source.slice(a,b),c);
  assert(node('#bankSection details').open);assert.equal(node('#heading').textContent,'Test');
  node('#hostSetGame').onclick();assert(!hosted);assert(toasts.length);
- c.state.libraryDirty=false;node('#setPattern').value='corners';node('#hostSetGame').onclick();assert(hosted.includes('room.html?pattern=corners'));assert.equal(validated,1);
+ c.state.libraryDirty=false;node('#setPattern').value='corners';node('#hostSetGame').onclick();assert(hosted.includes('room.html?pattern=corners'));assert(hosted.includes('start=1'));assert.equal(validated,1);
  console.log('PASS direct set routing, reuse saved copies, preserve local edits, open editor, wait for cloud save, and pass chosen winning pattern to game setup.');
 })().catch(e=>{console.error(e);process.exit(1)});

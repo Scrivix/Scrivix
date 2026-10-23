@@ -7,9 +7,9 @@
  const button=$('#saveLibraryCopy'),status=$('#librarySaveStatus');
  button.textContent=custom?'Save a separate copy':'Open my question sets';button.hidden=custom;
  let lastSaved=JSON.stringify(MATHO_SET.bank),timer=null,saving=false,again=false;
- function message(text){status.textContent=text;}
+ function message(text){status.textContent=text;if(custom)$('#connection').textContent=text.startsWith('Saved')?'● Questions saved to your account':text.startsWith('Saving')?'● Saving questions…':state.libraryDirty?'● Questions waiting to save':'● Check question save status';}
  if(custom)$('#addQuestionForm p:last-child').textContent='Questions in this library set save online automatically while connected. Offline changes stay on this device until saved. Existing student rooms keep their original questions; create a new room to use edits.';
- if(custom)message(MATHO_SET.config.libraryOffline?'Offline draft loaded. Changes will save when you reconnect.':state.libraryDirty?'This device has unsaved changes. Saving will preserve any newer version on another device.':'Saved in your private teacher library. Changes save automatically. Sign in to your teacher account on any device to use this set.');
+ if(custom)message(MATHO_SET.config.libraryOffline?'Offline draft loaded. Changes will save when you reconnect.':state.libraryDirty?'This device has unsaved changes. Saving will preserve any newer version on another device.':'Saved online to your teacher account. Questions save automatically—no Save button needed. Sign in on any device to use this set.');
  else message('For questions that follow you between devices, open My question sets and choose Edit questions. Questions edited on this local caller stay in this browser.');
  async function sync(){
   if(!custom||JSON.stringify(state.bank)===lastSaved&&!state.libraryDirty)return;
@@ -19,7 +19,7 @@
    const result=await L.update(MATHO_SET.config.id,state.libraryRevision||MATHO_SET.config.libraryRevision,bank);
    lastSaved=signature;state.libraryRevision=result.revision;state.libraryDirty=JSON.stringify(state.bank)!==signature;
    localStorage.setItem(KEY,JSON.stringify(state));
-   message(state.libraryDirty?'More changes waiting to save…':'Saved online · available on your other connected devices.');
+   message(state.libraryDirty?'More changes waiting to save…':'Saved online to your teacher account · available on any device when you sign in.');
   }catch(e){button.hidden=false;message(e.message+' Use “Save a separate copy” to keep this draft online without replacing anything.');}
   finally{saving=false;if(again){again=false;clearTimeout(timer);timer=setTimeout(sync,1500);}}
  }

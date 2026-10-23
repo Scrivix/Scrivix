@@ -55,13 +55,13 @@
      saved=await MathoLibrary.createSet(config.title,bank,config);
     }
     const target=MathoLibrary.gameUrl(saved.id,page==='room'?'room.html':'');
-    const pattern=new URLSearchParams(location.search).get('pattern');if(pattern)target.searchParams.set('pattern',pattern);
+    const pattern=new URLSearchParams(location.search).get('pattern');if(pattern)target.searchParams.set('pattern',pattern);if(page==='room'&&new URLSearchParams(location.search).get('start')==='1')target.searchParams.set('start','1');
     location.replace(target.href);return;
    }
    // Students load directions and connection keys, never the answer bank.
    if(page!=='student'){
     if(!/^[a-z0-9-]+\.json$/.test(config.bankFile))throw Error('This question bank is unavailable.');
-    const bankResponse=await fetch(new URL('../sets/'+config.bankFile+'?v=student-removal-1',base));
+    const bankResponse=await fetch(new URL('../sets/'+config.bankFile+'?v=start-room-1',base));
     if(!bankResponse.ok)throw Error('The question bank could not load. Please refresh and try again.');
     config.bank=await bankResponse.json();MathoRules.validateBank(config.bank);
    }
@@ -76,10 +76,10 @@
   const invite=document.querySelector('#inviteHelp');
   if(invite)invite.textContent='Share this link, or ask students to open '+new URL('../join/',location.href).href+' and enter the code.';
   const clockScript=document.createElement('script');clockScript.src=new URL('../visible-clock.js?v=1',base);await new Promise((resolve,reject)=>{clockScript.onload=resolve;clockScript.onerror=reject;document.body.append(clockScript);});
-  const engine=document.createElement('script');engine.src=new URL({caller:'app.js',room:'room.js',student:'student.js'}[page]+'?v=student-removal-1',base);
+  const engine=document.createElement('script');engine.src=new URL({caller:'app.js',room:'room.js',student:'student.js'}[page]+'?v=start-room-1',base);
   await new Promise((resolve,reject)=>{engine.onload=resolve;engine.onerror=()=>reject(Error('The game could not load. Please refresh and try again.'));document.body.append(engine);});
   if(page==='caller'&&new URLSearchParams(location.search).get('view')!=='display'){
-   const editor=document.createElement('script');editor.src=new URL('../library-editor.js?v=student-removal-1',base);
+   const editor=document.createElement('script');editor.src=new URL('../library-editor.js?v=start-room-1',base);
    await new Promise((resolve,reject)=>{editor.onload=resolve;editor.onerror=()=>reject(Error('Question library controls could not load. Refresh and try again.'));document.body.append(editor);});
   }
   loading.hidden=true;document.body.removeAttribute('data-loading');

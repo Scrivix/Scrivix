@@ -10,7 +10,7 @@ const celebrationSound=new MathoCallSound(KEY+'-celebration-sound',{tone:'celebr
 const channel=typeof BroadcastChannel!=='undefined'?new BroadcastChannel(CHANNEL):null;
 let typesetting=Promise.resolve();function typeset(element){typesetting=typesetting.catch(()=>{}).then(async()=>{if(window.MathJax?.typesetPromise){await MathJax.startup.promise;await MathJax.typesetPromise([element]);}});}
 function toast(s){$('#message').textContent=s;$('#message').style.display='block';setTimeout(()=>$('#message').style.display='none',4500);}
-function save(){state.revision=Date.now();try{localStorage.setItem(KEY,JSON.stringify(state));$('#connection').textContent='● Progress saved in this browser';}catch{toast('Browser storage is unavailable. Keep this window open.');}channel?.postMessage(state);render();window.dispatchEvent(new Event('matho-bank-saved'));}
+function save(){state.revision=Date.now();try{localStorage.setItem(KEY,JSON.stringify(state));$('#connection').textContent=MATHO_SET.config.id.startsWith('custom-')?'● Questions saved on this device · syncing…':'● Game progress saved in this browser';}catch{toast('Browser storage is unavailable. Keep this window open.');}channel?.postMessage(state);render();window.dispatchEvent(new Event('matho-bank-saved'));}
 function receive(s){if(s&&Array.isArray(s.bank)&&Array.isArray(s.called)){state=s;render();}}
 window.addEventListener('storage',e=>{if(e.key===KEY&&e.newValue){try{receive(JSON.parse(e.newValue));}catch{}}});if(channel)channel.onmessage=e=>receive(e.data);
 function available(){const filter=$('#filter').value;return state.bank.filter(q=>q.enabled&&!state.called.some(c=>c.id===q.id)&&(filter==='all'||q.letter===filter));}
@@ -105,14 +105,14 @@ if(!display){
  const layout=document.createElement('section');layout.className='set-editor-layout';
  bankSection.before(layout);layout.append(bankSection);
  const setup=document.createElement('aside');setup.className='set-game-setup';
- setup.innerHTML='<div class="eyebrow">GAME SETUP</div><h2>Ready to play?</h2><p>Students join with a room code. Each gets their own board.</p><label for="setPattern">Winning MATHO pattern</label><select id="setPattern">'+Object.entries(MathoRules.PATTERNS).map(([id,p])=>'<option value="'+id+'">'+esc(p.label)+'</option>').join('')+'</select><div id="setPatternPreview" class="pattern-preview"></div><button id="hostSetGame" class="primary" type="button">Set up student game →</button><p class="live-note">Open your room to choose sounds, countdowns, and other game settings. Existing rooms keep their original questions.</p><a href="../library/">My question sets</a>';
+ setup.innerHTML='<div class="eyebrow">GAME SETUP</div><h2>Ready to play?</h2><p>Students join with a room code. Each gets their own board.</p><label for="setPattern">Winning MATHO pattern</label><select id="setPattern">'+Object.entries(MathoRules.PATTERNS).map(([id,p])=>'<option value="'+id+'">'+esc(p.label)+'</option>').join('')+'</select><div id="setPatternPreview" class="pattern-preview"></div><button id="hostSetGame" class="primary" type="button">Start student game →</button><p class="live-note">Open your room to choose sounds, countdowns, and other game settings. Existing rooms keep their original questions.</p><a href="../library/">My question sets</a>';
  layout.append(setup);
  const selection=$('#setPattern');selection.value='normal';
  const preview=()=>{$('#setPatternPreview').innerHTML=MathoRules.patternDiagram(selection.value)+'<p>'+esc(MathoRules.pattern(selection.value).description)+'</p>';};selection.onchange=preview;preview();
  $('#hostSetGame').onclick=()=>{
   if(state.libraryDirty){toast('Your questions are still saving. Wait for “Saved online” before opening the room.');return;}
   try{MathoRules.validateBank(state.bank);}catch(error){toast(error.message);return;}
-  const url=MATHO_SET.url('room.html',{pattern:selection.value});location.assign(url.href);
+  const url=MATHO_SET.url('room.html',{pattern:selection.value,start:'1'});location.assign(url.href);
  };
 }
 
