@@ -16,6 +16,11 @@
   $('publicStatus').textContent=bank.length+' public questions · read only';$('copyPublicSet').disabled=false;
   const renderMath=()=>{if(window.MathJax?.startup?.promise)window.MathJax.startup.promise.then(()=>MathJax.typesetPromise?.([$('publicQuestions')])).catch(()=>{});};renderMath();window.addEventListener('load',renderMath,{once:true});
  }catch(error){$('publicStatus').textContent=error.message;return;}
+ $('playPublicSet').onclick=async()=>{
+  const button=$('playPublicSet');button.disabled=true;
+  try{await MathoTeacherAuth.ready();if(!MathoTeacherAuth.enabled()||!MathoTeacherAuth.account())throw Error('Sign in with an approved teacher account to host a game.');const url=new URL('../game/room.html',location.href);url.searchParams.set('set',config.id);url.searchParams.set('public','1');url.searchParams.set('start','1');location.assign(url.href);}
+  catch(error){$('publicStatus').textContent=error.message;button.disabled=false;}
+ };
  $('copyPublicSet').onclick=async()=>{
   const button=$('copyPublicSet');button.disabled=true;
   try{
@@ -27,4 +32,5 @@
    const url=MathoLibrary.gameUrl(saved.id);location.assign(url.href);
   }catch(error){$('publicStatus').textContent=error.message;button.disabled=false;}
  };
+ try{await MathoTeacherAuth.ready();const signedIn=MathoTeacherAuth.enabled()&&!!MathoTeacherAuth.account();$('playPublicSet').hidden=!signedIn;$('publicPlayNote').hidden=!signedIn;}catch{}
 })();

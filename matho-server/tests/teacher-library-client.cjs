@@ -2,10 +2,10 @@ const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const boot=fs.readFileSync('matho/game/boot.js','utf8'),editor=fs.readFileSync('matho/library-editor.js','utf8');
 const id='custom-'+'a'.repeat(32),bank=[{id:'M1',letter:'M',question:'one',answer:'1',enabled:true}],next=bank.concat({id:'M2',letter:'M',question:'two',answer:'2',enabled:true});
 const cfg={id,title:'Private',copy:{},storagePrefix:'matho-'+id};
-async function runBoot({page='caller',custom=true,saved,cloud=next,error,cached,credentials=true,display=false,recovering=false}={}){
+async function runBoot({page='caller',custom=true,saved,cloud=next,error,cached,credentials=true,display=false,recovering=false,publicPlay=false}={}){
  const map=new Map(),nodes={},requests=[],loads=[],backups=[],redirects=[];const key='matho-'+id+'-game-v1';
  if(saved)map.set(key,JSON.stringify(saved));if(cached)map.set(key+'-library-meta',JSON.stringify({config:cfg,libraryId:'lib'}));
- const location={replace:u=>redirects.push(u),hash:'',href:'https://scrivix.us/matho/game/?set='+(custom?id:'addition'),search:'?set='+(custom?id:'addition')+(display?'&view=display':'')};
+ const location={replace:u=>redirects.push(u),hash:'',href:'https://scrivix.us/matho/game/?set='+(custom?id:'addition'),search:'?set='+(custom?id:'addition')+(display?'&view=display':'')+(publicPlay?'&public=1&start=1':'')};
  const body={dataset:{page},classList:{add(){}},removeAttribute(){},append(script){loads.push(script.src.href||script.src);queueMicrotask(()=>script.onload?.());}};
  const document={currentScript:{src:'https://scrivix.us/matho/game/boot.js'},body,querySelector:s=>nodes[s]||(nodes[s]={append(){}}),querySelectorAll:()=>[],createElement:()=>({})};
  let validated=0,privateReads=0,publicReads=0;
@@ -23,6 +23,7 @@ async function runBoot({page='caller',custom=true,saved,cloud=next,error,cached,
  r=await runBoot({saved:{bank,called:[],libraryRevision:2},cached:true,error:Object.assign(Error('denied'),{status:403})});assert.equal(r.context.document.body.dataset.loading,'error','Rejected credentials cannot use a cached teacher bank');
  r=await runBoot({cloud:[]});assert.equal(r.context.DEFAULT_BANK.length,0,'Unfinished set opens in editor');
  r=await runBoot({custom:false});assert.equal(r.redirects.length,1);assert(new URL(r.redirects[0]).searchParams.get('set')==='addition');assert.equal(r.loads.length,0,'Connected teacher opens saved set before starting local engine');
+ r=await runBoot({page:'room',custom:false,publicPlay:true});assert.equal(r.redirects.length,0);assert.equal(r.validated,1);assert.equal(r.privateReads,0,'Public play uses published bank without library reads');
  r=await runBoot({custom:false,display:true});assert.equal(r.redirects.length,0,'Classroom window stays on its current game');
  r=await runBoot({page:'room',custom:false,recovering:true});assert.equal(r.redirects.length,0,'A running legacy room recovers without redirect');
  const listeners={},nodes={},map=new Map(),timers=[],updates=[],copies=[];
