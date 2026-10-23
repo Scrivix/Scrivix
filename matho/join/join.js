@@ -9,7 +9,7 @@
  $('entryForm').onsubmit=async event=>{
   event.preventDefault();$('entryError').textContent='';
   const code=$('code').value.trim().toUpperCase(),name=$('name').value.trim();
-  if(!/^[A-Z2-9]{8}$/.test(code)||!name){$('entryError').textContent='Enter your room code and name.';return;}
+  if(!/^[A-Z2-9]{5}(?:[A-Z2-9]{3})?$/.test(code)||!name){$('entryError').textContent='Enter your room code and name.';return;}
   if(code.startsWith('CS')){
    $('entryButton').disabled=true;
    try{const result=await MathoLibrary.lookupRoom(code),url=new URL('../game/join.html',location.href);url.searchParams.set('set',result.setId);url.searchParams.set('room',code);url.searchParams.set('name',name.slice(0,32));location.assign(url.href);}catch(error){$('entryError').textContent=error.message;}finally{$('entryButton').disabled=false;}return;

@@ -74,7 +74,14 @@ const conflict=await challenge(teacher,'link');assert.equal((await teacher.call(
 const bad=await challenge(owner),wrongAud=await new SignJWT({nonce:bad.nonce,email:'owner@example.test',email_verified:true}).setProtectedHeader({alg:'RS256',kid:'test'}).setIssuer('https://accounts.google.com').setAudience('wrong-client').setSubject('owner-sub').setIssuedAt(Math.floor(time/1000)).setExpirationTime(Math.floor(time/1000)+60).sign(privateKey);
 assert.equal((await owner.call('/v1/auth/login',{provider:'google',credential:wrongAud,challengeId:bad.id})).status,403,'Wrong audience is rejected');
 const host=code=>teacher.request('/v1/rooms',{room:'matho-addition-v1-'+code,token:'e'.repeat(64)});
-assert.equal(await accounts.hostAccess(host('ADAB2345')),null);
+assert.equal(await accounts.hostAccess(host('AD234')),null,'Five-character host accepted');
+for(const code of ['AD23','AD2345','AD23456'])assert.equal((await accounts.hostAccess(host(code))).status,400,'Only five or eight characters accepted');
+sqlite.prepare('INSERT INTO rooms(id,token_hash,generation,expires,host_seen) VALUES(?,?,?,?,?)').run('matho-addition-v1-AD234',Buffer.from(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('e'.repeat(64)))).toString('hex'),'generation',time+3600000,time);
+const remoteRoom='matho-teacher-'+crypto.randomUUID()+'-v1-AD234';
+assert.equal(await accounts.hostAccess(teacher.request('/v1/rooms',{room:remoteRoom,token:'f'.repeat(64)})),null,'Remote pairs to five-character parent');
+assert.equal(sqlite.prepare('SELECT code FROM auth_host_rooms WHERE room=?').get(remoteRoom).code,'AD234','Full short code is extracted correctly');
+assert.equal((await accounts.hostAccess(owner.request('/v1/rooms',{room:'matho-teacher-'+crypto.randomUUID()+'-v1-AD234',token:'f'.repeat(64)}))).status,403,'Other teacher cannot pair to short room');
+
 const racing=await Promise.all([accounts.hostAccess(host('ADAB2346')),accounts.hostAccess(host('ADAB2347'))]);assert.equal(racing.filter(x=>x===null).length,1,'Atomic room limit');assert.equal(racing.find(x=>x)?.status,429);
 assert.equal((await accounts.hostAccess(new Browser().request('/v1/rooms',{room:'matho-addition-v1-ADAB2348',token:'e'.repeat(64)}))).status,401,'Hosting requires sign-in');
 assert.equal((await owner.call('/v1/auth/teachers',{email:'teacher@example.test',action:'revoke'})).status,200);assert.equal((await teacher.call('/v1/auth/me')).status,401,'Revoked sessions stop working');

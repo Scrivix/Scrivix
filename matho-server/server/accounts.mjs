@@ -115,10 +115,10 @@ export function createAccounts(db,{googleClientId='',appleClientId='',ownerEmail
   if(!enabled)return null;
   try{
    const u=await user(req,true),b=await bodyOf(req.clone(),2048),room=b.room;
-   if(typeof room!=='string'||!/^matho(?:-[a-z0-9-]+)?-v1-[A-Z2-9]{8}$/.test(room)||!hex(b.token,64))throw fail(400,'Invalid room.');
+   if(typeof room!=='string'||!/^matho(?:-[a-z0-9-]+)?-v1-[A-Z2-9]{5}(?:[A-Z2-9]{3})?$/.test(room)||!hex(b.token,64))throw fail(400,'Invalid room.');
    const existing=await first('SELECT token_hash,host_seen FROM rooms WHERE id=? AND expires>?',room,now());if(existing&&existing.token_hash!==await hash(b.token))throw fail(403,'This room is already owned by another host.');
    const owned=await first('SELECT user_id,reserved_until FROM auth_host_rooms WHERE room=?',room);if(owned){if(owned.user_id!==u.id)throw fail(403,'This room belongs to another teacher.');if(existing?.host_seen>now()-60000||owned.reserved_until>now())return null;}
-   const code=room.slice(-8),remote=room.startsWith('matho-teacher-');
+   const code=room.slice(room.lastIndexOf('-')+1),remote=room.startsWith('matho-teacher-');
    if(remote&&!await first("SELECT a.room FROM auth_host_rooms a JOIN rooms r ON r.id=a.room WHERE a.user_id=? AND a.code=? AND a.kind='game' AND r.expires>?",u.id,code,now()))throw fail(403,'Open your classroom game before pairing a remote.');
    const day=new Date(now()).toISOString().slice(0,10),reservation=random(16),kind=remote?'remote':'game';
    const result=await db.batch([

@@ -75,14 +75,14 @@ export function createLibrary(db,{origins=['https://scrivix.us'],now=()=>Date.no
     const s=await first('SELECT config FROM teacher_sets WHERE id=?',pub[1]);if(!s)throw fail(404,'Question set not found.');
     return json({config:JSON.parse(s.config)});
    }
-   const lookup=path.match(/^\/v1\/library-rooms\/([A-Z2-9]{8})$/);
+   const lookup=path.match(/^\/v1\/library-rooms\/([A-Z2-9]{5}(?:[A-Z2-9]{3})?)$/);
    if(lookup&&request.method==='GET'){
     const row=await first('SELECT set_id FROM teacher_library_rooms WHERE code=? AND expires>?',lookup[1],now());if(!row)throw fail(404,'Room not found. Check the code and ask your teacher to reopen it.');
     return json({setId:row.set_id});
    }
    if(path==='/v1/library-rooms'&&request.method==='POST'){
     await auth(request,body.libraryId);await setFor(body.libraryId,body.setId);
-    if(typeof body.code!=='string'||!/^CS[A-Z2-9]{6}$/.test(body.code))throw fail(400,'Invalid room code.');
+    if(typeof body.code!=='string'||!/^CS(?:[A-Z2-9]{3}|[A-Z2-9]{6})$/.test(body.code))throw fail(400,'Invalid room code.');
     await run('INSERT INTO teacher_library_rooms(code,set_id,expires) VALUES(?,?,?) ON CONFLICT(code) DO UPDATE SET expires=excluded.expires WHERE teacher_library_rooms.set_id=excluded.set_id OR teacher_library_rooms.expires<?',body.code,body.setId,now()+7*86400000,now());
     const row=await first('SELECT set_id FROM teacher_library_rooms WHERE code=?',body.code);if(row?.set_id!==body.setId)throw fail(409,'Please create the room again to get a fresh code.');
     return json({ok:true});

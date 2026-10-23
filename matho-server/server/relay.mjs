@@ -1,6 +1,6 @@
 /* HTTPS-only transport. The existing teacher game remains the authority. */
 const MAX_BODY=65536, TTL=4*60*60*1000, RETENTION=30*60*1000;
-const validRoom=s=>typeof s==='string'&&/^matho(?:-[a-z0-9-]+)?-v1-[A-Z2-9]{8}$/.test(s);
+const validRoom=s=>typeof s==='string'&&/^matho(?:-[a-z0-9-]+)?-v1-[A-Z2-9]{5}(?:[A-Z2-9]{3})?$/.test(s);
 const validId=s=>s==='host'||(typeof s==='string'&&/^[a-f0-9-]{36}$/.test(s));
 const validToken=s=>typeof s==='string'&&/^[a-f0-9]{64}$/.test(s);
 const fail=(status,message)=>Object.assign(new Error(message),{status});

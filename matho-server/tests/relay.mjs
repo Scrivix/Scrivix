@@ -3,7 +3,7 @@ import {openStore,sqliteAdapter,serverFor} from '../server/node.mjs';
 import {createRelay} from '../server/relay.mjs';
 const db=openStore();let now=1000000;
 const handle=createRelay(sqliteAdapter(db),{origins:['https://scrivix.us'],now:()=>now});
-const room='matho-addition-v1-ABCD2345',host='a'.repeat(64),a=crypto.randomUUID(),b=crypto.randomUUID(),ta='b'.repeat(64),tb='c'.repeat(64);
+const room='matho-addition-v1-'+(process.argv[2]||'ABCD2345'),host='a'.repeat(64),a=crypto.randomUUID(),b=crypto.randomUUID(),ta='b'.repeat(64),tb='c'.repeat(64);
 async function call(path,body,token,origin='https://scrivix.us'){
  const r=await handle(new Request('https://relay.test'+path,{method:body?'POST':'GET',headers:{Origin:origin,...(token?{Authorization:'Bearer '+token}:{}),'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined}));return{status:r.status,data:await r.json(),headers:r.headers};
 }

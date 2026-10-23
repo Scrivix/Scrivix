@@ -68,6 +68,6 @@
  setInterval(()=>{if(!stopped&&state&&Date.now()-lastSeen>20000)reconnect();},5000);
  setInterval(renderCountdown,200);
  window.addEventListener('beforeunload',()=>{stopped=true;peer?.destroy();});
- if(!/^matho-teacher-[-a-f0-9]{36}-v1-[A-Z2-9]{8}$/.test(relay||'')||!/^[-a-f0-9]{36}$/.test(key||'')){stop('Open this page by scanning the private teacher QR code on your laptop.');return;}
+ if(!/^matho-teacher-[-a-f0-9]{36}-v1-[A-Z2-9]{5}(?:[A-Z2-9]{3})?$/.test(relay||'')||!/^[-a-f0-9]{36}$/.test(key||'')){stop('Open this page by scanning the private teacher QR code on your laptop.');return;}
  connect();
 })();

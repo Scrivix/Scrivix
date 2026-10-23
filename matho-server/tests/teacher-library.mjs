@@ -12,6 +12,7 @@ async function call(path,body,key,origin='https://scrivix.us'){
  const response=await handle(new Request('https://library.test'+path,{method:body?'POST':'GET',headers:{Origin:origin,...(key?{Authorization:'Bearer '+key}:{}),'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined}));
  return {status:response.status,data:await response.json()};
 }
+const routedCode=process.argv[2]||'CSAB2345';
 const one=await call('/v1/libraries',{}),two=await call('/v1/libraries',{});assert.equal(one.status,201);assert.equal(two.status,201);
 const {id,key}=one.data,root='/v1/libraries/'+id+'/sets';
 assert.equal((await call(root,null)).status,403);
@@ -34,13 +35,13 @@ const draft=await call(root,{title:'New unfinished set',bank:[],config:{}},key);
 const duplicate=bank.concat(bank[0]);assert.equal((await call(sp,{revision:2,bank:duplicate},key)).status,400);
 const racing=await Promise.all([call(sp,{revision:2,bank},key),call(sp,{revision:2,bank:changed},key)]);assert.deepEqual(racing.map(r=>r.status).sort(),[200,409],'Exactly one concurrent write succeeds');
 assert.equal((await call(sp+'/versions',null,key)).data.versions.length,3);
-assert.equal((await call('/v1/library-rooms',{libraryId:id,setId:set.id,code:'CSAB2345'},key)).status,200);
-assert.equal((await call('/v1/library-rooms/CSAB2345')).data.setId,set.id);
-assert.equal((await call('/v1/library-rooms',{libraryId:two.data.id,setId:set.id,code:'CSAB2345'},two.data.key)).status,404);
+assert.equal((await call('/v1/library-rooms',{libraryId:id,setId:set.id,code:routedCode},key)).status,200);
+assert.equal((await call('/v1/library-rooms/'+routedCode)).data.setId,set.id);
+assert.equal((await call('/v1/library-rooms',{libraryId:two.data.id,setId:set.id,code:routedCode},two.data.key)).status,404);
 const another=await call(root,{title:'Second',bank,config:{}},key);
-assert.equal((await call('/v1/library-rooms',{libraryId:id,setId:another.data.id,code:'CSAB2345'},key)).status,409);
-assert.equal((await call('/v1/library-rooms/CSAB2345')).data.setId,set.id,'Collision cannot hijack routing');
-time+=8*86400000;assert.equal((await call('/v1/library-rooms/CSAB2345')).status,404);assert.equal((await call(sp,null,key)).status,200,'Library outlives game rooms');
+assert.equal((await call('/v1/library-rooms',{libraryId:id,setId:another.data.id,code:routedCode},key)).status,409);
+assert.equal((await call('/v1/library-rooms/'+routedCode)).data.setId,set.id,'Collision cannot hijack routing');
+time+=8*86400000;assert.equal((await call('/v1/library-rooms/'+routedCode)).status,404);assert.equal((await call(sp,null,key)).status,200,'Library outlives game rooms');
 const stored=sqlite.prepare('SELECT key_hash FROM teacher_libraries WHERE id=?').get(id);assert.notEqual(stored.key_hash,key);
 const health=await worker.fetch(new Request('https://library.test/v1/library-health'),{DB:db});assert.equal(health.status,200);
 const relayHealth=await worker.fetch(new Request('https://library.test/health'),{DB:db});assert.equal((await relayHealth.json()).transport,'https-polling');

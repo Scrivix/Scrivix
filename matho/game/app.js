@@ -39,7 +39,7 @@ function renderClassroomPattern(){
  $('#classroomPatternDiagram').innerHTML=MathoRules.patternDiagram(state.pattern||'normal');
  $('#classroomPatternName').textContent=goal.label;
  $('#classroomPatternDescription').textContent=goal.description;
- const code=typeof state.roomCode==='string'&&/^[A-Z2-9]{8}$/.test(state.roomCode)?state.roomCode:'';
+ const code=typeof state.roomCode==='string'&&/^[A-Z2-9]{5}(?:[A-Z2-9]{3})?$/.test(state.roomCode)?state.roomCode:'';
  $('#classroomRoom').hidden=!code;$('#classroomRoomCode').textContent=code;
  const count=Number.isSafeInteger(state.joinedCount)&&state.joinedCount>=0?state.joinedCount:0;$('#classroomStudentCount').hidden=!code;$('#classroomStudentCount').textContent=count+' '+(count===1?'student':'students')+' joined';
 }
