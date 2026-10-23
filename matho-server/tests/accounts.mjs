@@ -4,8 +4,9 @@ import {DatabaseSync} from 'node:sqlite';
 import {generateKeyPair,exportJWK,createLocalJWKSet,SignJWT} from 'jose';
 import {createAccounts,verifyProvider} from '../server/accounts.mjs';
 import {createLibrary} from '../server/library.mjs';
+import {createCatalogue} from '../server/catalogue.mjs';
 const sqlite=new DatabaseSync(':memory:');sqlite.exec('PRAGMA foreign_keys=ON');
-for(const p of ['../server/schema.sql','../migrations/0002_teacher_library.sql','../migrations/0003_teacher_accounts.sql'])sqlite.exec(fs.readFileSync(new URL(p,import.meta.url),'utf8'));
+for(const p of ['../server/schema.sql','../migrations/0002_teacher_library.sql','../migrations/0003_teacher_accounts.sql','../migrations/0004_builtin_question_sets.sql'])sqlite.exec(fs.readFileSync(new URL(p,import.meta.url),'utf8'));
 const prepare=sql=>({v:[],bind(...v){this.v=v;return this;},first(){return sqlite.prepare(sql).get(...this.v)||null;},all(){return {results:sqlite.prepare(sql).all(...this.v)};},run(){return {meta:{changes:Number(sqlite.prepare(sql).run(...this.v).changes)}};}});
 const db={prepare,batch(statements){sqlite.exec('BEGIN');try{const r=statements.map(s=>s.run());sqlite.exec('COMMIT');return r;}catch(e){sqlite.exec('ROLLBACK');throw e;}}};
 let time=Date.now();const google='test.apps.googleusercontent.com',apple='us.scrivix.matho';
@@ -33,6 +34,20 @@ assert.equal((await owner.call('/v1/auth/teachers',{email:'teacher@example.test'
 assert.equal((await owner.call('/v1/auth/teachers',{email:'teacher@example.test'})).status,200);
 const registered=await login(teacher,'google','teacher-sub','teacher@example.test');assert.equal(registered.status,200);assert.equal(registered.data.user.role,'teacher');assert.notEqual(registered.data.user.libraryId,first.data.user.libraryId);
 assert.equal((await teacher.call('/v1/auth/teachers')).status,403);
+const catalogue=createCatalogue(db,{accounts});
+const fixtureBank=[{id:'M1',letter:'M',question:'Private fixture question',answer:'private-answer',enabled:true}];
+sqlite.prepare('INSERT INTO builtin_question_sets VALUES(?,?,?,?)').run('fixture',JSON.stringify({id:'fixture',title:'Teacher-only fixture'}),JSON.stringify(fixtureBank),time);
+const guest=new Browser();
+assert.equal((await guest.call('/v1/teacher-sets/fixture',null,catalogue)).status,401);
+assert.equal((await guest.call('/v1/teacher-sets/fixture',null,catalogue,{Authorization:'Bearer legacy-key'})).status,401);
+for(const approved of [owner,teacher]){
+ const read=await approved.call('/v1/teacher-sets/fixture',null,catalogue);assert.equal(read.status,200);assert.deepEqual(read.data.bank,fixtureBank);assert(read.headers.get('Cache-Control').includes('no-store'));
+ assert.equal((await approved.call('/v1/teacher-sets/fixture',{bank:[]},catalogue)).status,405,'Shared originals have no edit API');
+}
+assert.equal((await owner.call('/v1/teacher-sets/fixture',null,catalogue,{Origin:'https://evil.example'})).status,403);
+assert.equal((await owner.call('/v1/teacher-sets/missing',null,catalogue)).status,404);
+const noAuth=createCatalogue(db,{accounts:{enabled:false}});assert.equal((await guest.call('/v1/teacher-sets/fixture',null,noAuth)).status,503,'Sign-in configuration failure never exposes answers');
+
 assert.deepEqual((await teacher.call('/v1/libraries/'+registered.data.user.libraryId+'/sets',null,library)).data.sets,[],'New teachers start with an empty private library');
 const oldId='a'.repeat(32),oldKey='b'.repeat(64),oldHash=Buffer.from(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(oldKey))).toString('hex');
 sqlite.prepare('INSERT INTO teacher_libraries VALUES(?,?,?)').run(oldId,oldHash,time);
@@ -84,7 +99,7 @@ assert.equal((await accounts.hostAccess(owner.request('/v1/rooms',{room:'matho-t
 
 const racing=await Promise.all([accounts.hostAccess(host('ADAB2346')),accounts.hostAccess(host('ADAB2347'))]);assert.equal(racing.filter(x=>x===null).length,1,'Atomic room limit');assert.equal(racing.find(x=>x)?.status,429);
 assert.equal((await accounts.hostAccess(new Browser().request('/v1/rooms',{room:'matho-addition-v1-ADAB2348',token:'e'.repeat(64)}))).status,401,'Hosting requires sign-in');
-assert.equal((await owner.call('/v1/auth/teachers',{email:'teacher@example.test',action:'revoke'})).status,200);assert.equal((await teacher.call('/v1/auth/me')).status,401,'Revoked sessions stop working');
+assert.equal((await owner.call('/v1/auth/teachers',{email:'teacher@example.test',action:'revoke'})).status,200);assert.equal((await teacher.call('/v1/auth/me')).status,401,'Revoked sessions stop working');assert.equal((await teacher.call('/v1/teacher-sets/fixture',null,catalogue)).status,401,'Revoked teachers cannot read shared questions');
 assert.equal((await owner.call('/v1/auth/teachers',{email:'owner@example.test',action:'revoke'})).status,400,'Owner cannot revoke themself');
 assert.equal((await owner.call('/v1/auth/logout',{})).status,200);assert.equal((await owner.call('/v1/auth/me')).status,401);assert.equal((await other.call('/v1/auth/me')).status,200,'Logging out one device leaves the other device signed in');
 time+=15*86400000;assert.equal((await other.call('/v1/auth/me')).status,401,'Sessions expire');

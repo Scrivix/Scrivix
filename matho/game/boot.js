@@ -50,9 +50,8 @@
    // Students load directions and connection keys, never the answer bank.
    if(page!=='student'){
     if(!/^[a-z0-9-]+\.json$/.test(config.bankFile))throw Error('This question bank is unavailable.');
-    const bankResponse=await fetch(new URL('../sets/'+config.bankFile+'?v=exponents-expanded-1',base));
-    if(!bankResponse.ok)throw Error('The question bank could not load. Please refresh and try again.');
-    config.bank=await bankResponse.json();MathoRules.validateBank(config.bank);
+    const shared=await MathoLibrary.builtInSet(id);
+    config={...config,...shared.config,bank:shared.bank};MathoRules.validateBank(config.bank);
    }
   }
   if(config.id!==id)throw Error('The question set did not match this link.');
