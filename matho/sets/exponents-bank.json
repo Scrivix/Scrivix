@@ -72,6 +72,46 @@
     "note": ""
   },
   {
+    "id": "M10",
+    "letter": "M",
+    "question": "a^6 \\cdot a^8",
+    "answer": "a^{14}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M11",
+    "letter": "M",
+    "question": "b^9 \\cdot b^3",
+    "answer": "b^{12}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M12",
+    "letter": "M",
+    "question": "a^2 \\cdot a^5 \\cdot a^4",
+    "answer": "a^{11}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M13",
+    "letter": "M",
+    "question": "b^6 \\cdot b^8 \\cdot b^2",
+    "answer": "b^{16}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M14",
+    "letter": "M",
+    "question": "a^{15} \\cdot a^4",
+    "answer": "a^{19}",
+    "enabled": true,
+    "note": ""
+  },
+  {
     "id": "A1",
     "letter": "A",
     "question": "(2^3)^5",
@@ -148,6 +188,46 @@
     "letter": "A",
     "question": "(2^7)^3",
     "answer": "2^{21}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A11",
+    "letter": "A",
+    "question": "(x^3)^5",
+    "answer": "x^{15}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A12",
+    "letter": "A",
+    "question": "(2^4)^6",
+    "answer": "2^{24}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A13",
+    "letter": "A",
+    "question": "(7^4)^3",
+    "answer": "7^{12}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A14",
+    "letter": "A",
+    "question": "(x^6)^3",
+    "answer": "x^{18}",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A15",
+    "letter": "A",
+    "question": "(2^5)^5",
+    "answer": "2^{25}",
     "enabled": true,
     "note": ""
   },
@@ -232,6 +312,46 @@
     "note": ""
   },
   {
+    "id": "T11",
+    "letter": "T",
+    "question": "(3y^2)^3",
+    "answer": "27y^6",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T12",
+    "letter": "T",
+    "question": "(2vz^2)^4",
+    "answer": "16v^4z^8",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T13",
+    "letter": "T",
+    "question": "(5y^2z)^2",
+    "answer": "25y^4z^2",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T14",
+    "letter": "T",
+    "question": "(2y^3v^2)^3",
+    "answer": "8y^9v^6",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T15",
+    "letter": "T",
+    "question": "(3v^2z^3)^2",
+    "answer": "9v^4z^6",
+    "enabled": true,
+    "note": ""
+  },
+  {
     "id": "H1",
     "letter": "H",
     "question": "p^2 \\cdot (qr)^2",
@@ -292,6 +412,46 @@
     "letter": "H",
     "question": "(10p^3)^2 \\cdot pr",
     "answer": "100p^7r",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H9",
+    "letter": "H",
+    "question": "(2p^3q)^2 \\cdot 3pq^2",
+    "answer": "12p^7q^4",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H10",
+    "letter": "H",
+    "question": "4pr^2 \\cdot (3p^2r)^2",
+    "answer": "36p^5r^4",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H11",
+    "letter": "H",
+    "question": "(2pq^2)^3 \\cdot p^4q",
+    "answer": "8p^7q^7",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H12",
+    "letter": "H",
+    "question": "(3p^2r^3)^2 \\cdot 2pr",
+    "answer": "18p^5r^7",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H13",
+    "letter": "H",
+    "question": "(pq^3r)^3 \\cdot 5p^2qr^2",
+    "answer": "5p^5q^{10}r^5",
     "enabled": true,
     "note": ""
   },
@@ -372,6 +532,46 @@
     "letter": "O",
     "question": "y^7 \\cdot y^2 \\cdot y \\cdot y^2=y^{\\square}",
     "answer": "12",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O11",
+    "letter": "O",
+    "question": "x^4 \\cdot x^{\\square}=x^{10}",
+    "answer": "6",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O12",
+    "letter": "O",
+    "question": "(y^{\\square})^2=y^{22}",
+    "answer": "11",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O13",
+    "letter": "O",
+    "question": "x^3 \\cdot x^{\\square} \\cdot x^2=x^{18}",
+    "answer": "13",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O14",
+    "letter": "O",
+    "question": "(2x^{\\square})^3=8x^{42}",
+    "answer": "14",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O15",
+    "letter": "O",
+    "question": "(x^2y^4)^4=x^8y^{\\square}",
+    "answer": "16",
     "enabled": true,
     "note": ""
   }

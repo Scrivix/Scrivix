@@ -38,7 +38,7 @@
     }
    }
   }else{
-   const response=await fetch(new URL('../sets/'+id+'.json?v=accounts-1',base));
+   const response=await fetch(new URL('../sets/'+id+'.json?v=exponents-expanded-1',base));
    if(!response.ok)throw Error('That question set could not be loaded. Choose a set from All games.');
    config=await response.json();
    const classroom=new URLSearchParams(location.search).get('view')==='display';
@@ -50,7 +50,7 @@
    // Students load directions and connection keys, never the answer bank.
    if(page!=='student'){
     if(!/^[a-z0-9-]+\.json$/.test(config.bankFile))throw Error('This question bank is unavailable.');
-    const bankResponse=await fetch(new URL('../sets/'+config.bankFile+'?v=roster-sort-1',base));
+    const bankResponse=await fetch(new URL('../sets/'+config.bankFile+'?v=exponents-expanded-1',base));
     if(!bankResponse.ok)throw Error('The question bank could not load. Please refresh and try again.');
     config.bank=await bankResponse.json();MathoRules.validateBank(config.bank);
    }

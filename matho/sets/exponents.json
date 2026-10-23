@@ -1,23 +1,23 @@
 {
   "id": "exponents",
-  "title": "Exponents",
+  "title": "Multiplication Properties of Exponents",
   "storagePrefix": "matho",
   "copy": {
     "studentInstructions": "Tap an answer if you think it matches a called expression in that column. Tap again to unmark. Complete the winning pattern shown below, then press Call MATHO!",
-    "roomIntro": "Students join with a room code and a display name. Each gets a different board with a free center square. Choose the winning pattern for your game below.",
+    "roomIntro": "Practice multiplication properties of exponents, including powers of powers and products. O questions ask for the missing exponent. Each student gets a different board. Choose the winning pattern for your game.",
     "roomHeading": "Different boards. One classroom.",
     "roomWelcome": "Bring everyone into the game.",
-    "callerHeading": "A little luck. A lot of math.",
+    "callerHeading": "Multiplication Properties of Exponents",
     "callerSubtitle": "Draw an expression. Let the thinking begin.",
     "callerControls": "Keep the room thinking.",
-    "callerLink": "Classic caller",
+    "callerLink": "Exponent properties caller",
     "joinIntro": "Your teacher has the code. You bring the math.",
     "studentBoardLabel": "YOUR MATHO BOARD",
     "footer": "Think it through. Find your square.",
-    "bankIntro": "LaTeX is supported. O questions ask for the missing exponent. Changes save on this browser; start a new game to edit questions already called.",
-    "callerBrand": "EXPONENT EDITION",
-    "roomBrand": "PLAY TOGETHER",
-    "studentBrand": "YOUR BOARD. YOUR THINKING."
+    "bankIntro": "Practice products of powers, powers of powers, powers of products, and combined multiplication properties. O questions ask for the missing exponent. Public originals are read-only; copy this set to your private teacher library to edit.",
+    "callerBrand": "MULTIPLICATION PROPERTIES OF EXPONENTS",
+    "roomBrand": "MULTIPLICATION PROPERTIES OF EXPONENTS",
+    "studentBrand": "MULTIPLICATION PROPERTIES OF EXPONENTS"
   },
   "hints": {
     "caller": {
@@ -32,5 +32,6 @@
   "presentationSubtitle": "Match the column. Simplify the expression. Mark your answer.",
   "exportFilename": "matho-question-bank.json",
   "bankFile": "exponents-bank.json",
-  "joinPrefix": "EX"
+  "joinPrefix": "EX",
+  "bankRevision": 1
 }

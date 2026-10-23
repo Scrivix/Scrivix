@@ -3,7 +3,7 @@
  const catalogue=document.querySelector('#editions');
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  try{
-  const response=await fetch('sets/index.json?v=set-editor-1');
+  const response=await fetch('sets/index.json?v=exponents-expanded-1');
   if(!response.ok)throw Error('Could not load question sets.');
   const editions=await response.json();editions.sort((a,b)=>a.title.localeCompare(b.title,'en'));
   for(const edition of editions){

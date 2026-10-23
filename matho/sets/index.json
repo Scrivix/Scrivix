@@ -11,17 +11,6 @@
     "joinPrefix": "AD"
   },
   {
-    "slug": "exponents",
-    "title": "Exponents",
-    "tag": "POWERS · PATTERNS · PRACTICE",
-    "description": "Practice exponent rules, simplify expressions, and find missing powers. Questions get harder from M to O.",
-    "sample": "x<sup>2</sup> <span>·</span> x<sup>3</sup>",
-    "detail": "Exponent rules · missing powers",
-    "color": "purple",
-    "label": "Open exponents",
-    "joinPrefix": "EX"
-  },
-  {
     "slug": "multiplication",
     "title": "Multiplication",
     "tag": "TIMES TABLES · BIG THINKING",
@@ -31,6 +20,17 @@
     "color": "gold",
     "label": "Open multiplication",
     "joinPrefix": "MU"
+  },
+  {
+    "slug": "exponents",
+    "title": "Multiplication Properties of Exponents",
+    "tag": "POWERS · PATTERNS · PRACTICE",
+    "description": "Practice products of powers, powers of powers, and powers of products. Combine properties and find missing exponents as you move from M to O.",
+    "sample": "x<sup>2</sup> <span>·</span> x<sup>3</sup>",
+    "detail": "Exponent rules · missing powers",
+    "color": "purple",
+    "label": "View Multiplication Properties of Exponents",
+    "joinPrefix": "EX"
   },
   {
     "slug": "scientific-notation",
