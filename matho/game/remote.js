@@ -3,6 +3,7 @@
 (function(){
  const $=id=>document.getElementById(id),R=MathoRules,params=new URLSearchParams(location.hash.slice(1));
  const relay=params.get('relay'),key=params.get('key');let peer=null,conn=null,state=null,stopped=false,lastSeen=0,retry=null,inspected=null,attempt=0,lastHeartbeat=null,timerAnchor=0,timerRemainingMs=0,timerConnected=false;
+ let rosterSort='name';try{if(localStorage.getItem('matho-remote-roster-sort')==='marks')rosterSort='marks';}catch{}
  const clock=()=>globalThis.performance?.now?.()??Date.now();
  function remainingTimerMs(){return Math.max(0,timerRemainingMs-(state?.timer.running&&timerConnected&&!stopped?clock()-timerAnchor:0));}
  function renderCountdown(){if(!state)return;const seconds=Math.ceil(remainingTimerMs()/1000);$('remoteTimer').textContent=Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');$('remoteTimerBox').setAttribute('data-running',String(!!state.timer.running&&timerConnected));$('remoteTimerState').textContent=!timerConnected?'Waiting for laptop':state.timer.running?(seconds===0?'Waiting for next expression…':'Auto draw running'):'Auto draw paused';}
@@ -24,7 +25,7 @@
   const pending=state.students.filter(s=>s.claim).length;
   $('remoteCount').textContent=state.students.length+' students · '+state.students.filter(s=>s.connected).length+' connected';
   $('remoteClaims').textContent=pending?pending+' MATHO '+(pending===1?'claim':'claims')+' to check':'No pending MATHO claims';
-  $('remoteRoster').innerHTML=state.students.slice().sort((a,b)=>Number(!!b.claim)-Number(!!a.claim)).map(s=>'<div class="student-entry"><div class="student-row"><div><strong>'+esc(s.name)+'</strong><span class="student-meta">'+(s.connected?'Connected':'Disconnected')+' · '+s.marks.length+' marked'+(s.feedback==='valid'?' · MATHO confirmed!':'')+'</span></div><button data-inspect="'+esc(s.token)+'">View board</button></div>'+(s.claim?'<div class="student-claim"><strong>Called MATHO!</strong><button class="live-primary" data-check="'+esc(s.token)+'">Check MATHO</button></div>':'')+'</div>').join('')||'<p>Students appear here when they join.</p>';
+  $('remoteRoster').innerHTML=sortRemoteRoster(state.students,rosterSort).map(s=>'<div class="student-entry"><div class="student-row"><div><strong>'+esc(s.name)+'</strong><span class="student-meta">'+(s.connected?'Connected':'Disconnected')+' · '+s.marks.length+' marked'+(s.failedClaims?' · '+s.failedClaims+'/3 incorrect claims':'')+(s.claimLocked?' · Locked until New Round':'')+(s.feedback==='valid'?' · MATHO confirmed!':'')+'</span></div><button data-inspect="'+esc(s.token)+'">View board</button></div>'+(s.claim?'<div class="student-claim"><strong>Called MATHO!</strong><button class="live-primary" data-check="'+esc(s.token)+'">Check MATHO</button></div>':'')+'</div>').join('')||'<p>Students appear here when they join.</p>';
   $('remoteNext').disabled=state.roundComplete||!state.remaining;
   $('remoteLock').textContent=state.locked?'Unlock joining':'Lock joining';
   $('remoteAuto').disabled=state.roundComplete;$('remoteAuto').textContent=state.timer.running?'Pause auto draw':'Start / resume auto draw';
@@ -63,6 +64,9 @@
  $('remoteEnd').onclick=()=>{if(confirm('End this room and disconnect every student?'))command('end');};
  $('remoteAuto').onclick=()=>{const seconds=Number($('remoteSeconds').value);if(!Number.isInteger(seconds)||seconds<5||seconds>600){notice('Enter a whole number from 5 to 600 seconds.');return;}command('auto',{seconds});};
  $('remoteReview').onclick=()=>{if(confirm('Reveal incorrect marks and missed called answers? This closes further MATHO claims for the round.'))command('review');};
+ $('remoteRosterSort').value=rosterSort;
+ $('remoteRosterSort').onchange=event=>{rosterSort=event.target.value==='marks'?'marks':'name';try{localStorage.setItem('matho-remote-roster-sort',rosterSort);}catch{}if(state)render();};
+ function sortRemoteRoster(students,mode){return students.slice().sort((a,b)=>Number(!!b.claim)-Number(!!a.claim)||(mode==='marks'?b.marks.length-a.marks.length:0)||a.name.localeCompare(b.name,'en',{sensitivity:'base',numeric:true}));}
  $('remoteRoster').onclick=event=>{const inspect=event.target.closest('[data-inspect]'),check=event.target.closest('[data-check]');if(inspect){inspected=inspect.dataset.inspect;renderInspection();$('remoteInspect').showModal();}if(check){const s=state.students.find(s=>s.token===check.dataset.check);if(s?.claim)command('check',{student:s.token,claimSeq:s.seq});}};
  $('remoteCloseInspect').onclick=()=>{inspected=null;$('remoteInspect').close();};
  setInterval(()=>{if(!stopped&&state&&Date.now()-lastSeen>20000)reconnect();},5000);
