@@ -16,13 +16,13 @@ async function runBoot({page='caller',custom=true,saved,cloud=next,error,cached,
 (async()=>{
  let r=await runBoot({page:'student',custom:true,credentials:false});assert.equal(r.privateReads,0);assert.equal(r.publicReads,1);assert.equal(r.context.DEFAULT_BANK,undefined);assert(!r.loads.some(x=>String(x).includes('library-editor')));
  r=await runBoot({page:'student',custom:false,credentials:false});assert.equal(r.requests.length,1);assert(!r.requests.some(x=>x.includes('bank.json')));
- r=await runBoot({custom:false,credentials:false});assert.equal(r.requests.length,2);assert.equal(r.validated,1);assert(r.loads.some(x=>String(x).includes('app.js?v=silent-switches-1')));
+ r=await runBoot({custom:false,credentials:false});assert.equal(r.requests.length,0);assert.equal(r.validated,0);assert(r.redirects[0].includes('/public/'));
  r=await runBoot({saved:{bank,called:[],libraryRevision:2,libraryDirty:true}});assert.equal(r.context.DEFAULT_BANK.length,1);assert.equal(r.context.MATHO_SET.config.libraryRevision,2,'Pending local draft retains its original revision');
  r=await runBoot({saved:{bank,called:[],libraryRevision:2,libraryDirty:false}});assert.equal(r.context.DEFAULT_BANK.length,2);assert.equal(r.backups.length,1);
  r=await runBoot({saved:{bank,called:[],libraryRevision:2},cached:true,error:Error('offline')});assert.equal(r.context.DEFAULT_BANK.length,1);assert(r.context.MATHO_SET.config.libraryOffline);
  r=await runBoot({saved:{bank,called:[],libraryRevision:2},cached:true,error:Object.assign(Error('denied'),{status:403})});assert.equal(r.context.document.body.dataset.loading,'error','Rejected credentials cannot use a cached teacher bank');
  r=await runBoot({cloud:[]});assert.equal(r.context.DEFAULT_BANK.length,0,'Unfinished set opens in editor');
- r=await runBoot({custom:false});assert.equal(r.redirects.length,1);assert(new URL(r.redirects[0]).searchParams.get('set')===id);assert.equal(r.loads.length,0,'Connected teacher opens saved set before starting local engine');
+ r=await runBoot({custom:false});assert.equal(r.redirects.length,1);assert(new URL(r.redirects[0]).searchParams.get('set')==='addition');assert.equal(r.loads.length,0,'Connected teacher opens saved set before starting local engine');
  r=await runBoot({custom:false,display:true});assert.equal(r.redirects.length,0,'Classroom window stays on its current game');
  r=await runBoot({page:'room',custom:false,recovering:true});assert.equal(r.redirects.length,0,'A running legacy room recovers without redirect');
  const listeners={},nodes={},map=new Map(),timers=[],updates=[],copies=[];

@@ -30,18 +30,8 @@
   const r=await fetch('../sets/index.json?v=simple-library-1');if(!r.ok)throw Error('The question sets could not load. Please refresh.');
   catalogue=await r.json();
  }
- async function openBuiltIn(slug,page){
-  const configResponse=await fetch('../sets/'+slug+'.json?v=simple-library-1');if(!configResponse.ok)throw Error('This set could not load.');
-  const config=await configResponse.json(),latest=(await L.list()).sets;
-  let saved=latest.find(s=>s.title.toLowerCase()===config.title.toLowerCase());
-  if(!saved){
-   const key=(config.storagePrefix||'matho-'+slug)+'-game-v1';let local;try{local=JSON.parse(localStorage.getItem(key));}catch{}
-   let bank=local?.bank;
-   if(!Array.isArray(bank)){const r=await fetch('../sets/'+config.bankFile+'?v=simple-library-1');if(!r.ok)throw Error('The questions could not load.');bank=await r.json();}
-   L.backup(key,bank,'Before opening this set in teacher library');
-   saved=await L.createSet(config.title,bank,config);
-  }
-  const u=L.gameUrl(saved.id,page==='host'?'room.html':'');if(page==='edit')u.hash='bankSection';location.assign(u.href);
+ async function openBuiltIn(slug){
+  const url=new URL('../public/',location.href);url.searchParams.set('set',slug);location.assign(url.href);
  }
  function card(title,actions,extra=''){return '<article class="library-card"><h3>'+esc(title)+'</h3><div class="library-actions">'+actions+'</div>'+extra+'</article>';}
  function savedCard(s){
@@ -52,15 +42,9 @@
   message('Opening your question sets…');
   try{
    await loadCatalogue();sets=(await L.list()).sets;
-   const used=new Set(),cards=[];
-   for(const builtIn of catalogue){
-    const existing=sets.find(s=>s.title.toLowerCase()===builtIn.title.toLowerCase());
-    if(existing){used.add(existing.id);cards.push(savedCard(existing));}
-    else cards.push(card(builtIn.title,'<button type="button" data-open-set="'+esc(builtIn.slug)+'" data-page="edit">Edit questions</button><button type="button" data-open-set="'+esc(builtIn.slug)+'" data-page="host">Host a game →</button>'));
-   }
-   for(const saved of sets)if(!used.has(saved.id))cards.push(savedCard(saved));
-   $('librarySets').innerHTML=cards.join('');
-   message(L.migrationWarning||'Choose a set to edit or play. Your question changes save to your teacher account.');
+   $('librarySets').innerHTML=sets.length?sets.map(savedCard).join(''):'<p>Your private library is empty. Create a new set, or browse the public sets below and choose “Copy to my library.”</p>';
+   $('publicLibrarySets').innerHTML=catalogue.map(s=>card(s.title,'<a href="../public/?set='+encodeURIComponent(s.slug)+'">View public set & copy →</a>','<p>Read-only original. Copies belong only to you.</p>')).join('');
+   message(L.migrationWarning||'Only your own sets appear in My private library. Changes to them never change public originals or another teacher’s library.');
   }catch(e){message(e.message);}
  }
  async function openRequested(){

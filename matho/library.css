@@ -8,3 +8,5 @@
 .set-game-setup{position:sticky;top:20px;padding:24px;background:#fff;border:1px solid #d7ddd1;border-radius:20px}
 .set-game-setup h2{margin:12px 0}.set-game-setup label{display:block;font-weight:700;margin:22px 0 8px}.set-game-setup select{width:100%}.set-game-setup .primary{width:100%;margin:20px 0 8px}.set-game-setup .pattern-preview{margin-top:16px}.set-editor #bankSection summary .edit-label{display:none}
 @media(max-width:1000px){.set-editor-layout{grid-template-columns:minmax(0,1fr)}.set-game-setup{position:static;grid-row:1}}
+
+.public-question-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;padding:16px 0;border-bottom:1px solid #e3e7de}.public-question-row>div{min-width:0;overflow:auto}.public-question-head{font-size:.85rem;color:#6c8074}#publicStatus{padding:12px 0;white-space:pre-wrap}

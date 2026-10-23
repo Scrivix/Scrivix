@@ -33,6 +33,7 @@ assert.equal((await owner.call('/v1/auth/teachers',{email:'teacher@example.test'
 assert.equal((await owner.call('/v1/auth/teachers',{email:'teacher@example.test'})).status,200);
 const registered=await login(teacher,'google','teacher-sub','teacher@example.test');assert.equal(registered.status,200);assert.equal(registered.data.user.role,'teacher');assert.notEqual(registered.data.user.libraryId,first.data.user.libraryId);
 assert.equal((await teacher.call('/v1/auth/teachers')).status,403);
+assert.deepEqual((await teacher.call('/v1/libraries/'+registered.data.user.libraryId+'/sets',null,library)).data.sets,[],'New teachers start with an empty private library');
 const oldId='a'.repeat(32),oldKey='b'.repeat(64),oldHash=Buffer.from(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(oldKey))).toString('hex');
 sqlite.prepare('INSERT INTO teacher_libraries VALUES(?,?,?)').run(oldId,oldHash,time);
 const setId='custom-'+'c'.repeat(32);sqlite.prepare('INSERT INTO teacher_sets VALUES(?,?,?,?,?,1,?)').run(setId,oldId,'Original','{}','[{"id":"M1","letter":"M","question":"important","answer":"1"}]',time);
@@ -45,6 +46,27 @@ assert.equal((await owner.call('/v1/auth/claim-library',{id:oldId,key:oldKey})).
 assert.equal((await other.call('/v1/libraries/'+oldId+'/sets',null,library,{Authorization:'Bearer '+oldKey})).status,401,'Private links no longer authorize edits');
 assert.equal((await owner.call('/v1/libraries/'+first.data.user.libraryId+'/sets',null,library)).data.sets.length,1);
 assert.equal((await teacher.call('/v1/libraries/'+first.data.user.libraryId+'/sets',null,library)).status,403,'Teachers cannot access another library');
+// Actual signed-in teacher sessions cannot read or mutate another teacher's set,
+// even by forging a library ID, set ID, version URL, or destination in the body.
+const ownerRoot='/v1/libraries/'+first.data.user.libraryId+'/sets',teacherRoot='/v1/libraries/'+registered.data.user.libraryId+'/sets';
+const originalOwnerBank=sqlite.prepare('SELECT bank FROM teacher_sets WHERE id=?').get(setId).bank;
+for(const suffix of ['/'+setId,'/'+setId+'/versions','/'+setId+'/versions/1']){
+ assert.equal((await teacher.call(ownerRoot+suffix,null,library)).status,403);
+ assert.equal((await teacher.call(teacherRoot+suffix,null,library)).status,404);
+}
+assert.equal((await teacher.call(ownerRoot+'/'+setId,{revision:1,bank:[]},library)).status,403);
+assert.equal((await teacher.call(teacherRoot+'/'+setId,{revision:1,bank:[]},library)).status,404);
+const publicFile=new URL('../../matho/sets/decimal-subtraction-bank.json',import.meta.url),publicOriginal=fs.readFileSync(publicFile,'utf8'),publicBank=JSON.parse(publicOriginal);
+const copied=await teacher.call(teacherRoot,{title:'Subtracting Decimals',bank:publicBank,config:{id:'decimal-subtraction'},libraryId:first.data.user.libraryId},library);
+assert.equal(copied.status,201);assert.notEqual(copied.data.id,setId);
+assert.equal(sqlite.prepare('SELECT library_id FROM teacher_sets WHERE id=?').get(copied.data.id).library_id,registered.data.user.libraryId);
+const teacherEdits=structuredClone(publicBank);teacherEdits[0].question='Changed only in this teacher copy';teacherEdits.splice(1,1);teacherEdits.push({id:'EXTRA',letter:'M',question:'1.00 - 0.25',answer:'0.75',enabled:true});
+assert.equal((await teacher.call(teacherRoot+'/'+copied.data.id,{revision:1,bank:teacherEdits},library)).status,200);
+assert.equal((await owner.call(teacherRoot+'/'+copied.data.id,null,library)).status,403,'Even the owner account cannot edit someone else’s private library');
+assert.equal((await teacher.call('/v1/custom-sets/'+setId,{revision:1,bank:teacherEdits},library)).status,404,'Public metadata has no write endpoint');
+assert.equal(sqlite.prepare('SELECT bank FROM teacher_sets WHERE id=?').get(setId).bank,originalOwnerBank,'Owner questions are unchanged');
+assert.equal(fs.readFileSync(publicFile,'utf8'),publicOriginal,'Published original is unchanged');
+
 assert.equal((await login(other,'apple','new-apple','owner@example.test')).status,403,'Apple email does not silently merge accounts');
 const link=await challenge(owner,'link');assert.equal((await owner.call('/v1/auth/login',{provider:'apple',credential:await signed('apple','owner-apple','private@privaterelay.appleid.com',link.nonce),challengeId:link.id})).status,200);
 const appleLogin=await login(other,'apple','owner-apple','private@privaterelay.appleid.com');assert.equal(appleLogin.status,200);assert.equal(appleLogin.data.user.libraryId,first.data.user.libraryId,'Linked Apple opens same Google owner library');

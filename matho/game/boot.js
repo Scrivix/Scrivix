@@ -7,8 +7,10 @@
   if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id))throw Error('Choose a question set from All games.');
   const page=document.body.dataset.page;
   if(!['caller','room','student'].includes(page))throw Error('This game page is unavailable.');
-  if(page!=='student'){await MathoLibrary.ready();if(MathoTeacherAuth.enabled()&&!MathoTeacherAuth.account()){location.replace(MathoTeacherAuth.signin(location.href));return;}}
   const custom=/^custom-[a-f0-9]{32}$/.test(id);
+  const classroom=new URLSearchParams(location.search).get('view')==='display';
+  if(!custom&&page==='caller'&&!classroom){const url=new URL('../public/',base);url.searchParams.set('set',id);location.replace(url.href);return;}
+  if(page!=='student'){await MathoLibrary.ready();if(MathoTeacherAuth.enabled()&&!MathoTeacherAuth.account()){location.replace(MathoTeacherAuth.signin(location.href));return;}}
   let config;
   if(custom){
    if(page==='student')config=await MathoLibrary.publicConfig(id);
@@ -42,21 +44,8 @@
    const classroom=new URLSearchParams(location.search).get('view')==='display';
    let recoveringRoom=false;
    if(page==='room')try{const recovered=JSON.parse(sessionStorage.getItem((config.storagePrefix||'matho-'+id)+'-host-v1'));recoveringRoom=!!recovered?.code&&!recovered.ended;}catch{}
-   if(page!=='student'&&!classroom&&!recoveringRoom&&MathoLibrary.credentials()){
-    loading.textContent='Opening '+config.title+'…';
-    const savedSets=(await MathoLibrary.list()).sets;
-    let saved=savedSets.find(s=>s.title.toLowerCase()===config.title.toLowerCase());
-    if(!saved){
-     const key=(config.storagePrefix||'matho-'+id)+'-game-v1';let local;
-     try{local=JSON.parse(localStorage.getItem(key));}catch{}
-     let bank=local?.bank;
-     if(!Array.isArray(bank)){const r=await fetch(new URL('../sets/'+config.bankFile,base));if(!r.ok)throw Error('The questions could not load.');bank=await r.json();}
-     MathoLibrary.backup(key,bank,'Before opening this set in teacher library');
-     saved=await MathoLibrary.createSet(config.title,bank,config);
-    }
-    const target=MathoLibrary.gameUrl(saved.id,page==='room'?'room.html':'');
-    const pattern=new URLSearchParams(location.search).get('pattern');if(pattern)target.searchParams.set('pattern',pattern);if(page==='room'&&new URLSearchParams(location.search).get('start')==='1')target.searchParams.set('start','1');
-    location.replace(target.href);return;
+   if(page!=='student'&&!classroom&&!recoveringRoom){
+    const target=new URL('../public/',base);target.searchParams.set('set',id);location.replace(target.href);return;
    }
    // Students load directions and connection keys, never the answer bank.
    if(page!=='student'){
