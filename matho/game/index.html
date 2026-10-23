@@ -7,7 +7,7 @@
 <meta name="description" content="MATHO math bingo with shared teacher, student, and classroom screens.">
 <script>window.MathJax={loader:{load:['ui/safe']},tex:{inlineMath:[['\\(','\\)']]},options:{enableMenu:false,safeOptions:{allow:{URLs:'none',classes:'none',cssIDs:'none',styles:'safe'}}},startup:{typeset:false}};</script>
 <link rel="stylesheet" href="../style.css?v=shared-1">
-<link rel="stylesheet" href="../live.css?v=student-history-2">
+<link rel="stylesheet" href="../live.css?v=student-removal-1">
 <link rel="stylesheet" href="../results.css?v=shared-1">
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
@@ -23,7 +23,7 @@
 </script>
 <script defer src="../teacher-auth.js?v=1"></script>
 <script defer src="../library-client.js?v=accounts-1"></script>
-<script defer src="boot.js?v=set-editor-1">
+<script defer src="boot.js?v=student-removal-1">
 </script>
 <link rel="stylesheet" href="../library.css?v=set-editor-1">
 </head>
@@ -60,7 +60,7 @@
 <section id="classroomPattern" class="classroom-pattern" aria-label="Winning MATHO pattern" aria-live="polite" hidden>
 <div id="classroomPatternDiagram"></div>
 <div><div class="eyebrow">WINNING MATHO PATTERN</div><h2 id="classroomPatternName">Normal bingo</h2><p id="classroomPatternDescription">Any complete row, column, or diagonal. The center is free.</p></div>
-<div class="classroom-invite"><div class="eyebrow">JOIN THE GAME</div><a href="../join/">scrivix.us/matho/join</a><div id="classroomRoom" hidden>ROOM CODE <strong id="classroomRoomCode"></strong></div></div>
+<div class="classroom-invite"><p id="classroomStudentCount" class="classroom-student-count" hidden></p><div class="eyebrow">JOIN THE GAME</div><a href="../join/">scrivix.us/matho/join</a><div id="classroomRoom" hidden>ROOM CODE <strong id="classroomRoomCode"></strong></div></div>
 </section>
 <section class="play-area">
 <article class="current">

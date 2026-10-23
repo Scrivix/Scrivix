@@ -1,0 +1,57 @@
+// Run from repository root: node matho-server/tests/simultaneous-winners.cjs [addition|exponents|multiplication|signed-multiplication]
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),{EventEmitter}=require('events');global.crypto=require('crypto').webcrypto;const peers=new Map();const edition=process.argv[2]||'addition';const config=JSON.parse(fs.readFileSync('matho/sets/'+edition+'.json'));config.bank=JSON.parse(fs.readFileSync('matho/sets/'+config.bankFile));config.id='custom-'+'a'.repeat(32);config.storagePrefix='matho-'+config.id;config.joinPrefix='CS';const registrations=[];const enabledCount=config.bank.filter(q=>q.enabled).length;
+class Link extends EventEmitter{constructor(){super();this.open=true;}send(m){setImmediate(()=>{if(this.other.open)this.other.emit('data',structuredClone(m));});}close(){if(!this.open)return;this.open=false;this.emit('close');if(this.other.open){this.other.open=false;this.other.emit('close');}}}
+class Peer extends EventEmitter{constructor(id){super();this.id=id||crypto.randomUUID();this.open=true;peers.set(this.id,this);setImmediate(()=>this.emit('open',this.id));}connect(id){const a=new Link(),b=new Link();a.other=b;b.other=a;setImmediate(()=>{peers.get(id).emit('connection',b);a.emit('open');});return a;}destroy(){this.destroyed=true;peers.delete(this.id);}reconnect(){}}
+function context(file,name,options={}){const nodes=new Map(),store=new Map(options.session||[]),local=new Map(options.local||[]);const node=s=>{if(!nodes.has(s))nodes.set(s,{value:s.includes('Filter')?'all':'',textContent:'',innerHTML:'',style:{},dataset:{},classList:{toggle(){},add(){},remove(){}},addEventListener(){},prepend(){},setAttribute(){},showModal(){},close(){}});return nodes.get(s)};const c={MathoLibrary:{registerRoom:async(id,code)=>{registrations.push({id,code});}},Peer,crypto,Event,Uint8Array,Uint32Array,URL,URLSearchParams,structuredClone,console,Date,JSON,Set,Map,Promise,document:{querySelector:node,createElement:()=>({}),querySelectorAll:()=>[],body:{classList:{toggle(){}}}},window:{addEventListener(){},dispatchEvent(){}},location:{href:'http://localhost:8765/game/'+file+'?set='+edition,search:'?set='+edition+(options.display?'&view=display':''),reload(){}},navigator:{clipboard:{writeText:async()=>{}}},localStorage:{getItem:k=>local.get(k)||null,setItem:(k,v)=>local.set(k,v)},sessionStorage:{getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,v),removeItem:k=>store.delete(k)},setTimeout:(f,n)=>n<500?setImmediate(f):0,clearTimeout(){},setInterval(){},confirm:()=>true,BroadcastChannel:class{postMessage(){}close(){}}};vm.createContext(c);vm.runInContext(fs.readFileSync('matho/visible-clock.js','utf8'),c);c.config=config;vm.runInContext(fs.readFileSync('matho/game/question-set.js','utf8')+';globalThis.MATHO_SET=MathoQuestionSet.create(config,location.href);globalThis.DEFAULT_BANK=MATHO_SET.bank;',c);vm.runInContext(fs.readFileSync('matho/game/live-core.js','utf8')+'\n'+fs.readFileSync('matho/result-panel.js','utf8')+'\n'+fs.readFileSync('matho/auto-draw.js','utf8')+'\n'+fs.readFileSync('matho/call-sound.js','utf8')+'\n'+fs.readFileSync('matho/game/'+(file==='room.html'?'room.js':file==='index.html'?'app.js':'student.js'),'utf8'),c);c.node=node;c.store=store;c.local=local;c.run=s=>vm.runInContext(s,c);return c;}
+const flush=async()=>{for(let i=0;i<8;i++)await new Promise(setImmediate)};
+
+(async()=>{
+ const t=context('room.html');t.run('start(true)');await flush();
+ const code=t.run('room.code'),players=[];assert(code.startsWith('CS'));assert.equal(registrations.length,1);assert.equal(registrations[0].id,config.id);
+ for(const name of ['Ada','Ben','Cam','Dee']){const s=context('join.html');s.node('#codeInput').value=code;s.node('#nameInput').value=name;s.run("$('#joinForm').onsubmit({preventDefault(){}})");players.push(s);}await flush();
+ t.run("room.calls=room.bank.filter(q=>q.enabled);broadcast();var alertPlays=0;claimSound.play=()=>{alertPlays++;return true;}");await flush();
+ for(const s of players.slice(0,3))s.run("marks=[0,1,2,3,4];send({type:'marks',epoch:game.epoch,marks,seq:++seq})");await flush();
+ players[0].run("$('#claimBingo').onclick()");players[1].run("$('#claimBingo').onclick()");await flush();
+ assert.equal(t.run('room.students.filter(s=>s.claim).length'),2);assert.equal(t.run('alertPlays'),2);
+ const check=i=>{t.testIndex=i;t.run("$('#roster').onclick({target:{closest(sel){return sel==='[data-check]'?{dataset:{check:room.students[testIndex].token}}:null}}})");};
+ check(0);await flush();
+ assert(t.run('room.students[1].claim'));assert(players[1].run('game.pending'));assert(players[1].run('game.roundComplete'));assert.equal(t.node('#revealReview').disabled,true);
+ t.run("$('#revealReview').onclick()");assert(!t.run('room.review'));
+ // A simultaneous claim arriving just after confirmation is checked using frozen marks.
+ assert(players[2].run('canClaim()'));players[2].run("$('#claimBingo').onclick()");await flush();assert(t.run('room.students[2].claim'));
+ players[3].run("send({type:'marks',epoch:game.epoch,marks:[0,1,2,3,4],seq:100});send({type:'claim',epoch:game.epoch,pattern:game.pattern,marks:[0,1,2,3,4],seq:101})");await flush();
+ assert.equal(t.run('room.students[3].marks.length'),0);assert.equal(t.run('room.students[3].claim'),null);assert.equal(t.run('alertPlays'),3);
+ check(1);await flush();assert(t.run('room.students[2].claim'));check(2);await flush();
+ assert.equal(t.run('room.winners.length'),3);assert.equal(t.run('room.winner.names.join(",")'),'Ada,Ben,Cam');
+ for(const s of players.slice(0,3))assert.equal(s.run('game.feedback'),'valid');
+ const display=context('index.html',null,{display:true,local:[...t.local]});assert.equal(display.node('#classroomResultTitle').textContent,'Ada & Ben & Cam got MATHO!');
+ // Duplicate confirmations and claims do not duplicate a winner or alert.
+ check(2);players[2].run("send({type:'claim',epoch:game.epoch,pattern:game.pattern,marks,seq:++seq})");await flush();assert.equal(t.run('room.winners.length'),3);assert.equal(t.run('alertPlays'),3);
+ // Room recovery keeps all winners and the lock.
+ const saved=[...t.store];t.run('peer.destroy()');const restored=context('room.html',null,{session:saved});await flush();assert.equal(restored.run('room.winners.length'),3);assert(restored.run('room.roundComplete'));
+ restored.run("$('#revealReview').onclick()");assert(restored.run('room.review'));restored.run('resetRound()');assert.equal(restored.run('room.winners.length'),0);assert.equal(restored.run('room.roundComplete'),false);assert.equal(restored.run('room.review'),false);
+
+ // Moderation: confirmation, count updates, persistent session blocking, and unaffected classmates.
+ const originalCount=restored.run('room.students.length'),removedToken=players[3].run('credentials.token');
+ const kicked=context('join.html');kicked.testCode=code;kicked.testToken=removedToken;
+ kicked.run("credentials={code:testCode,name:'Dee',token:testToken};connect()");await flush();
+ assert(kicked.run('online'));
+ restored.testToken=removedToken;
+ restored.run("$('#roster').onclick({target:{closest(sel){return sel==='[data-remove-student]'?{dataset:{removeStudent:testToken}}:null}}})");
+ assert.equal(restored.run('room.students.length'),originalCount,'Removal awaits confirmation');
+ restored.run("$('#cancelRoomAction').onclick()");assert.equal(restored.run('room.students.length'),originalCount);
+ restored.run("$('#roster').onclick({target:{closest(sel){return sel==='[data-remove-student]'?{dataset:{removeStudent:testToken}}:null}}});$('#confirmRoomAction').onclick()");await flush();
+ assert.equal(restored.run('room.students.length'),originalCount-1);assert(restored.run('room.removedTokens.includes(testToken)'));
+ assert(!kicked.run('online'));assert(kicked.run('suppressRetry'));assert(kicked.node('#studentStatus').textContent.includes('Removed'));
+ const classic=JSON.parse(restored.local.get(restored.run('CLASSIC')));assert.equal(classic.joinedCount,originalCount-1);
+ kicked.run('suppressRetry=false;connect()');await flush();assert(!kicked.run('online'));assert.equal(restored.run('room.students.length'),originalCount-1);
+ restored.run('resetRound()');assert(restored.run('room.removedTokens.includes(testToken)'));
+ restored.run('peer.destroy()');const recovered=context('room.html',null,{session:[...restored.store]});await flush();
+ kicked.run('suppressRetry=false;connect()');await flush();assert(!kicked.run('online'));assert.equal(recovered.run('room.students.length'),originalCount-1);
+ const countNodes=new Map(),countNode=s=>{if(!countNodes.has(s))countNodes.set(s,{});return countNodes.get(s);};
+ const app=fs.readFileSync('matho/game/app.js','utf8'),fn=app.slice(app.indexOf('function renderClassroomPattern(){'),app.indexOf('if(!display){',app.indexOf('function renderClassroomPattern(){')));
+ const countCtx={display:true,state:classic,MathoRules:require('../../matho/game/live-core.js'),$:countNode};vm.createContext(countCtx);vm.runInContext(fn,countCtx);vm.runInContext('renderClassroomPattern()',countCtx);
+ assert.equal(countNode('#classroomStudentCount').textContent,'3 students joined');
+ countCtx.state.joinedCount=1;vm.runInContext('renderClassroomPattern()',countCtx);assert.equal(countNode('#classroomStudentCount').textContent,'1 student joined');
+ console.log('PASS classroom joined count, removal confirmation/cancellation, disconnected student controls, blocked rejoin, persistence through new rounds and host reload, and existing multiplayer winner flow.');
+})().catch(e=>{console.error(e);process.exit(1)});

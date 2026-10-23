@@ -96,3 +96,5 @@ body[data-loading]>.shell,body[data-loading]>.live-shell{display:none}
 #celebrationControls{position:relative;font-size:12px;max-width:290px}#celebrationControls summary{cursor:pointer;font-weight:700;padding:10px}#celebrationControls[open]{background:var(--paper);padding:10px;border:1px solid var(--line);border-radius:10px}#celebrationControls button{margin:5px 0}#celebrationControls small{display:block;line-height:1.5}#celebrationPlayer audio{width:260px;max-width:100%}
 
 .room-settings{border-top:1px solid #d4dbcf;margin-top:24px;padding-top:20px}.room-settings .feedback-setting{display:flex;gap:10px;align-items:center;margin:14px 0}.audience-clock{background:#edf2e8;color:#203d36;border-radius:14px;padding:12px 18px;margin:12px 0;font-size:clamp(1.25rem,3vw,2.5rem);font-weight:750;font-variant-numeric:tabular-nums}.audience-clock[hidden]{display:none}
+
+.student-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.remove-student{color:#973d30;border-color:#d6afa5;background:#fff8f5}.classroom-student-count{font-size:clamp(1.1rem,2vw,1.6rem);font-weight:750;margin:0 0 12px}
