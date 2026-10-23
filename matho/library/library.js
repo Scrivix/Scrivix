@@ -65,10 +65,10 @@
  }
  async function openRequested(){
   const params=new URLSearchParams(location.search),slug=params.get('open');
-  if(!slug||autoOpening||!L.credentials())return;
+  if(!slug||autoOpening||!L.credentials())return false;
   await loadCatalogue();if(!catalogue.some(s=>s.slug===slug)){message('Choose a question set below.');return;}
   autoOpening=true;message('Opening your saved question set…');
-  try{await openBuiltIn(slug,params.get('mode')==='host'?'host':params.get('mode')==='edit'?'edit':'caller');}catch(error){autoOpening=false;message(error.message);}
+  try{await openBuiltIn(slug,params.get('mode')==='host'?'host':'edit');return true;}catch(error){autoOpening=false;message(error.message);}
  }
  async function connect(value){await L.connect(value);$('privateConnection').hidden=true;$('libraryQR').textContent='';await refresh();}
  if(incoming)try{await connect(location.origin+location.pathname+incoming);}catch(e){message(e.message);}
@@ -87,6 +87,6 @@
   if(id){e.target.disabled=true;try{const data=await L.versions(id);$('versions-'+id).innerHTML=data.versions.map(v=>'<div class="library-version"><span>Version '+v.revision+' · '+esc(new Date(v.created).toLocaleString())+'</span><button data-copy-set="'+id+'" data-revision="'+v.revision+'">Save a copy</button></div>').join('');}catch(err){message(err.message);}finally{e.target.disabled=false;}}
   if(copyId){e.target.disabled=true;try{const [set,v]=await Promise.all([L.read(copyId),L.version(copyId,Number(revision))]);const title=prompt('Name this recovered copy:',set.title+' — version '+revision);if(!title?.trim())return;await L.createSet(title.trim(),v.bank,set.config);await refresh();message('Saved that version as a separate set. The current set is unchanged.');}catch(err){message(err.message);}finally{e.target.disabled=false;}}
  };
+ if(await openRequested())return;
  if(!incoming)await refresh();
- await openRequested();
 })();

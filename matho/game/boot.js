@@ -43,14 +43,25 @@
    let recoveringRoom=false;
    if(page==='room')try{const recovered=JSON.parse(sessionStorage.getItem((config.storagePrefix||'matho-'+id)+'-host-v1'));recoveringRoom=!!recovered?.code&&!recovered.ended;}catch{}
    if(page!=='student'&&!classroom&&!recoveringRoom&&MathoLibrary.credentials()){
-    const library=new URL('../library/',base);library.searchParams.set('open',id);
-    library.searchParams.set('mode',page==='room'?'host':location.hash==='#bankSection'?'edit':'caller');
-    location.replace(library.href);return;
+    loading.textContent='Opening '+config.title+'…';
+    const savedSets=(await MathoLibrary.list()).sets;
+    let saved=savedSets.find(s=>s.title.toLowerCase()===config.title.toLowerCase());
+    if(!saved){
+     const key=(config.storagePrefix||'matho-'+id)+'-game-v1';let local;
+     try{local=JSON.parse(localStorage.getItem(key));}catch{}
+     let bank=local?.bank;
+     if(!Array.isArray(bank)){const r=await fetch(new URL('../sets/'+config.bankFile,base));if(!r.ok)throw Error('The questions could not load.');bank=await r.json();}
+     MathoLibrary.backup(key,bank,'Before opening this set in teacher library');
+     saved=await MathoLibrary.createSet(config.title,bank,config);
+    }
+    const target=MathoLibrary.gameUrl(saved.id,page==='room'?'room.html':'');
+    const pattern=new URLSearchParams(location.search).get('pattern');if(pattern)target.searchParams.set('pattern',pattern);
+    location.replace(target.href);return;
    }
    // Students load directions and connection keys, never the answer bank.
    if(page!=='student'){
     if(!/^[a-z0-9-]+\.json$/.test(config.bankFile))throw Error('This question bank is unavailable.');
-    const bankResponse=await fetch(new URL('../sets/'+config.bankFile+'?v=settings-1',base));
+    const bankResponse=await fetch(new URL('../sets/'+config.bankFile+'?v=set-editor-1',base));
     if(!bankResponse.ok)throw Error('The question bank could not load. Please refresh and try again.');
     config.bank=await bankResponse.json();MathoRules.validateBank(config.bank);
    }
@@ -65,10 +76,10 @@
   const invite=document.querySelector('#inviteHelp');
   if(invite)invite.textContent='Share this link, or ask students to open '+new URL('../join/',location.href).href+' and enter the code.';
   const clockScript=document.createElement('script');clockScript.src=new URL('../visible-clock.js?v=1',base);await new Promise((resolve,reject)=>{clockScript.onload=resolve;clockScript.onerror=reject;document.body.append(clockScript);});
-  const engine=document.createElement('script');engine.src=new URL({caller:'app.js',room:'room.js',student:'student.js'}[page]+'?v=settings-1',base);
+  const engine=document.createElement('script');engine.src=new URL({caller:'app.js',room:'room.js',student:'student.js'}[page]+'?v=set-editor-1',base);
   await new Promise((resolve,reject)=>{engine.onload=resolve;engine.onerror=()=>reject(Error('The game could not load. Please refresh and try again.'));document.body.append(engine);});
   if(page==='caller'&&new URLSearchParams(location.search).get('view')!=='display'){
-   const editor=document.createElement('script');editor.src=new URL('../library-editor.js?v=simple-1',base);
+   const editor=document.createElement('script');editor.src=new URL('../library-editor.js?v=set-editor-1',base);
    await new Promise((resolve,reject)=>{editor.onload=resolve;editor.onerror=()=>reject(Error('Question library controls could not load. Refresh and try again.'));document.body.append(editor);});
   }
   loading.hidden=true;document.body.removeAttribute('data-loading');

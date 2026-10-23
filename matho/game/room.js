@@ -24,6 +24,7 @@ try{const saved=JSON.parse(sessionStorage.getItem(SESSION));if(saved?.code&&save
 
 function renderPattern(el,id){const p=R.pattern(id);el.innerHTML=R.patternDiagram(id)+'<div><strong>'+esc(p.label)+'</strong><p>'+esc(p.description)+'</p></div>';}
 $('#setupPattern').onchange=()=>renderPattern($('#setupPatternPreview'),$('#setupPattern').value);
+const requestedPattern=new URLSearchParams(location.search).get('pattern');if(R.PATTERNS[requestedPattern])$('#setupPattern').value=requestedPattern;
 renderPattern($('#setupPatternPreview'),$('#setupPattern').value||'normal');
 $('#winningPattern').onchange=()=>{if(room?.roundComplete)return;const id=$('#winningPattern').value;if(!R.PATTERNS[id])return;const old=room.pattern||'normal';$('#winningPattern').value=old;if(id===old)return;askAction('Change the winning pattern?','Calls and student marks will stay. Pending claims will be cleared, and everyone will see the new goal.',()=>{room.pattern=id;room.winner=null;clearClaims('Winning pattern changed. Check the new goal before claiming.');persist();publishClassic();broadcast();render();});};
 

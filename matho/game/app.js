@@ -15,8 +15,8 @@ function receive(s){if(s&&Array.isArray(s.bank)&&Array.isArray(s.called)){state=
 window.addEventListener('storage',e=>{if(e.key===KEY&&e.newValue){try{receive(JSON.parse(e.newValue));}catch{}}});if(channel)channel.onmessage=e=>receive(e.data);
 function available(){const filter=$('#filter').value;return state.bank.filter(q=>q.enabled&&!state.called.some(c=>c.id===q.id)&&(filter==='all'||q.letter===filter));}
 function render(){renderClassroomWinner();renderClassroomPattern();if(display)MathoVisibleClock.update(state.clock);const calls=state.called,current=calls.at(-1);$('#calledCount').textContent=calls.length;$('#historyCount').textContent=calls.length?`${calls.length} called · grouped by column`:'No calls yet';$('#callNumber').textContent=current?`Call ${calls.length} · ${current.id}`:'Ready when you are';$('#currentMath').innerHTML=current?`<span class="letter-badge" style="--accent:var(--${current.letter})">${current.letter}</span>${math(current.question)}`:'<span class="empty-title">Let’s play MATHO.</span>';$('#currentHint').textContent=current?MATHO_SET.hint('caller',current.letter):(display?'Your teacher will draw the first expression shortly.':'Open the classroom display, then draw your first expression.');$('#answerMath').innerHTML=current?math(current.answer):'—';renderQuestionBoard();$('#remaining').textContent=`${available().length} expressions left in this selection`;$('#next').disabled=!available().length;$('#undo').disabled=!calls.length;$('#bankCount').textContent=`${state.bank.length} expressions`;typeset($('.play-area'));typeset($('#board'));if(!display)renderBank();}
-function renderBank(){const warnings=state.bank.filter(q=>q.note);$('#reviewNote').textContent=warnings.map(q=>`${q.id}: ${q.note}`).join(' ');$('#reviewNote').hidden=!warnings.length;$('#bank').innerHTML=state.bank.map(q=>{const locked=!MATHO_SET.config.id.startsWith('custom-')&&state.called.some(c=>c.id===q.id);return `<div class="bank-row" data-id="${esc(q.id)}"><strong>${esc(q.id)}</strong><div><label>Question · LaTeX<input type="text" data-field="question" value="${esc(q.question)}" ${locked?'disabled':''}></label><div class="preview" data-preview="question">${math(q.question)}</div></div><div><label>Answer · LaTeX<input type="text" data-field="answer" value="${esc(q.answer)}" ${locked?'disabled':''}></label><div class="preview" data-preview="answer">${math(q.answer)}</div></div><div class="question-actions"><label><input type="checkbox" data-field="enabled" ${q.enabled?'checked':''} ${locked?'disabled':''}> Include</label><button type="button" data-remove="${esc(q.id)}" ${locked?'disabled title="Start a new game before removing a called question"':''}>Remove</button></div>${q.note?`<div class="bank-note">${esc(q.note)}</div>`:''}</div>`;}).join('');if($('details').open)typeset($('#bank'));}
-$('#bank').addEventListener('change',e=>{const row=e.target.closest('[data-id]'),field=e.target.dataset.field;if(!row||!field)return;const q=state.bank.find(q=>q.id===row.dataset.id);q[field]=field==='enabled'?e.target.checked:e.target.value.trim();save();});$('details').addEventListener('toggle',()=>{if($('details').open)typeset($('#bank'));});
+function renderBank(){const warnings=state.bank.filter(q=>q.note);$('#reviewNote').textContent=warnings.map(q=>`${q.id}: ${q.note}`).join(' ');$('#reviewNote').hidden=!warnings.length;$('#bank').innerHTML=state.bank.map(q=>{const locked=!MATHO_SET.config.id.startsWith('custom-')&&state.called.some(c=>c.id===q.id);return `<div class="bank-row" data-id="${esc(q.id)}"><strong>${esc(q.id)}</strong><div><label>Question · LaTeX<input type="text" data-field="question" value="${esc(q.question)}" ${locked?'disabled':''}></label><div class="preview" data-preview="question">${math(q.question)}</div></div><div><label>Answer · LaTeX<input type="text" data-field="answer" value="${esc(q.answer)}" ${locked?'disabled':''}></label><div class="preview" data-preview="answer">${math(q.answer)}</div></div><div class="question-actions"><label><input type="checkbox" data-field="enabled" ${q.enabled?'checked':''} ${locked?'disabled':''}> Include</label><button type="button" data-remove="${esc(q.id)}" ${locked?'disabled title="Start a new game before removing a called question"':''}>Remove</button></div>${q.note?`<div class="bank-note">${esc(q.note)}</div>`:''}</div>`;}).join('');if($('#bankSection details').open)typeset($('#bank'));}
+$('#bank').addEventListener('change',e=>{const row=e.target.closest('[data-id]'),field=e.target.dataset.field;if(!row||!field)return;const q=state.bank.find(q=>q.id===row.dataset.id);q[field]=field==='enabled'?e.target.checked:e.target.value.trim();save();});$('#bankSection details').addEventListener('toggle',()=>{if($('#bankSection details').open)typeset($('#bank'));});
 function drawExpression(){const choices=available();if(!choices.length)return;const n=new Uint32Array(1);crypto.getRandomValues(n);state.winner=null;state.called.push(structuredClone(choices[Math.floor(n[0]/4294967296*choices.length)]));if(!display)expressionSound.play();save();if(autoTimer.running){if(available().length)autoTimer.restart();else autoTimer.stop('No expressions left in this selection.');}}$('#next').onclick=drawExpression;
 $('#filter').onchange=()=>{if(autoTimer.running){if(available().length)autoTimer.restart();else autoTimer.stop('No expressions left in this selection.');}render();};$('#undo').onclick=()=>{autoTimer.pause('Paused after undo.');state.called.pop();save();};$('#reset').onclick=()=>{if(autoTimer.running)autoTimer.pause('Paused while starting a new game.');if(confirm('Start a new game? This clears the call board on both screens. Your question bank stays saved.')){autoTimer.stop('New game · start the timer when ready.');state.winner=null;state.called=[];save();}};
 $('#openDisplay').onclick=()=>{const url=MATHO_SET.url('',{view:'display'});const w=window.open(url,MATHO_SET.keys.classroom,'popup,width=1400,height=900');if(!w)toast('Allow pop-ups to open the classroom display.');};$('#fullscreen').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen?.().catch(()=>toast('Use your browser’s full-screen command.'));};
@@ -75,7 +75,7 @@ $('#addQuestionForm').onsubmit=event=>{
  $('#newQuestionText').focus();
 };
 
-if(location.hash==='#bankSection')$('details').open=true;
+if(location.hash==='#bankSection')$('#bankSection details').open=true;
 
 function renderQuestionBoard(){
  const current=state.called.at(-1);
@@ -91,6 +91,28 @@ function renderQuestionBoard(){
    return `<div class="history-item ${q.id===current?.id?'newest':''}"><div class="call-index">${display?'CALL '+index:esc(q.id)+(index?' · CALLED':' · AVAILABLE')}</div><div class="history-question">${math(q.question)}</div>${display?'':`<div class="history-answer">${math(q.answer)}</div>`}</div>`;
   }).join(''):`<p class="no-calls">${display?'Waiting for a call':'No enabled questions'}</p>`}</div></div>`;
  }).join('');
+}
+
+// The teacher's set page is an editor and launch point; live calls belong in the room.
+if(!display){
+ document.body.classList.add('set-editor');
+ $('#viewLabel').textContent='QUESTION SET';
+ $('#heading').textContent=MATHO_SET.config.title;
+ $('#subtitle').textContent='Edit your questions, then set up a student game.';
+ const bankSection=$('#bankSection'),details=$('#bankSection details');
+ details.open=true;
+ const layout=document.createElement('section');layout.className='set-editor-layout';
+ bankSection.before(layout);layout.append(bankSection);
+ const setup=document.createElement('aside');setup.className='set-game-setup';
+ setup.innerHTML='<div class="eyebrow">GAME SETUP</div><h2>Ready to play?</h2><p>Students join with a room code. Each gets their own board.</p><label for="setPattern">Winning MATHO pattern</label><select id="setPattern">'+Object.entries(MathoRules.PATTERNS).map(([id,p])=>'<option value="'+id+'">'+esc(p.label)+'</option>').join('')+'</select><div id="setPatternPreview" class="pattern-preview"></div><button id="hostSetGame" class="primary" type="button">Set up student game →</button><p class="live-note">Open your room to choose sounds, countdowns, and other game settings. Existing rooms keep their original questions.</p><a href="../library/">My question sets</a>';
+ layout.append(setup);
+ const selection=$('#setPattern');selection.value='normal';
+ const preview=()=>{$('#setPatternPreview').innerHTML=MathoRules.patternDiagram(selection.value)+'<p>'+esc(MathoRules.pattern(selection.value).description)+'</p>';};selection.onchange=preview;preview();
+ $('#hostSetGame').onclick=()=>{
+  if(state.libraryDirty){toast('Your questions are still saving. Wait for “Saved online” before opening the room.');return;}
+  try{MathoRules.validateBank(state.bank);}catch(error){toast(error.message);return;}
+  const url=MATHO_SET.url('room.html',{pattern:selection.value});location.assign(url.href);
+ };
 }
 
 /* Question removals can be undone and saved library versions remain recoverable. */
@@ -120,3 +142,5 @@ if(display){
  celebrationSound.bindToggle($('#celebrationToggle'),'Celebration sound',toast);
  $('#testCelebration').onclick=async()=>{if(!await celebrationSound.test())toast('Press play on the celebration audio player to enable sound on this screen.');};
 }
+
+
