@@ -45,9 +45,9 @@ class MathoCallSound{
   try{const ctx=this.context,start=ctx.currentTime+.025;for(const [offset,frequency]of (this.tone==='celebrate'?[[0,523.25],[.14,659.25],[.28,783.99],[.45,1046.5],[.85,783.99],[1.03,1046.5],[1.22,1318.51]]:this.tone==='claim'?[[0,1046.5],[.18,783.99],[.38,1046.5]]:[[0,523.25],[.17,659.25],[.34,783.99],[.53,1046.5]])){const oscillator=ctx.createOscillator(),gain=ctx.createGain();oscillator.type='sine';oscillator.frequency.setValueAtTime(frequency,start+offset);gain.gain.setValueAtTime(0,start+offset);gain.gain.linearRampToValueAtTime(.12,start+offset+.015);gain.gain.exponentialRampToValueAtTime(.0001,start+offset+.23);oscillator.connect(gain);gain.connect(ctx.destination);oscillator.start(start+offset);oscillator.stop(start+offset+.25);oscillator.onended=()=>{oscillator.disconnect();gain.disconnect();};}return true;}catch{return false;}
  }
  bindToggle(button,label,notify=()=>{}){
-  const render=()=>{button.textContent=label+': '+(this.ready?'on':this.enabled?'tap to enable':'off');button.setAttribute('aria-pressed',String(!!this.ready));};
+  const render=()=>{button.textContent=label+': '+(this.enabled?'on':'off');button.setAttribute('aria-pressed',String(!!this.enabled));};
   this.onchange=render;
-  button.onclick=async()=>{button.disabled=true;try{if(this.ready){await this.setEnabled(false);return;}if(!await this.setEnabled(true,{silent:true}))notify('Sound could not start. Check that this browser tab and your computer are not muted, then try turning the sound on again.');}finally{button.disabled=false;render();}};
+  button.onclick=async()=>{button.disabled=true;try{if(this.enabled){await this.setEnabled(false);return;}if(!await this.setEnabled(true,{silent:true}))notify('Sound could not start. Check that this browser tab and your computer are not muted, then try turning the sound on again.');}finally{button.disabled=false;render();}};
   render();
  }
 }
