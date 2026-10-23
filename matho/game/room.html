@@ -24,7 +24,7 @@
 <script defer src="../vendor/qrcode.js?v=1"></script>
 <script defer src="../teacher-auth.js?v=1"></script>
 <script defer src="../library-client.js?v=accounts-1"></script>
-<script defer src="boot.js?v=public-play-1">
+<script defer src="boot.js?v=roster-sort-1">
 </script>
 <link rel="stylesheet" href="../library.css?v=set-editor-1">
 </head>
@@ -152,6 +152,9 @@
 <button id="revealReview" type="button" hidden>Reveal round review</button>
 <p class="live-note">After the first confirmed MATHO, boards lock while you check any other claims from the same draw. Reveal the review when all claims are checked; this closes further claims. New Round unlocks play.</p>
 <button id="clearWinner" type="button" hidden>Dismiss classroom celebration</button>
+<label class="live-label" for="rosterSort">Arrange students by</label>
+<select id="rosterSort"><option value="name">Name · A–Z</option><option value="marks">Boxes marked · most first</option></select>
+<p class="live-note">MATHO callers always appear at the top.</p>
 <div id="roster">
 </div>
 </section>
