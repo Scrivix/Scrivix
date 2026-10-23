@@ -1,0 +1,34 @@
+{
+  "id": "decimal-subtraction",
+  "title": "Subtracting Decimals",
+  "storagePrefix": "matho-decimal-subtraction",
+  "copy": {
+    "studentInstructions": "Subtract the decimals. Line up the decimal places and mark the matching answer in the called column. Complete the winning pattern, then call MATHO!",
+    "roomIntro": "Subtract numbers below 10 with two decimal places. All answers are zero or positive. Columns progress from no regrouping to borrowing across zero. Choose your winning pattern below.",
+    "roomHeading": "Small decimals. Careful thinking.",
+    "roomWelcome": "Let’s play decimal subtraction MATHO!",
+    "callerHeading": "Line them up. Work it out.",
+    "callerSubtitle": "Subtract the decimals. Find your answer. Call MATHO!",
+    "callerControls": "Ready for the next subtraction?",
+    "callerLink": "Decimal subtraction caller",
+    "joinIntro": "Get your teacher’s code. Let’s subtract!",
+    "studentBoardLabel": "YOUR DECIMAL SUBTRACTION BOARD",
+    "footer": "Line up the decimals. Find your square.",
+    "bankIntro": "50 questions, all using numbers below 10 with two decimal places and nonnegative answers. M: no borrowing. A: borrow for hundredths. T: borrow from the ones. H: borrow in both places. O: borrow across a zero in the tenths place. Signed-in edits save to your private teacher library.",
+    "callerBrand": "SUBTRACTING DECIMALS",
+    "roomBrand": "SUBTRACTING DECIMALS · PLAY TOGETHER",
+    "studentBrand": "SUBTRACTING DECIMALS · YOUR BOARD"
+  },
+  "hints": {
+    "caller": {
+      "default": "Subtract the decimals. Find your answer in column {letter}."
+    },
+    "student": {
+      "default": "Subtract the decimals and check column {letter}."
+    }
+  },
+  "presentationSubtitle": "Line up the decimal places. Subtract. Mark your answer.",
+  "exportFilename": "matho-decimal-subtraction-question-bank.json",
+  "bankFile": "decimal-subtraction-bank.json",
+  "joinPrefix": "DS"
+}

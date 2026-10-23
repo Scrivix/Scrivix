@@ -1,0 +1,402 @@
+[
+  {
+    "id": "M1",
+    "letter": "M",
+    "question": "3.45 - 3.45",
+    "answer": "0.00",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M2",
+    "letter": "M",
+    "question": "3.59 - 1.35",
+    "answer": "2.24",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M3",
+    "letter": "M",
+    "question": "8.97 - 2.06",
+    "answer": "6.91",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M4",
+    "letter": "M",
+    "question": "4.75 - 0.11",
+    "answer": "4.64",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M5",
+    "letter": "M",
+    "question": "4.03 - 3.01",
+    "answer": "1.02",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M6",
+    "letter": "M",
+    "question": "9.95 - 3.63",
+    "answer": "6.32",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M7",
+    "letter": "M",
+    "question": "1.44 - 1.03",
+    "answer": "0.41",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M8",
+    "letter": "M",
+    "question": "8.55 - 0.55",
+    "answer": "8.00",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M9",
+    "letter": "M",
+    "question": "6.88 - 4.17",
+    "answer": "2.71",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "M10",
+    "letter": "M",
+    "question": "2.56 - 1.22",
+    "answer": "1.34",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A1",
+    "letter": "A",
+    "question": "8.91 - 7.17",
+    "answer": "1.74",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A2",
+    "letter": "A",
+    "question": "2.98 - 0.49",
+    "answer": "2.49",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A3",
+    "letter": "A",
+    "question": "9.30 - 6.18",
+    "answer": "3.12",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A4",
+    "letter": "A",
+    "question": "7.62 - 6.14",
+    "answer": "1.48",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A5",
+    "letter": "A",
+    "question": "1.85 - 1.67",
+    "answer": "0.18",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A6",
+    "letter": "A",
+    "question": "3.81 - 3.66",
+    "answer": "0.15",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A7",
+    "letter": "A",
+    "question": "6.11 - 4.03",
+    "answer": "2.08",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A8",
+    "letter": "A",
+    "question": "5.36 - 5.29",
+    "answer": "0.07",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A9",
+    "letter": "A",
+    "question": "1.21 - 1.05",
+    "answer": "0.16",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "A10",
+    "letter": "A",
+    "question": "4.60 - 2.36",
+    "answer": "2.24",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T1",
+    "letter": "T",
+    "question": "4.73 - 0.83",
+    "answer": "3.90",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T2",
+    "letter": "T",
+    "question": "1.33 - 0.73",
+    "answer": "0.60",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T3",
+    "letter": "T",
+    "question": "9.69 - 5.77",
+    "answer": "3.92",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T4",
+    "letter": "T",
+    "question": "5.56 - 2.60",
+    "answer": "2.96",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T5",
+    "letter": "T",
+    "question": "4.18 - 1.87",
+    "answer": "2.31",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T6",
+    "letter": "T",
+    "question": "2.63 - 0.92",
+    "answer": "1.71",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T7",
+    "letter": "T",
+    "question": "9.48 - 0.68",
+    "answer": "8.80",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T8",
+    "letter": "T",
+    "question": "3.19 - 1.34",
+    "answer": "1.85",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T9",
+    "letter": "T",
+    "question": "8.65 - 7.72",
+    "answer": "0.93",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "T10",
+    "letter": "T",
+    "question": "9.18 - 8.44",
+    "answer": "0.74",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H1",
+    "letter": "H",
+    "question": "1.57 - 0.88",
+    "answer": "0.69",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H2",
+    "letter": "H",
+    "question": "1.22 - 0.35",
+    "answer": "0.87",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H3",
+    "letter": "H",
+    "question": "7.42 - 0.53",
+    "answer": "6.89",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H4",
+    "letter": "H",
+    "question": "1.44 - 0.49",
+    "answer": "0.95",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H5",
+    "letter": "H",
+    "question": "7.36 - 3.77",
+    "answer": "3.59",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H6",
+    "letter": "H",
+    "question": "6.14 - 5.98",
+    "answer": "0.16",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H7",
+    "letter": "H",
+    "question": "6.37 - 4.38",
+    "answer": "1.99",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H8",
+    "letter": "H",
+    "question": "8.88 - 3.99",
+    "answer": "4.89",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H9",
+    "letter": "H",
+    "question": "2.23 - 1.57",
+    "answer": "0.66",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "H10",
+    "letter": "H",
+    "question": "7.40 - 5.65",
+    "answer": "1.75",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O1",
+    "letter": "O",
+    "question": "1.04 - 0.77",
+    "answer": "0.27",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O2",
+    "letter": "O",
+    "question": "3.08 - 2.69",
+    "answer": "0.39",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O3",
+    "letter": "O",
+    "question": "2.06 - 0.97",
+    "answer": "1.09",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O4",
+    "letter": "O",
+    "question": "3.06 - 1.18",
+    "answer": "1.88",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O5",
+    "letter": "O",
+    "question": "2.02 - 0.63",
+    "answer": "1.39",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O6",
+    "letter": "O",
+    "question": "1.01 - 0.99",
+    "answer": "0.02",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O7",
+    "letter": "O",
+    "question": "9.03 - 0.49",
+    "answer": "8.54",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O8",
+    "letter": "O",
+    "question": "8.06 - 3.99",
+    "answer": "4.07",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O9",
+    "letter": "O",
+    "question": "2.05 - 1.99",
+    "answer": "0.06",
+    "enabled": true,
+    "note": ""
+  },
+  {
+    "id": "O10",
+    "letter": "O",
+    "question": "9.02 - 6.76",
+    "answer": "2.26",
+    "enabled": true,
+    "note": ""
+  }
+]
