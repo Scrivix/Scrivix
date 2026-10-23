@@ -5,11 +5,11 @@
  try{
   const response=await fetch('sets/index.json?v=set-editor-1');
   if(!response.ok)throw Error('Could not load question sets.');
-  const editions=await response.json();
+  const editions=await response.json();editions.sort((a,b)=>a.title.localeCompare(b.title,'en'));
   for(const edition of editions){
    if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(edition.slug))continue;
    const link=()=> 'public/?set='+encodeURIComponent(edition.slug);
-   const card=document.createElement('article');card.className='edition-card '+(edition.color==='purple'?'purple':'gold');
+   const card=document.createElement('article');card.className='edition-card '+(edition.color==='purple'?'purple':'gold')+' edition-'+edition.slug;
    card.innerHTML='<div class="edition-sample" aria-hidden="true">'+edition.sample+'</div><div class="edition-content"><div class="eyebrow">'+esc(edition.tag)+'</div><h2>'+esc(edition.title)+'</h2><p>'+esc(edition.description)+'</p><span class="edition-detail">'+esc(edition.detail)+'</span><a class="edition-primary" href="'+link('')+'">'+esc('View '+edition.title)+' <span>→</span></a></div>';
    catalogue.append(card);
   }

@@ -11,17 +11,6 @@
     "joinPrefix": "AD"
   },
   {
-    "slug": "decimal-subtraction",
-    "title": "Subtracting Decimals",
-    "tag": "DECIMAL PLACES · CAREFUL SUBTRACTION",
-    "description": "Subtract numbers below 10 with two decimal places. Build from no borrowing to borrowing across zero, with no negative answers.",
-    "sample": "7.45 <span>−</span> 2.38",
-    "detail": "Two decimal places · nonnegative answers",
-    "color": "gold",
-    "label": "Open subtracting decimals",
-    "joinPrefix": "DS"
-  },
-  {
     "slug": "exponents",
     "title": "Exponents",
     "tag": "POWERS · PATTERNS · PRACTICE",
@@ -44,6 +33,17 @@
     "joinPrefix": "MU"
   },
   {
+    "slug": "scientific-notation",
+    "title": "Scientific Notation",
+    "tag": "BIG NUMBERS · SMALL DECIMALS",
+    "description": "Convert large numbers and small decimals in both directions. Answers share coefficients within each column, so decimal placement and exponents matter.",
+    "sample": "3.2 <span>×</span> 10<sup>5</sup>",
+    "detail": "Both directions · positive and negative exponents",
+    "color": "purple",
+    "label": "Open scientific notation",
+    "joinPrefix": "SN"
+  },
+  {
     "slug": "signed-multiplication",
     "title": "Signed Multiplication",
     "tag": "SIGNS · PRODUCTS · PRACTICE",
@@ -55,14 +55,14 @@
     "joinPrefix": "SM"
   },
   {
-    "slug": "scientific-notation",
-    "title": "Scientific Notation",
-    "tag": "BIG NUMBERS · SMALL DECIMALS",
-    "description": "Convert large numbers and small decimals in both directions. Answers share coefficients within each column, so decimal placement and exponents matter.",
-    "sample": "3.2 <span>×</span> 10<sup>5</sup>",
-    "detail": "Both directions · positive and negative exponents",
-    "color": "purple",
-    "label": "Open scientific notation",
-    "joinPrefix": "SN"
+    "slug": "decimal-subtraction",
+    "title": "Subtracting Decimals",
+    "tag": "DECIMAL PLACES · CAREFUL SUBTRACTION",
+    "description": "Subtract numbers below 10 with two decimal places. Build from no borrowing to borrowing across zero, with no negative answers.",
+    "sample": "7.45 <span>−</span> 2.38",
+    "detail": "Two decimal places · nonnegative answers",
+    "color": "gold",
+    "label": "Open subtracting decimals",
+    "joinPrefix": "DS"
   }
 ]

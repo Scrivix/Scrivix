@@ -28,7 +28,7 @@
  async function loadCatalogue(){
   if(catalogue.length)return;
   const r=await fetch('../sets/index.json?v=simple-library-1');if(!r.ok)throw Error('The question sets could not load. Please refresh.');
-  catalogue=await r.json();
+  catalogue=await r.json();catalogue.sort((a,b)=>a.title.localeCompare(b.title,'en'));
  }
  async function openBuiltIn(slug){
   const url=new URL('../public/',location.href);url.searchParams.set('set',slug);location.assign(url.href);
