@@ -1,9 +1,27 @@
 (function(){
  const G=ScrivixGroups,$=id=>document.getElementById(id),KEY='scrivix-groups-class-v1';
- let people=[],groups=null;
+ let people=[],groups=null,classes=[],active='';
+ const LIBRARY='scrivix-groups-classes-v1';
  const id=()=>typeof crypto.randomUUID==='function'?crypto.randomUUID():Array.from(crypto.getRandomValues(new Uint32Array(4)),n=>n.toString(16)).join('-');
  function mode(){return document.querySelector('input[name="mode"]:checked').value;}
+ function snapshot(){return {people:people.map(p=>({...p})),balanced:$('balance').checked,mode:mode(),amount:$('amount').value};}
+ function writeClasses(){try{localStorage.setItem(LIBRARY,JSON.stringify({classes,active}));return true;}catch{$('saveStatus').textContent='Could not save in this browser. Keep this page open; these changes may not be available next visit.';return false;}}
+ function classPicker(){
+  $('classPicker').replaceChildren();
+  for(const c of [{id:'',name:'Unsaved class'},...classes]){const o=document.createElement('option');o.value=c.id;o.textContent=c.name;$('classPicker').append(o);}
+  $('classPicker').value=active;$('deleteClass').hidden=!active;
+ }
+ function loadClass(data){
+  people=(data.people||[]).map(p=>({id:id(),name:p.name.slice(0,100),grade:['A','B','C','D','F'].includes(p.grade)?p.grade:''}));
+  $('balance').checked=!!data.balanced;
+  for(const r of document.querySelectorAll('input[name="mode"]'))r.checked=r.value===(data.mode==='size'?'size':'groups');
+  $('amount').value=Number.isInteger(Number(data.amount))&&Number(data.amount)>0?data.amount:4;
+  $('names').value='';$('formStatus').textContent='';roster();updateMode();clearResults();
+ }
+ function validClass(c){return c&&Array.isArray(c.people)&&c.people.length<=200&&c.people.every(p=>p&&typeof p.name==='string');}
  function save(){
+  $('remember').disabled=!!active;$('draftSave').hidden=!!active;
+  if(active){const c=classes.find(c=>c.id===active);Object.assign(c,snapshot());if(writeClasses())$('saveStatus').textContent='Changes to '+c.name+' saved on this device.';return;}
   if(!$('remember').checked){try{localStorage.removeItem(KEY);}catch{}$('saveStatus').textContent='Not saved between visits. Keep this page open to keep your list.';return;}
   try{localStorage.setItem(KEY,JSON.stringify({people,balanced:$('balance').checked,mode:mode(),amount:$('amount').value}));$('saveStatus').textContent='Class list saved on this device.';}catch{$('saveStatus').textContent='This browser could not save the list. Keep this page open.';}
  }
@@ -32,6 +50,19 @@
  $('roster').onclick=e=>{const button=e.target.closest('[data-remove]');if(!button)return;people=people.filter(p=>p.id!==button.dataset.remove);roster();clearResults();save();};
  $('balance').onchange=()=>{updateCount();clearResults();save();};
  $('remember').onchange=save;
+ $('saveClass').onclick=()=>{
+  const name=$('className').value.trim();if(!name){$('saveStatus').textContent='Enter a class name, such as Period 1.';$('className').focus();return;}
+  if(classes.some(c=>c.name.toLowerCase()===name.toLowerCase()&&c.id!==active)){$('saveStatus').textContent='That class name is already saved. Choose it above or use a different name.';return;}
+  if(!active){active=id();classes.push({id:active,name,...snapshot()});}else classes.find(c=>c.id===active).name=name;
+  classPicker();save();
+ };
+ function leaveDraft(){if(!active&&(people.length||$('names').value.trim()))return confirm('This list has not been saved as a named class. Switch classes and discard this list?');return true;}
+ $('classPicker').onchange=()=>{
+  const next=$('classPicker').value;if(!leaveDraft()){$('classPicker').value=active;return;}
+  active=next;const c=classes.find(c=>c.id===active);loadClass(c||{});$('className').value=c?c.name:'';classPicker();writeClasses();save();
+ };
+ $('newClass').onclick=()=>{if(!leaveDraft())return;active='';loadClass({});$('className').value='';$('remember').checked=false;classPicker();writeClasses();save();$('className').focus();};
+ $('deleteClass').onclick=()=>{const c=classes.find(c=>c.id===active);if(!c||!confirm('Delete saved class “'+c.name+'” from this device?'))return;classes=classes.filter(c=>c.id!==active);active='';$('className').value='';classPicker();$('remember').checked=false;writeClasses();save();};
  $('clearClass').onclick=()=>{if(!confirm('Clear this class list and its groups?'))return;people=[];roster();clearResults();save();$('names').focus();};
  for(const choice of document.querySelectorAll('input[name="mode"]'))choice.onchange=()=>{updateMode();clearResults();save();};
  function updateMode(){const size=mode()==='size';$('amountLabel').textContent=size?'Maximum people in a group?':'How many groups?';$('sizeHint').textContent=size?'Groups stay within this size and differ by no more than one student.':'Group sizes stay as even as possible.';}
@@ -66,5 +97,6 @@
    if(Number.isInteger(Number(saved.amount))&&Number(saved.amount)>0)$('amount').value=saved.amount;
   }
  }catch{}
- roster();updateMode();save();
+ try{const lib=JSON.parse(localStorage.getItem(LIBRARY));if(lib&&Array.isArray(lib.classes)){classes=lib.classes.filter(c=>validClass(c)&&typeof c.id==='string'&&typeof c.name==='string');if(classes.some(c=>c.id===lib.active)){active=lib.active;const c=classes.find(c=>c.id===active);loadClass(c);$('className').value=c.name;}}}catch{}
+ classPicker();roster();updateMode();save();
 })();

@@ -20,6 +20,17 @@ function app(){
  a=app();assert.equal(a.get('roster').children.length,8);assert(a.get('remember').checked);assert(a.get('balance').checked);
  a.get('remember').checked=false;a.get('remember').onchange();assert.equal(storage.size,0);
  a.get('clearClass').onclick();assert.equal(a.get('roster').children.length,0);
+ a.get('names').value='Ira\nJules';a.get('namesForm').onsubmit({preventDefault(){}});
+ a.get('className').value='Period 1';a.get('saveClass').onclick();const first=a.get('classPicker').value;assert(first);assert.equal(a.get('classPicker').children.length,2);
+ a.get('newClass').onclick();assert.equal(a.get('roster').children.length,0);
+ a.get('names').value='Kai';a.get('namesForm').onsubmit({preventDefault(){}});a.get('className').value='Period 2';a.get('saveClass').onclick();const second=a.get('classPicker').value;assert.notEqual(first,second);
+ a.get('classPicker').value=first;a.get('classPicker').onchange();assert.equal(a.get('roster').children.length,2);
+ const row=a.get('roster').children[0],name=row.children[0];name.value='Ira Updated';name.closest=()=>row;a.get('roster').listeners.input({target:name});
+ a=app();assert.equal(a.get('classPicker').value,first);assert.equal(a.get('roster').children[0].children[0].value,'Ira Updated');
+ a.get('classPicker').value=second;a.get('classPicker').onchange();assert.equal(a.get('roster').children[0].children[0].value,'Kai');
+ a.get('deleteClass').onclick();assert.equal(a.get('classPicker').children.length,2);a.get('classPicker').value=first;a.get('classPicker').onchange();assert.equal(a.get('roster').children.length,2);
+ a.get('newClass').onclick();a.get('className').value='Period 1';a.get('saveClass').onclick();assert(a.get('saveStatus').textContent.includes('already saved'));
+ console.log('PASS multiple saved periods, independent rosters, automatic edits, reload, deletion isolation, duplicate-name protection.');
  assert(!/fetch\(|XMLHttpRequest|sendBeacon/.test(fs.readFileSync('groups/app.js','utf8')),'Names and grades have no network submission');
  console.log('PASS add names, random generation, missing-grade validation, tablet change events, balanced generation, names-only copy, presentation mode, opt-in local saving/restoration/removal, clear list, and no data uploads.');
 })().catch(e=>{console.error(e);process.exit(1)});
