@@ -39,3 +39,5 @@
  .student-settings .roster{max-height:260px}
  .group-grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
 }
+
+.results{scroll-margin-top:20px}

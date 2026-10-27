@@ -80,6 +80,8 @@
    const sizes=groups.map(g=>g.length),low=Math.min(...sizes),high=Math.max(...sizes);
    $('resultSummary').textContent=people.length+' '+(people.length===1?'student':'students')+' · '+groups.length+' '+(groups.length===1?'group':'groups')+' · '+(low===high?low:low+'–'+high)+' per group';
    $('empty').hidden=true;$('resultActions').hidden=false;$('balanceNote').hidden=!$('balance').checked;
+   const results=document.querySelector('.results');
+   if(results&&typeof results.scrollIntoView==='function')results.scrollIntoView({behavior:window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
   }catch(error){groups=null;$('formStatus').textContent=error.message;$('resultActions').hidden=true;if($('balance').checked){const missing=people.find(p=>!G.values[p.grade]);if(missing)document.querySelector('[data-id="'+missing.id+'"] select')?.focus();}}
  }
  $('generate').onclick=makeGroups;$('shuffleAgain').onclick=makeGroups;
