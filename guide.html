@@ -3,375 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrivix — User Guide & Tools</title>
+    <meta name="description" content="Learn how to use Scrivix tools, gestures, presentations, images, PDF export, and Mac-connected annotation features.">
+    <title>Scrivix — User Guide &amp; Tools</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --text-color: #f3f4f6;
-            --accent-color: #3b82f6;
-            --card-bg: #111827;
-            --border-color: #1f2937;
+            --bg: #0b0f19;
+            --surface: #111827;
+            --surface-soft: #151e2e;
+            --border: #263247;
+            --text: #f3f4f6;
+            --muted: #a7b0bf;
+            --accent: #3b82f6;
+            --accent-soft: rgba(59, 130, 246, 0.13);
+            --green: #34d399;
         }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
             margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.55;
         }
+
+        a { color: inherit; }
+
         .container {
-            max-width: 800px;
-            padding: 60px 20px;
+            width: min(960px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 64px 0 56px;
         }
+
+        .hero {
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto 34px;
+        }
+
         h1 {
-            font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 10px;
-            text-align: center;
+            margin: 0 0 10px;
+            color: #fff;
+            font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: clamp(2.2rem, 7vw, 3.6rem);
+            line-height: 1.05;
+            letter-spacing: 0;
         }
+
         .subtitle {
-            color: #9ca3af;
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-            text-align: center;
+            margin: 0 auto 14px;
+            color: var(--muted);
+            font-size: 1.08rem;
         }
+
         .guide-note {
-            color: #6b7280;
+            margin: 0 auto;
+            color: #7f8a9c;
             font-size: 0.9rem;
-            line-height: 1.5;
-            margin: 0 auto 40px;
-            max-width: 620px;
-            text-align: center;
+            max-width: 680px;
         }
+
+        .quick-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 26px 0 46px;
+        }
+
+        .quick-nav a {
+            padding: 8px 11px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            background: var(--surface);
+            color: #d9e3f2;
+            text-decoration: none;
+            font-size: 0.88rem;
+        }
+
+        .quick-nav a:hover,
+        .quick-nav a:focus-visible {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+            outline: none;
+        }
+
+        section { scroll-margin-top: 24px; }
+
         h2 {
-            color: var(--accent-color);
-            border-bottom: 2px solid var(--border-color);
+            margin: 48px 0 14px;
             padding-bottom: 10px;
-            margin-top: 40px;
+            border-bottom: 2px solid var(--border);
+            color: var(--accent);
+            font-size: 1.55rem;
+            letter-spacing: 0;
         }
+
+        .section-intro {
+            margin: -2px 0 16px;
+            color: var(--muted);
+        }
+
         .guide-table {
             width: 100%;
-            border-collapse: collapse;
-            background-color: var(--card-bg);
-            border-radius: 12px;
+            border: 1px solid var(--border);
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: var(--surface);
         }
-        .guide-table th, .guide-table td {
-            padding: 16px 20px;
+
+        .guide-table th,
+        .guide-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border);
             text-align: left;
-            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
         }
+
         .guide-table th {
-            background-color: rgba(255, 255, 255, 0.05);
-            font-weight: 600;
-            color: #ffffff;
+            background: var(--surface-soft);
+            color: #fff;
+            font-weight: 650;
         }
-        .guide-table tr:last-child td {
-            border-bottom: none;
-        }
+
+        .guide-table tr:last-child td { border-bottom: 0; }
+
         .icon-cell {
-            font-size: 1.5rem;
-            width: 50px;
-            text-align: center;
+            width: 68px;
+            text-align: center !important;
+            font-size: 1.45rem;
+            white-space: nowrap;
         }
+
         .tool-name {
-            font-weight: 600;
-            color: #ffffff;
-            font-size: 1.1rem;
             display: block;
             margin-bottom: 4px;
+            color: #fff;
+            font-size: 1.04rem;
+            font-weight: 680;
         }
+
         .tool-desc {
-            color: #d1d5db;
-            font-size: 0.95rem;
-            line-height: 1.5;
             margin: 0;
+            color: #cbd3df;
+            font-size: 0.95rem;
         }
+
+        .tip {
+            margin: 16px 0 0;
+            padding: 14px 16px;
+            border-left: 3px solid var(--green);
+            border-radius: 0 6px 6px 0;
+            background: rgba(52, 211, 153, 0.08);
+            color: #cdeee3;
+            font-size: 0.94rem;
+        }
+
         .back-link {
             display: block;
-            margin-top: 40px;
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 500;
+            margin-top: 48px;
+            color: var(--accent);
             text-align: center;
+            text-decoration: none;
+            font-weight: 600;
         }
-        .back-link:hover {
-            text-decoration: underline;
+
+        .back-link:hover { text-decoration: underline; }
+
+        @media (max-width: 620px) {
+            .container { width: min(100% - 20px, 960px); padding-top: 40px; }
+            .guide-table th, .guide-table td { padding: 14px 12px; }
+            .icon-cell { width: 50px; font-size: 1.25rem; }
+            .guide-table th:first-child { font-size: 0; }
+            .guide-table th:first-child::after { content: ""; }
         }
     </style>
 </head>
 <body>
+    <main class="container">
+        <header class="hero">
+            <h1>Scrivix User Guide</h1>
+            <p class="subtitle">Your reference for drawing, Mac control, presentations, images, gestures, and sharing.</p>
+            <p class="guide-note">Icons on this page are simplified references. Apple restricts use of its SF Symbols outside Apple-platform interfaces, so website icons may differ slightly from the toolbar in Scrivix.</p>
+        </header>
 
-    <div class="container">
-        <h1>Scrivix Tool Guide</h1>
-        <p class="subtitle">A quick reference for Scrivix tools, gestures, overlays, and Mac pairing.</p>
-        <p class="guide-note">Icons shown in this guide are simplified references and may differ slightly from the in-app toolbar.</p>
+        <nav class="quick-nav" aria-label="Guide sections">
+            <a href="#toolbar">Toolbar</a>
+            <a href="#ink">Special Ink</a>
+            <a href="#gestures">Gestures</a>
+            <a href="#presentations">Presentations</a>
+            <a href="#images">Images</a>
+            <a href="#sharing">Save &amp; Export</a>
+            <a href="#connected">Mac Connected</a>
+            <a href="#external-display">AirPlay</a>
+        </nav>
 
-        <h2>iPad Toolbar Options</h2>
-        <table class="guide-table">
-            <thead>
-                <tr>
-                    <th class="icon-cell">Icon</th>
-                    <th>Tool & Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="icon-cell">📸</td>
-                    <td>
-                        <span class="tool-name">Screenshot Snapshot</span>
-                        <p class="tool-desc">Saves a clean screenshot of the current canvas or presentation area to your iPad Photos library. Toolbar controls are not included in the saved image.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">🎨</td>
-                    <td>
-                        <span class="tool-name">Color Palette</span>
-                        <p class="tool-desc">Quickly switch between preset colors or choose a custom color. Long-press a preset color to save your current color for future sessions.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">🖥️</td>
-                    <td>
-                        <span class="tool-name">Overlay & Whiteboard Menu</span>
-                        <p class="tool-desc">Tap the display icon to toggle the current overlay. Press and hold to choose whiteboard options including white, black, graph paper, lined paper, or a photo from your iPad.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">〰️</td>
-                    <td>
-                        <span class="tool-name">Brush Tool</span>
-                        <p class="tool-desc">Draw smooth, pressure-sensitive ink with Apple Pencil. Brush size is remembered when switching between Brush and Highlighter.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">🖍️</td>
-                    <td>
-                        <span class="tool-name">Highlighter</span>
-                        <p class="tool-desc">Adds translucent markup for emphasizing text, slides, diagrams, or documents without fully covering what is underneath.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">💧</td>
-                    <td>
-                        <span class="tool-name">Fill Tool</span>
-                        <p class="tool-desc">Fill Smart Shapes or messy closed hand-drawn shapes with your selected color. Great for quick diagrams, emphasis boxes, and visual callouts.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">🪄</td>
-                    <td>
-                        <span class="tool-name">Laser Pointer</span>
-                        <p class="tool-desc">Draw temporary laser marks that fade away automatically, perfect for pointing something out without leaving permanent ink behind.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">🧽</td>
-                    <td>
-                        <span class="tool-name">Pixel Eraser</span>
-                        <p class="tool-desc">Erase part of a stroke by drawing over it, while leaving the rest of your annotation intact.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">🧼</td>
-                    <td>
-                        <span class="tool-name">Stroke Eraser</span>
-                        <p class="tool-desc">Remove an entire stroke by swiping over it with your Apple Pencil or finger.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">🗑️</td>
-                    <td>
-                        <span class="tool-name">Clear Screen</span>
-                        <p class="tool-desc">Clears your current annotations while keeping the active overlay or whiteboard background in place.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">🖱️</td>
-                    <td>
-                        <span class="tool-name">Control Mode</span>
-                        <p class="tool-desc">Control your Mac from your iPad. Use Apple Pencil hover to move the Mac cursor, tap to click, double tap to double-click, tap and hold for right-click, tap-hold-drag to move windows or items, two fingers to scroll, and pinch or expand to zoom the active Mac window when supported.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">✍️</td>
-                    <td>
-                        <span class="tool-name">Apple Pencil Only</span>
-                        <p class="tool-desc">Limit drawing input to Apple Pencil to help prevent accidental marks from your hand or finger while writing.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">↩️</td>
-                    <td>
-                        <span class="tool-name">Undo</span>
-                        <p class="tool-desc">Step backward through recent annotation actions.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">↪️</td>
-                    <td>
-                        <span class="tool-name">Redo</span>
-                        <p class="tool-desc">Restore a stroke or action that was removed with Undo.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">🎚️</td>
-                    <td>
-                        <span class="tool-name">Brush Size Slider</span>
-                        <p class="tool-desc">Adjust the active tool size. Size options are disabled for tools that do not need them, such as Fill and Control Mode.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">❌</td>
-                    <td>
-                        <span class="tool-name">Disconnect</span>
-                        <p class="tool-desc">Ends the session with your Mac and returns to the pairing screen.</p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <section id="toolbar">
+            <h2>Toolbar Tools</h2>
+            <p class="section-intro">The toolbar adapts to the active mode and tool. Some presentation features require Scrivix Unlimited or are included with Scrivix Remote for Education.</p>
+            <table class="guide-table">
+                <thead><tr><th class="icon-cell">Icon</th><th>Tool &amp; Description</th></tr></thead>
+                <tbody>
+                    <tr><td class="icon-cell">📸</td><td><span class="tool-name">Screenshot</span><p class="tool-desc">Save a clean image of the canvas or Mac display area to Photos. Scrivix removes its toolbar from the captured image.</p></td></tr>
+                    <tr><td class="icon-cell">👁</td><td><span class="tool-name">Show or Hide Ink</span><p class="tool-desc">Temporarily hide every annotation without deleting anything. Tap again to bring the ink back exactly where it was.</p></td></tr>
+                    <tr><td class="icon-cell">🎨</td><td><span class="tool-name">Color Palette</span><p class="tool-desc">Choose a preset or custom color. Brush and Highlighter each remember their own saved colors. Tap the custom color control for Apple’s color picker, or press and hold it to choose Rainbow or Astro ink.</p></td></tr>
+                    <tr><td class="icon-cell">🖥</td><td><span class="tool-name">Overlay &amp; Background Menu</span><p class="tool-desc">Tap to toggle the current background. Press and hold, then slide or tap to choose white, black, graph paper, lined paper, or a photo. Grid spacing and line width controls appear only when they apply, and your choices are remembered.</p></td></tr>
+                    <tr><td class="icon-cell">〰</td><td><span class="tool-name">Brush</span><p class="tool-desc">Write and draw with pressure-sensitive Apple Pencil ink. Scrivix remembers the Brush size when you switch to another tool and back.</p></td></tr>
+                    <tr><td class="icon-cell">🖍</td><td><span class="tool-name">Highlighter</span><p class="tool-desc">Add translucent emphasis that stays underneath normal ink so writing remains clear. The Highlighter has its own remembered size and color presets.</p></td></tr>
+                    <tr><td class="icon-cell">◇</td><td><span class="tool-name">Shape &amp; Line Menu</span><p class="tool-desc">Press and hold to choose a single-ended arrow, double-ended arrow, straight line, rectangle, or circle. Slide to an option and lift, or tap the option. While drawing a rectangle or circle, use a second finger to lock a perfect square or circle.</p></td></tr>
+                    <tr><td class="icon-cell">💧</td><td><span class="tool-name">Fill</span><p class="tool-desc">Fill Smart Shapes, Shape Tool objects, and many closed hand-drawn shapes. Rainbow produces a smooth diagonal gradient; Astro adds a space-inspired gradient and stars.</p></td></tr>
+                    <tr><td class="icon-cell">✦</td><td><span class="tool-name">Laser Pointer</span><p class="tool-desc">Draw temporary marks that fade away automatically without affecting permanent annotations.</p></td></tr>
+                    <tr><td class="icon-cell">↖</td><td><span class="tool-name">Selection</span><p class="tool-desc">Tap a stroke or drag a selection around several strokes, then move, resize, or delete the selection. Selection is available on the iPad canvas and during Mac-connected annotation sessions.</p></td></tr>
+                    <tr><td class="icon-cell">🧼</td><td><span class="tool-name">Object Eraser</span><p class="tool-desc">Remove an entire stroke or shape by touching the ink. Scrivix uses the object’s actual path so nearby annotations are less likely to be erased accidentally.</p></td></tr>
+                    <tr><td class="icon-cell">🗑</td><td><span class="tool-name">Clear</span><p class="tool-desc">Remove the current page’s annotations while preserving its selected background or overlay. Undo can restore an accidental clear.</p></td></tr>
+                    <tr><td class="icon-cell">🖱</td><td><span class="tool-name">Control Mode</span><p class="tool-desc">Control your Mac from iPad: tap to click, double tap to double-click, press and hold for right-click, drag windows and items, hover Apple Pencil to move the cursor, scroll with two fingers, and pinch or expand to zoom supported apps.</p></td></tr>
+                    <tr><td class="icon-cell">✍</td><td><span class="tool-name">Apple Pencil Only</span><p class="tool-desc">Prevent fingers and your palm from creating ink while keeping supported finger gestures available for navigation and editing.</p></td></tr>
+                    <tr><td class="icon-cell">↩ ↪</td><td><span class="tool-name">Undo &amp; Redo</span><p class="tool-desc">Step backward or forward through drawing, editing, erasing, and clear actions. You can also use the multi-touch shortcuts below.</p></td></tr>
+                    <tr><td class="icon-cell">🎚</td><td><span class="tool-name">Tool Size</span><p class="tool-desc">Choose Small, Medium, or Large and fine-tune the active tool with the slider. Tools that do not use a size control disable these options.</p></td></tr>
+                </tbody>
+            </table>
+        </section>
 
-        <h2>Multi-Touch Gestures</h2>
-        <table class="guide-table">
-            <thead>
-                <tr>
-                    <th class="icon-cell">Gesture</th>
-                    <th>Action & Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="icon-cell">✌️</td>
-                    <td>
-                        <span class="tool-name">Two-Finger Tap</span>
-                        <p class="tool-desc">Tap anywhere on the iPad screen with two fingers to instantly undo your last stroke without using the toolbar.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">🤟</td>
-                    <td>
-                        <span class="tool-name">Three-Finger Tap</span>
-                        <p class="tool-desc">Tap anywhere on the iPad screen with three fingers to redo your last undone action.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">↕️</td>
-                    <td>
-                        <span class="tool-name">Two-Finger Scroll</span>
-                        <p class="tool-desc">Scroll documents, webpages, slides, and other Mac content naturally. Two-finger scrolling also works while using drawing tools.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">🔎</td>
-                    <td>
-                        <span class="tool-name">Pinch & Expand Zoom</span>
-                        <p class="tool-desc">In Control Mode, pinch inward to zoom out or expand outward to zoom in on the active Mac window. Scrivix sends the zoom command to the Mac app rather than zooming the iPad video itself, so your iPad view stays stable while the active document, slide, page, or canvas changes size on the Mac.</p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <section id="ink">
+            <h2>Special Ink &amp; Smart Drawing</h2>
+            <table class="guide-table">
+                <thead><tr><th class="icon-cell">Feature</th><th>How It Works</th></tr></thead>
+                <tbody>
+                    <tr><td class="icon-cell">🌈</td><td><span class="tool-name">Rainbow Ink</span><p class="tool-desc">Press and hold the custom color control and choose Rainbow. Colors transition smoothly along your writing and continue from the previous stroke rather than restarting at red every time.</p></td></tr>
+                    <tr><td class="icon-cell">🌌</td><td><span class="tool-name">Astro Ink</span><p class="tool-desc">Choose Astro from the same press-and-hold menu for deep purples and blacks with varied star highlights. Its pattern continues naturally across strokes.</p></td></tr>
+                    <tr><td class="icon-cell">▭</td><td><span class="tool-name">Smart Shapes</span><p class="tool-desc">Draw a rough line, circle, rectangle, triangle, or arrow, then briefly hold Apple Pencil still. Scrivix replaces it with a cleaner shape while preserving the active standard, Rainbow, or Astro style.</p></td></tr>
+                    <tr><td class="icon-cell">⬛</td><td><span class="tool-name">Closed Shape Fill</span><p class="tool-desc">The Fill Tool can color many closed freehand shapes even when you do not convert them into Smart Shapes.</p></td></tr>
+                </tbody>
+            </table>
+        </section>
 
-        <h2>Smart Drawing</h2>
-        <table class="guide-table">
-            <thead>
-                <tr>
-                    <th class="icon-cell">Feature</th>
-                    <th>Action & Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="icon-cell">▭</td>
-                    <td>
-                        <span class="tool-name">Smart Shapes</span>
-                        <p class="tool-desc">Draw rough rectangles, triangles, arrows, lines, or circles, then briefly hold your Apple Pencil down to snap the drawing into a cleaner shape.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">⬛</td>
-                    <td>
-                        <span class="tool-name">Messy Shape Fill</span>
-                        <p class="tool-desc">The Fill Tool can also fill many closed hand-drawn shapes, even if they are not converted into Smart Shapes.</p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <section id="gestures">
+            <h2>Apple Pencil &amp; Touch Gestures</h2>
+            <table class="guide-table">
+                <thead><tr><th class="icon-cell">Gesture</th><th>Action</th></tr></thead>
+                <tbody>
+                    <tr><td class="icon-cell">✌</td><td><span class="tool-name">Two-Finger Tap</span><p class="tool-desc">Undo the last action without reaching for the toolbar.</p></td></tr>
+                    <tr><td class="icon-cell">3</td><td><span class="tool-name">Three-Finger Tap</span><p class="tool-desc">Redo the last undone action.</p></td></tr>
+                    <tr><td class="icon-cell">↕</td><td><span class="tool-name">Two-Finger Scroll</span><p class="tool-desc">Scroll Mac documents, webpages, and presentations. Scrolling remains available while a drawing tool is selected.</p></td></tr>
+                    <tr><td class="icon-cell">↔</td><td><span class="tool-name">Two-Finger Page Swipe</span><p class="tool-desc">In an iPad presentation, swipe horizontally to move between pages. Swipe forward from the final page to add a clean new page.</p></td></tr>
+                    <tr><td class="icon-cell">⌁</td><td><span class="tool-name">Pinch &amp; Expand</span><p class="tool-desc">In Control Mode, pinch to zoom out or expand to zoom in. Scrivix sends the appropriate zoom shortcut to the active Mac app instead of enlarging the video feed.</p></td></tr>
+                    <tr><td class="icon-cell">◌</td><td><span class="tool-name">Apple Pencil Hover</span><p class="tool-desc">Preview toolbar controls and menus before touching the screen. In Control Mode, hover also positions the Mac pointer.</p></td></tr>
+                    <tr><td class="icon-cell">◐</td><td><span class="tool-name">Apple Pencil Squeeze</span><p class="tool-desc">Open the quick color menu with your saved colors near the current Pencil location. The menu moves to remain clear of the toolbar.</p></td></tr>
+                    <tr><td class="icon-cell">↺</td><td><span class="tool-name">Apple Pencil Double Tap</span><p class="tool-desc">Quickly switch between the Brush and Object Eraser.</p></td></tr>
+                </tbody>
+            </table>
+        </section>
 
-        <h2>Connection Feedback</h2>
-        <table class="guide-table">
-            <thead>
-                <tr>
-                    <th class="icon-cell">Status</th>
-                    <th>Meaning</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="icon-cell">🟢</td>
-                    <td>
-                        <span class="tool-name">Connected</span>
-                        <p class="tool-desc">Your iPad is connected to the Mac companion app and the live video stream is active.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">🟠</td>
-                    <td>
-                        <span class="tool-name">Reconnecting</span>
-                        <p class="tool-desc">Scrivix is trying to restore the Mac connection or video feed. Keep both devices on the same local network.</p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <section id="presentations">
+            <h2>Pages &amp; Presentations</h2>
+            <p class="section-intro">Build a reusable whiteboard or lesson as a multi-page Scrivix presentation.</p>
+            <table class="guide-table">
+                <thead><tr><th class="icon-cell">Feature</th><th>What You Can Do</th></tr></thead>
+                <tbody>
+                    <tr><td class="icon-cell">1/4</td><td><span class="tool-name">Page Counter</span><p class="tool-desc">See the current page and total number of pages. Tap the counter to open the Page Organizer.</p></td></tr>
+                    <tr><td class="icon-cell">＋</td><td><span class="tool-name">Add &amp; Insert Pages</span><p class="tool-desc">Add a new page after the current page, including between existing pages. New pages begin with the current background for a natural lesson flow.</p></td></tr>
+                    <tr><td class="icon-cell">▦</td><td><span class="tool-name">Page Organizer</span><p class="tool-desc">Review page thumbnails, jump to a page, duplicate or delete pages, and drag pages into a new order.</p></td></tr>
+                    <tr><td class="icon-cell">▣</td><td><span class="tool-name">Independent Page Content</span><p class="tool-desc">Each page remembers its own ink, background or overlay, and inserted images.</p></td></tr>
+                    <tr><td class="icon-cell">✧</td><td><span class="tool-name">New Presentation</span><p class="tool-desc">Start a blank presentation without leaving the canvas. Scrivix offers to save changes before replacing the current project.</p></td></tr>
+                </tbody>
+            </table>
+        </section>
 
-        <h2>Mac Application</h2>
-        <table class="guide-table">
-            <thead>
-                <tr>
-                    <th class="icon-cell">Icon</th>
-                    <th>Tool & Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="icon-cell">🔐</td>
-                    <td>
-                        <span class="tool-name">Pairing Passcode</span>
-                        <p class="tool-desc">The Mac app displays a secure 4-digit code. Enter this code on your iPad to start a local Scrivix session.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">✅</td>
-                    <td>
-                        <span class="tool-name">Permission Checklist</span>
-                        <p class="tool-desc">The Mac app shows whether Screen Recording and Computer Control permissions are enabled, with quick access to macOS Settings.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">📡</td>
-                    <td>
-                        <span class="tool-name">Local Connection</span>
-                        <p class="tool-desc">Scrivix connects over your local network. Your drawings, screen stream, and controls are not sent to cloud servers.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="icon-cell">🖥️</td>
-                    <td>
-                        <span class="tool-name">Mac Overlay</span>
-                        <p class="tool-desc">After pairing, Scrivix becomes a transparent full-screen overlay so you can annotate over presentations, documents, browsers, videos, and other Mac apps.</p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <section id="images">
+            <h2>Scalable Images &amp; Layers</h2>
+            <table class="guide-table">
+                <thead><tr><th class="icon-cell">Feature</th><th>How It Works</th></tr></thead>
+                <tbody>
+                    <tr><td class="icon-cell">🖼</td><td><span class="tool-name">Insert Images</span><p class="tool-desc">Add one or more images from Photos without replacing the full canvas background.</p></td></tr>
+                    <tr><td class="icon-cell">⤢</td><td><span class="tool-name">Move &amp; Resize</span><p class="tool-desc">Choose Adjust Images, then tap the image you want. Drag directly on that image to move it and use its resize controls with a finger or Apple Pencil. Tap away to clear the selection.</p></td></tr>
+                    <tr><td class="icon-cell">▤</td><td><span class="tool-name">Layer Toolbar</span><p class="tool-desc">Use the thumbnail strip to select and reorder overlapping images. Bring an image forward, send it backward, or drag thumbnails into the exact layer order you need.</p></td></tr>
+                    <tr><td class="icon-cell">✓</td><td><span class="tool-name">Done Editing</span><p class="tool-desc">Tap the clearly marked Done button beside the image control to return to writing and drawing.</p></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="sharing">
+            <h2>Save, Open &amp; Export</h2>
+            <table class="guide-table">
+                <thead><tr><th class="icon-cell">Feature</th><th>What It Does</th></tr></thead>
+                <tbody>
+                    <tr><td class="icon-cell">💾</td><td><span class="tool-name">Save Scrivix Presentations</span><p class="tool-desc">Save editable <strong>.scrivix</strong> projects to Files, On My iPad, or iCloud Drive. A project keeps its pages, ink, overlays, and images so you can continue later.</p></td></tr>
+                    <tr><td class="icon-cell">📂</td><td><span class="tool-name">Open &amp; Continue</span><p class="tool-desc">Open a saved Scrivix presentation and keep editing, erasing, rearranging, or adding pages.</p></td></tr>
+                    <tr><td class="icon-cell">↧</td><td><span class="tool-name">Save &amp; Save As</span><p class="tool-desc">Update the current project or save a separate copy under a new name. The current file name appears at the top of the canvas.</p></td></tr>
+                    <tr><td class="icon-cell">PDF</td><td><span class="tool-name">Export Every Page to PDF</span><p class="tool-desc">Use the clearly labeled PDF export action from the Page Organizer or save menu to create a shareable PDF containing all presentation pages.</p></td></tr>
+                </tbody>
+            </table>
+            <p class="tip"><strong>Tip:</strong> Save as a Scrivix presentation when you want to edit later. Export as PDF when you want to send, print, or post a finished copy.</p>
+        </section>
+
+        <section id="connected">
+            <h2>Mac-Connected Mode</h2>
+            <table class="guide-table">
+                <thead><tr><th class="icon-cell">Feature</th><th>How It Works</th></tr></thead>
+                <tbody>
+                    <tr><td class="icon-cell">🔐</td><td><span class="tool-name">Local Pairing</span><p class="tool-desc">Open the free Scrivix Mac companion, choose the Mac on your iPad, and enter the displayed passcode. Both devices must be on the same local network.</p></td></tr>
+                    <tr><td class="icon-cell">🖥</td><td><span class="tool-name">Display Switching</span><p class="tool-desc">When the Mac has multiple displays, choose the display you want to view and annotate. Scrivix keeps the overlay and video feed aligned with that display.</p></td></tr>
+                    <tr><td class="icon-cell">↖</td><td><span class="tool-name">Connected Selection</span><p class="tool-desc">Use the Selection tool on annotations created during the connected session. Move, resize, or delete strokes and Scrivix updates the corresponding Mac overlay.</p></td></tr>
+                    <tr><td class="icon-cell">✅</td><td><span class="tool-name">Mac Permissions</span><p class="tool-desc">Screen Recording lets Scrivix send the Mac display to iPad. Accessibility lets Control Mode click, scroll, and move the pointer. If a permission appears enabled but does not work, remove Scrivix from that macOS permission list, add it again, and reopen the app.</p></td></tr>
+                    <tr><td class="icon-cell">🔒</td><td><span class="tool-name">Private by Design</span><p class="tool-desc">Screen video, drawing commands, and controls travel over your local network. Scrivix does not send presentation content to a Scrivix cloud account.</p></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="external-display">
+            <h2>AirPlay &amp; External Displays</h2>
+            <table class="guide-table">
+                <thead><tr><th class="icon-cell">Feature</th><th>What Viewers See</th></tr></thead>
+                <tbody>
+                    <tr><td class="icon-cell">▭</td><td><span class="tool-name">Clean Canvas Presentation</span><p class="tool-desc">When you use the iPad canvas with AirPlay or a connected external display, Scrivix presents the writing surface without the editing toolbar so the audience sees only your content.</p></td></tr>
+                    <tr><td class="icon-cell">S</td><td><span class="tool-name">Private Connection Screen</span><p class="tool-desc">If the connection screen is open, the external display shows Scrivix branding rather than exposing your list of available Macs or connection details.</p></td></tr>
+                </tbody>
+            </table>
+        </section>
 
         <a href="index.html" class="back-link">← Back to Scrivix Home</a>
-    </div>
-
+    </main>
 </body>
 </html>
