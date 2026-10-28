@@ -64,5 +64,16 @@
     "color": "gold",
     "label": "Open subtracting decimals",
     "joinPrefix": "DS"
+  },
+  {
+    "slug": "basic-expression-translation",
+    "title": "Basic Math Expression Translation",
+    "tag": "WORDS TO EXPRESSIONS",
+    "description": "Translate words into expressions using x. Practice sums, differences, products, quotients, more than, and less than, without parentheses.",
+    "sample": "x <span>−</span> 5",
+    "detail": "50 questions · four operations · no parentheses",
+    "color": "gold",
+    "label": "View Basic Math Expression Translation",
+    "joinPrefix": "BT"
   }
 ]

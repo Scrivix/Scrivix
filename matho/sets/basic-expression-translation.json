@@ -1,0 +1,34 @@
+{
+  "id": "basic-expression-translation",
+  "title": "Basic Math Expression Translation",
+  "storagePrefix": "matho-basic-expression-translation",
+  "copy": {
+    "studentInstructions": "Use x for a number. Translate the words into a math expression and mark the matching answer in the called column.",
+    "roomIntro": "Translate verbal phrases into expressions using x. Practice addition, subtraction, multiplication, and division without parentheses. Choose your winning pattern below.",
+    "roomHeading": "Basic Math Expression Translation",
+    "roomWelcome": "Let’s play expression translation MATHO!",
+    "callerHeading": "Basic Math Expression Translation",
+    "callerSubtitle": "Read the words. Write the expression. Find your square.",
+    "callerControls": "Ready for the next phrase?",
+    "callerLink": "Expression translation caller",
+    "joinIntro": "Enter your teacher’s room code to join.",
+    "studentBoardLabel": "YOUR EXPRESSION TRANSLATION BOARD",
+    "footer": "Translate the words. Find your square.",
+    "bankIntro": "50 questions. Use x for a number. M: simple sums and differences. A: products and quotients. T: more than, less than, and reversed order. H: two-operation expressions. O: two-operation phrases with order to consider. No parentheses are needed. Signed-in edits save to your private teacher library.",
+    "callerBrand": "Basic Math Expression Translation",
+    "roomBrand": "Basic Math Expression Translation",
+    "studentBrand": "Basic Math Expression Translation"
+  },
+  "hints": {
+    "caller": {
+      "default": "Use x for a number. Find the expression in column {letter}."
+    },
+    "student": {
+      "default": "Use x for a number. Check column {letter}."
+    }
+  },
+  "presentationSubtitle": "Translate the words into an expression. Use x for a number.",
+  "exportFilename": "matho-basic-expression-translation-question-bank.json",
+  "bankFile": "basic-expression-translation-bank.json",
+  "joinPrefix": "BT"
+}
