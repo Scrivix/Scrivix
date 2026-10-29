@@ -6,12 +6,23 @@ class Events{
  emit(event,...args){for(const fn of this.listeners.get(event)||[])fn(...args);}
 }
 const token=()=>Array.from(crypto.getRandomValues(new Uint8Array(32)),n=>n.toString(16).padStart(2,'0')).join('');
+const clock=()=>root.performance?.now?.()??Date.now();
+function stateKey(payload){
+ if(payload?.type!=='state')return null;
+ const copy={...payload};delete copy.sentAt;delete copy.clockPing;
+ if(copy.clock){copy.clock={...copy.clock};delete copy.clock.sentAt;if(copy.clock.running&&Number.isFinite(copy.clock.deadline))delete copy.clock.remainingMs;}
+ if(copy.role==='teacher-remote'){
+  delete copy.heartbeat;
+  if(copy.timer){copy.timer={...copy.timer};if(copy.timer.running&&Number.isFinite(copy.timer.deadline)){delete copy.timer.remainingMs;delete copy.timer.secondsLeft;}}
+ }
+ return JSON.stringify(copy);
+}
 class Connection extends Events{
  constructor(peer,id){super();this.owner=peer;this.remote=id;this.open=false;this.queue=Promise.resolve();}
- send(payload){if(!this.open)return;if(this.owner.session!=='host'&&payload?.type==='ping')return;this.transmit('data',payload);}
+ send(payload){if(!this.open)return;if(this.owner.session!=='host'&&payload?.type==='ping')return;if(this.owner.session!=='host'&&['hello','teacher-hello'].includes(payload?.type))payload={...payload,transportVersion:2};this.transmit('data',payload);}
  transmit(kind,payload){
-  const requestId=crypto.randomUUID(),state=kind==='data'&&payload?.type==='state'?JSON.stringify(payload):null;
-  this.queue=this.queue.then(async()=>{if(state&&state===this.sentState)return;await this.owner.request('/v1/send',{room:this.owner.room,id:this.owner.session,to:this.remote,kind,payload,requestId});if(state)this.sentState=state;}).catch(error=>{if(!this.owner.destroyed&&(error.status===403||error.status===404))this.emit('error',error);});
+  const requestId=crypto.randomUUID(),state=kind==='data'?stateKey(payload):null;
+  this.queue=this.queue.then(async()=>{if(this.stableState&&state&&state===this.sentState&&!Number.isFinite(payload.clockPing)&&(payload.role!=='teacher-remote'||clock()-(this.sentStateAt??-Infinity)<10000))return;await this.owner.request('/v1/send',{room:this.owner.room,id:this.owner.session,to:this.remote,kind,payload,requestId});if(state){this.sentState=state;this.sentStateAt=clock();}}).catch(error=>{if(!this.owner.destroyed&&(error.status===403||error.status===404))this.emit('error',error);});
  }
  close(){if(!this.open)return;this.transmit('close',null);this.open=false;this.emit('close');if(this.owner.session!=='host')this.owner.destroy();}
 }
@@ -62,7 +73,7 @@ class MathoHttpsPeer extends Events{
     if(event.kind==='connect'&&this.session==='host'){
      // Repeated connect delivery must not close an already-open connection.
      if(!conn?.open){conn=new Connection(this,event.sender);conn.open=true;this.links.set(event.sender,conn);this.emit('connection',conn);}
-    }else if(event.kind==='data'&&conn?.open){if(this.session!=='host'&&event.payload?.type==='state')this.lastState=event.payload;conn.emit('data',event.payload);}
+    }else if(event.kind==='data'&&conn?.open){if(this.session==='host'&&['hello','teacher-hello'].includes(event.payload?.type))conn.stableState=event.payload.transportVersion===2;if(this.session!=='host'&&event.payload?.type==='state'){this.lastState=event.payload;this.lastStateAt=clock();}conn.emit('data',event.payload);}
     else if(event.kind==='close'&&conn?.open){conn.open=false;conn.emit('close');}
     this.after=event.seq;
     if(this.session==='host')try{sessionStorage.setItem('matho-relay-position:'+this.room,JSON.stringify({generation:this.generation,after:this.after}));}catch{}
@@ -81,7 +92,16 @@ class MathoHttpsPeer extends Events{
   if(this.destroyed||!this.lastContact||Date.now()-this.lastContact>35000)return;
   if(this.session==='host'){
    for(const [id,conn]of this.links)if(conn.open&&this.activeSessions?.has(id)&&Date.now()-(conn.lastHeartbeat||0)>6000){conn.lastHeartbeat=Date.now();conn.emit('data',{type:'ping'});}
-  }else if(this.hostOnline&&this.lastState&&this.links.get('host')?.open)this.links.get('host').emit('data',this.lastState);
+   }else if(this.hostOnline&&this.lastState&&this.links.get('host')?.open){
+   let state=this.lastState;
+   // A local connection heartbeat must advance, rather than restart, an audience clock.
+   if(state.role!=='teacher-remote'){
+    const elapsed=Math.max(0,clock()-this.lastStateAt);state={...state,clockPing:null};
+    if(Number.isFinite(state.sentAt))state.sentAt+=elapsed;
+    if(state.clock){state.clock={...state.clock};if(Number.isFinite(state.clock.sentAt))state.clock.sentAt+=elapsed;if(state.clock.running)state.clock.remainingMs=Math.max(0,state.clock.remainingMs-elapsed);}
+   }
+   this.links.get('host').emit('data',state);
+  }
  }
  reconnect(){if(this.destroyed)return;if(this.session==='host')this.register();else this.poll();}
  destroy(){this.destroyed=true;this.open=false;clearTimeout(this.pollTimer);clearInterval(this.heartbeatTimer);for(const conn of this.links.values()){conn.open=false;conn.emit('close');}this.links.clear();}

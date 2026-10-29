@@ -66,7 +66,7 @@ function teacherSnapshot(){
  return {type:'state',role:'teacher-remote',heartbeat:teacherRemoteGeneration+':'+(++teacherRemoteBeat),title:MATHO_SET.config.title,code:room.code,epoch:room.epoch,round:room.round,pattern:room.pattern||'normal',
  locked:!!room.locked,roundComplete:!!room.roundComplete,review:!!room.review,winner:room.winner||null,
  calls:room.calls.slice(),remaining:remaining().length,filter:$('#liveFilter').value||'all',
- timer:{running:autoTimer.running,seconds:autoTimer.seconds,secondsLeft:autoTimer.secondsLeft,remainingMs:Math.max(0,autoTimer.running?autoTimer.deadline-Date.now():autoTimer.remainingMs),reason:autoTimer.reason},
+ timer:{deadline:autoTimer.running?autoTimer.deadline:null,running:autoTimer.running,seconds:autoTimer.seconds,secondsLeft:autoTimer.secondsLeft,remainingMs:Math.max(0,autoTimer.running?autoTimer.deadline-Date.now():autoTimer.remainingMs),reason:autoTimer.reason},
  students:room.students.map(s=>({token:s.token,name:s.name,board:s.board,marks:s.marks,seq:s.seq,claim:s.claim,feedback:s.feedback,failedClaims:s.failedClaims||0,claimLocked:(s.failedClaims||0)>=3,
  connected:!!links.get(s.token)?.conn.open}))};
 }
