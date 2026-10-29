@@ -100,3 +100,10 @@ body[data-loading]>.shell,body[data-loading]>.live-shell{display:none}
 .student-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.remove-student{color:#973d30;border-color:#d6afa5;background:#fff8f5}.classroom-student-count{font-size:clamp(1.1rem,2vw,1.6rem);font-weight:750;margin:0 0 12px}
 
 .student-page .audience-clock{font-size:1rem;line-height:1.3;padding:6px 10px;margin:8px 0;border-radius:8px;font-weight:650}
+
+/* Long current calls fit independently of the fixed-size column badge. */
+#currentMath,#liveCurrent,#studentCurrent{display:flex;align-items:center;min-width:0;max-width:100%;overflow:visible;gap:clamp(10px,2vw,20px)}
+#currentMath>.letter-badge,#liveCurrent>.letter-badge,#studentCurrent>.letter-badge{flex-shrink:0;margin-right:0}
+.current-call-content{display:block;flex:1 1 0%;min-width:0;max-width:100%;text-align:center}
+.current-call-content.current-call-words{font-family:inherit;line-height:1.2;white-space:normal;overflow-wrap:anywhere}
+.current-call-content mjx-container{max-width:none!important}
