@@ -19,18 +19,25 @@ function stateKey(payload){
 }
 class Connection extends Events{
  constructor(peer,id){super();this.owner=peer;this.remote=id;this.open=false;this.queue=Promise.resolve();}
- send(payload){if(!this.open)return;if(this.owner.session!=='host'&&payload?.type==='ping')return;if(this.owner.session!=='host'&&['hello','teacher-hello'].includes(payload?.type))payload={...payload,transportVersion:2};this.transmit('data',payload);}
+ flushMarks(){if(!this.pendingMarks)return;clearTimeout(this.markTimer);this.pendingMarkScheduled=false;const payload=this.pendingMarks;this.pendingMarks=null;this.transmit('data',payload);}
+ send(payload){if(!this.open)return;if(this.owner.session!=='host'&&payload?.type==='ping')return;
+  if(this.owner.session!=='host'&&payload?.type==='marks'){
+   if(this.pendingMarks&&this.pendingMarks.epoch!==payload.epoch)this.flushMarks();
+   this.pendingMarks={...payload,marks:Array.isArray(payload.marks)?payload.marks.slice():payload.marks};
+   if(!this.markTimer||!this.pendingMarkScheduled){this.pendingMarkScheduled=true;this.markTimer=setTimeout(()=>{this.pendingMarkScheduled=false;this.flushMarks();},120);}return;
+  }
+  this.flushMarks();if(this.owner.session!=='host'&&['hello','teacher-hello'].includes(payload?.type))payload={...payload,transportVersion:2};this.transmit('data',payload);}
  transmit(kind,payload){
   const requestId=crypto.randomUUID(),state=kind==='data'?stateKey(payload):null;
-  this.queue=this.queue.then(async()=>{if(this.stableState&&state&&state===this.sentState&&!Number.isFinite(payload.clockPing)&&(payload.role!=='teacher-remote'||clock()-(this.sentStateAt??-Infinity)<10000))return;await this.owner.request('/v1/send',{room:this.owner.room,id:this.owner.session,to:this.remote,kind,payload,requestId});if(state){this.sentState=state;this.sentStateAt=clock();}}).catch(error=>{if(!this.owner.destroyed&&(error.status===403||error.status===404))this.emit('error',error);});
+  this.queue=this.queue.then(async()=>{if(this.stableState&&state&&state===this.sentState&&!Number.isFinite(payload.clockPing)&&(payload.role!=='teacher-remote'||this.localHeartbeat||clock()-(this.sentStateAt??-Infinity)<10000))return;await this.owner.request('/v1/send',{room:this.owner.room,id:this.owner.session,to:this.remote,kind,payload,requestId});if(state){this.sentState=state;this.sentStateAt=clock();}}).catch(error=>{if(!this.owner.destroyed&&(error.status===403||error.status===404))this.emit('error',error);});
  }
- close(){if(!this.open)return;this.transmit('close',null);this.open=false;this.emit('close');if(this.owner.session!=='host')this.owner.destroy();}
+ close(){if(!this.open)return;this.flushMarks();this.transmit('close',null);this.open=false;this.emit('close');if(this.owner.session!=='host')this.owner.destroy();}
 }
 class MathoHttpsPeer extends Events{
  static endpoint='';
  constructor(id,options={}){
   super();this.id=id||crypto.randomUUID();this.session=id?'host':this.id;this.room=id||null;this.endpoint=options.endpoint||MathoHttpsPeer.endpoint;this.open=false;this.destroyed=false;this.links=new Map();this.after=0;this.pollTimer=null;this.failSince=0;this.disconnected=false;
-  this.heartbeatTimer=setInterval(()=>this.heartbeat(),4000);
+  this.heartbeatTimer=setInterval(()=>this.heartbeat(),4000);this.flushOnHide=()=>{for(const conn of this.links.values())conn.flushMarks();};root.addEventListener?.('pagehide',this.flushOnHide);this.flushWhenHidden=()=>{if(root.document?.visibilityState==='hidden')this.flushOnHide();};root.document?.addEventListener?.('visibilitychange',this.flushWhenHidden);
   if(id){const key='matho-relay-host:'+id;try{this.secret=sessionStorage.getItem(key)||token();sessionStorage.setItem(key,this.secret);}catch{this.secret=token();}Promise.resolve().then(()=>this.register());}
   else{this.secret=token();Promise.resolve().then(()=>{if(!this.destroyed){this.open=true;this.emit('open',this.id);}});}
  }
@@ -42,7 +49,7 @@ class MathoHttpsPeer extends Events{
    let result,lastError;
    // Reuse the request ID on retry; the server deduplicates messages.
    for(let attempt=0;attempt<2;attempt++){
-    try{result=await fetch(url,{method:body?'POST':'GET',credentials:'include',headers:{'Authorization':'Bearer '+this.secret,...(root.MathoTeacherAuth?.account()?{'X-Matho-CSRF':root.MathoTeacherAuth.account().csrf}:{}),...(body?{'Content-Type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,cache:'no-store',keepalive:path==='/v1/send'&&(body.kind==='close'||body.payload?.type==='ended'),signal:controller.signal});break;}catch(error){lastError=error;if(attempt||controller.signal.aborted)throw error;}
+    try{result=await fetch(url,{method:body?'POST':'GET',credentials:'include',headers:{'Authorization':'Bearer '+this.secret,...(root.MathoTeacherAuth?.account()?{'X-Matho-CSRF':root.MathoTeacherAuth.account().csrf}:{}),...(body?{'Content-Type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,cache:'no-store',keepalive:path==='/v1/send'&&(body.kind==='close'||body.payload?.type==='ended'||body.payload?.type==='marks'),signal:controller.signal});break;}catch(error){lastError=error;if(attempt||controller.signal.aborted)throw error;}
    }
    if(!result)throw lastError;const data=await result.json();
    if(!result.ok){const error=Error(data.error||'The room service could not connect.');error.status=result.status;error.type=result.status===404?'peer-unavailable':result.status===403&&path==='/v1/rooms'?'unavailable-id':'network';throw error;}
@@ -73,7 +80,7 @@ class MathoHttpsPeer extends Events{
     if(event.kind==='connect'&&this.session==='host'){
      // Repeated connect delivery must not close an already-open connection.
      if(!conn?.open){conn=new Connection(this,event.sender);conn.open=true;this.links.set(event.sender,conn);this.emit('connection',conn);}
-    }else if(event.kind==='data'&&conn?.open){if(this.session==='host'&&['hello','teacher-hello'].includes(event.payload?.type))conn.stableState=event.payload.transportVersion===2;if(this.session!=='host'&&event.payload?.type==='state'){this.lastState=event.payload;this.lastStateAt=clock();}conn.emit('data',event.payload);}
+    }else if(event.kind==='data'&&conn?.open){if(this.session==='host'&&['hello','teacher-hello'].includes(event.payload?.type)){conn.stableState=event.payload.transportVersion===2;conn.localHeartbeat=event.payload.localHeartbeat===true;}if(this.session!=='host'&&event.payload?.type==='state'){this.lastState=event.payload;this.lastStateAt=clock();}conn.emit('data',event.payload);}
     else if(event.kind==='close'&&conn?.open){conn.open=false;conn.emit('close');}
     this.after=event.seq;
     if(this.session==='host')try{sessionStorage.setItem('matho-relay-position:'+this.room,JSON.stringify({generation:this.generation,after:this.after}));}catch{}
@@ -93,6 +100,7 @@ class MathoHttpsPeer extends Events{
   if(this.session==='host'){
    for(const [id,conn]of this.links)if(conn.open&&this.activeSessions?.has(id)&&Date.now()-(conn.lastHeartbeat||0)>6000){conn.lastHeartbeat=Date.now();conn.emit('data',{type:'ping'});}
    }else if(this.hostOnline&&this.lastState&&this.links.get('host')?.open){
+   this.links.get('host').emit('heartbeat');
    let state=this.lastState;
    // A local connection heartbeat must advance, rather than restart, an audience clock.
    if(state.role!=='teacher-remote'){
@@ -104,7 +112,7 @@ class MathoHttpsPeer extends Events{
   }
  }
  reconnect(){if(this.destroyed)return;if(this.session==='host')this.register();else this.poll();}
- destroy(){this.destroyed=true;this.open=false;clearTimeout(this.pollTimer);clearInterval(this.heartbeatTimer);for(const conn of this.links.values()){conn.open=false;conn.emit('close');}this.links.clear();}
+ destroy(){this.flushOnHide?.();root.removeEventListener?.('pagehide',this.flushOnHide);root.document?.removeEventListener?.('visibilitychange',this.flushWhenHidden);this.destroyed=true;this.open=false;clearTimeout(this.pollTimer);clearInterval(this.heartbeatTimer);for(const conn of this.links.values()){conn.open=false;conn.emit('close');}this.links.clear();}
 }
 root.MathoHttpsPeer=MathoHttpsPeer;if(typeof module!=='undefined')module.exports=MathoHttpsPeer;
 })(globalThis);

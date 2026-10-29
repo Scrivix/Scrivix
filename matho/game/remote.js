@@ -48,7 +48,8 @@
   if(stopped)return;const generation=++attempt;clearTimeout(retry);conn?.close();peer?.destroy();status('Connecting to laptop…');
   peer=new Peer(undefined,{debug:0});
   peer.on('open',()=>{if(generation!==attempt)return;conn=peer.connect(relay,{reliable:true,serialization:'json'});
-   conn.on('open',()=>conn.send({type:'teacher-hello',key}));
+   conn.on('open',()=>conn.send({type:'teacher-hello',key,localHeartbeat:true}));
+   conn.on('heartbeat',()=>{if(generation===attempt&&state&&!stopped){lastSeen=Date.now();status('Connected to laptop',true);}});
    conn.on('data',m=>{if(generation!==attempt)return;
     if(m?.type==='remote-ended'){stop('The teacher remote has been disconnected. Scan a new QR code from your laptop to reconnect.');return;}
     if(m?.type==='remote-denied'){stop('This private link is no longer valid. Scan a new QR code from your laptop.');return;}
