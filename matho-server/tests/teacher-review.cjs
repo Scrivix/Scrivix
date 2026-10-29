@@ -1,0 +1,11 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),R=require('../../matho/game/live-core.js');
+const source=fs.readFileSync('matho/game/room.js','utf8'),start=source.indexOf('function boardHTML('),end=source.indexOf('let inspectedStudent',start);
+const context={R,esc:s=>String(s).replaceAll('<','&lt;'),squareAnswer:s=>String(s)};vm.createContext(context);vm.runInContext(source.slice(start,end),context);
+const board=Array.from({length:25},(_,i)=>({letter:R.LETTERS[i%5],answer:String(i),free:i===12})),marks=[0,1,12],calls=[board[1],board[2]],review=R.reviewBoard(board,marks,calls);
+assert.deepEqual(review,{incorrect:[0],missed:[2]});
+const before=context.boardHTML(board,marks);assert(!before.includes('review-incorrect'));assert(!before.includes('review-missed'));
+const after=context.boardHTML(board,marks,review);assert(after.includes('review-incorrect'));assert(after.includes('review-missed'));assert(after.includes('review-badge">✕'));assert(after.includes('review-badge">!'));assert(after.includes('marked but not called'));assert(after.includes('called but not marked'));assert(after.includes('Free center square'));
+const clean=context.boardHTML(board,[],R.reviewBoard(board,[],[]));assert(!clean.includes('review-incorrect'));assert(!clean.includes('review-missed'));
+assert(fs.readFileSync('matho/game/room.html','utf8').includes('id="inspectReview"'));assert(fs.readFileSync('matho/game/remote.html','utf8').includes('id="remoteInspectReview"'));
+const remote=fs.readFileSync('matho/game/remote.js','utf8');assert(remote.includes('state.review?R.reviewBoard'));assert(remote.includes('remoteInspectReview'));assert(remote.includes('review-badge'));
+console.log('PASS review hidden before reveal, matching student review indices, red/blue markers and labels, free square exclusion, clean new-round boards, and dashboard/remote legends.');

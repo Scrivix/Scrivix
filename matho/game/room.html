@@ -24,7 +24,7 @@
 <script defer src="../vendor/qrcode.js?v=1"></script>
 <script defer src="../teacher-auth.js?v=1"></script>
 <script defer src="../library-client.js?v=teacher-only-1"></script>
-<script defer src="boot.js?v=current-call-fit-1">
+<script defer src="boot.js?v=teacher-review-1">
 </script>
 <link rel="stylesheet" href="../library.css?v=set-editor-1">
 </head>
@@ -179,8 +179,8 @@
 </h2>
 <button id="closeInspect">Close</button>
 </div>
-<p class="live-note">Shaded squares are the student’s selections. This view does not highlight correct or incorrect answers.</p>
-<div id="inspectBoard" class="room-board mini-board">
+<p class="live-note">Shaded squares are the student’s selections. Red and blue review highlights appear after you reveal the round review.</p>
+<p id="inspectReview" class="round-review" hidden></p><div id="inspectBoard" class="room-board mini-board">
 </div>
 </dialog>
 <div id="teacherToast" role="status" hidden>

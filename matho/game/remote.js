@@ -39,7 +39,9 @@
   const s=state.students.find(s=>s.token===inspected);if(!s)return;
   $('remoteInspectName').textContent=s.name+'’s board';
   const marks=new Set(s.claim?.marks||s.marks),review=state.review?R.reviewBoard(s.board,[...marks],state.calls):null;
-  $('remoteInspectBoard').innerHTML=R.LETTERS.map(l=>'<div class="board-letter" style="--accent:var(--'+l+')">'+l+'</div>').join('')+s.board.map((cell,i)=>'<button disabled class="board-square '+(cell.free?'free':'')+' '+(review?.incorrect.includes(i)?'review-incorrect':review?.missed.includes(i)?'review-missed':'')+'" aria-pressed="'+(cell.free||marks.has(i))+'">'+(cell.free?'FREE':/^-?\d+(?:\.\d+)?$/.test(cell.answer)?esc(cell.answer):math(cell.answer))+'</button>').join('');
+  $('remoteInspectReview').hidden=!review;
+  $('remoteInspectReview').textContent=review?'Red ×: marked but not called ('+review.incorrect.length+'). Blue !: called but not marked ('+review.missed.length+').':'';
+  $('remoteInspectBoard').innerHTML=R.LETTERS.map(l=>'<div class="board-letter" style="--accent:var(--'+l+')">'+l+'</div>').join('')+s.board.map((cell,i)=>'<button disabled class="board-square '+(cell.free?'free':'')+' '+(review?.incorrect.includes(i)?'review-incorrect':review?.missed.includes(i)?'review-missed':'')+'" aria-pressed="'+(cell.free||marks.has(i))+'">'+(cell.free?'FREE':/^-?\d+(?:\.\d+)?$/.test(cell.answer)?esc(cell.answer):math(cell.answer))+(review?.incorrect.includes(i)?'<span class="review-badge">✕</span>':review?.missed.includes(i)?'<span class="review-badge">!</span>':'')+'</button>').join('');
   typeset($('remoteInspectBoard'));
  }
  function connect(){
