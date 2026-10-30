@@ -34,6 +34,8 @@
   flex: 0 0 auto;
 }
 .game-promo-copy { flex: 1 1 auto; }
+.game-promo-kicker,
+.game-promo-title { display: block; }
 .game-promo-kicker {
   margin: 0 0 .35rem;
   color: #91baff;
