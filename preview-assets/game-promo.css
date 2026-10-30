@@ -1,0 +1,79 @@
+.game-promo-wrap {
+  padding: 2.5rem clamp(1rem, 4vw, 3rem);
+  background: #0a1020;
+}
+.game-promo {
+  box-sizing: border-box;
+  width: min(100%, 1000px);
+  margin: 0 auto;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 1.75rem);
+  border: 1px solid rgba(146, 180, 233, .28);
+  border-radius: 22px;
+  background: linear-gradient(120deg, #15223a, #101a2d);
+  color: #f4f7ff;
+  text-decoration: none;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .2);
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.game-promo:hover {
+  transform: translateY(-3px);
+  border-color: rgba(130, 177, 255, .7);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .28);
+}
+.game-promo:focus-visible {
+  outline: 3px solid #81b5ff;
+  outline-offset: 4px;
+}
+.game-promo-icon {
+  display: block;
+  width: clamp(58px, 10vw, 82px);
+  height: auto;
+  flex: 0 0 auto;
+}
+.game-promo-copy { flex: 1 1 auto; }
+.game-promo-kicker {
+  margin: 0 0 .35rem;
+  color: #91baff;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.game-promo-title {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.15rem, 2.5vw, 1.65rem);
+  line-height: 1.2;
+  letter-spacing: -.025em;
+}
+.game-promo-description {
+  margin: .45rem 0 0;
+  color: #b7c4d9;
+  font-size: .94rem;
+  line-height: 1.5;
+}
+.game-promo-cta {
+  flex: 0 0 auto;
+  padding: .75rem 1rem;
+  border: 1px solid rgba(157, 190, 244, .42);
+  border-radius: 999px;
+  color: #d8e7ff;
+  font-size: .84rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.game-promo:hover .game-promo-cta { background: rgba(120, 166, 239, .13); }
+@media (max-width: 620px) {
+  .game-promo-wrap { padding-block: 1.5rem; }
+  .game-promo { gap: .85rem; padding: 1rem; border-radius: 18px; }
+  .game-promo-icon { width: 54px; }
+  .game-promo-description { font-size: .82rem; }
+  .game-promo-cta { padding: .65rem; font-size: .75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-promo { transition: none; }
+  .game-promo:hover { transform: none; }
+}
