@@ -32,6 +32,8 @@
   width: clamp(58px, 10vw, 82px);
   height: auto;
   flex: 0 0 auto;
+  border-radius: 22%;
+  overflow: hidden;
 }
 .game-promo-copy { flex: 1 1 auto; }
 .game-promo-kicker,
