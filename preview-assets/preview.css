@@ -259,3 +259,35 @@ h1 span { display: block; color: #8ebeff; }
   .smart-shape-player { flex: none; height: auto; }
   .smart-shape-progress, .smart-shape-cue { display: none; }
 }
+
+/* Fixed return-to-top control for long homepage scrolls */
+html { scroll-behavior: smooth; }
+.home-back-to-top {
+  position: fixed;
+  right: clamp(16px, 3vw, 28px);
+  bottom: clamp(16px, 3vw, 28px);
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 50%;
+  background: #1677f8;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
+  transition: transform .18s ease, background .18s ease;
+}
+.home-back-to-top:hover,
+.home-back-to-top:focus-visible {
+  background: #2563eb;
+  transform: translateY(-3px);
+  outline: 2px solid #bfdbfe;
+  outline-offset: 3px;
+}
+.home-back-to-top svg { width: 22px; height: 22px; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .home-back-to-top { transition: none; }
+}
