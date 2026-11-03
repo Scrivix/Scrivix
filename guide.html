@@ -182,10 +182,44 @@
             .guide-table th:first-child { font-size: 0; }
             .guide-table th:first-child::after { content: ""; }
         }
+    
+
+        .back-to-top {
+            position: fixed;
+            right: clamp(16px, 3vw, 28px);
+            bottom: clamp(16px, 3vw, 28px);
+            z-index: 1000;
+            display: grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            border: 1px solid rgba(255, 255, 255, .24);
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
+            transition: transform .18s ease, background .18s ease;
+        }
+
+        .back-to-top:hover,
+        .back-to-top:focus-visible {
+            background: #2563eb;
+            transform: translateY(-3px);
+            outline: 2px solid #bfdbfe;
+            outline-offset: 3px;
+        }
+
+        .back-to-top svg { width: 22px; height: 22px; }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .back-to-top { transition: none; }
+        }
     </style>
 </head>
 <body>
-    <main class="container">
+    <main class="container" id="top">
         <header class="hero">
             <h1>Scrivix User Guide</h1>
             <p class="subtitle">Your reference for drawing, Mac control, presentations, images, gestures, and sharing.</p>
@@ -326,6 +360,9 @@
             </table>
         </section>
 
+        <a href="#top" class="back-to-top" aria-label="Back to top" title="Back to top">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+        </a>
         <a href="index.html" class="back-link">← Back to Scrivix Home</a>
     </main>
 </body>
