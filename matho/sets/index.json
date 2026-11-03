@@ -86,5 +86,16 @@
     "color": "purple",
     "label": "View Distributive Property",
     "joinPrefix": "DP"
+  },
+  {
+    "slug": "rational-exponents",
+    "title": "Rational Exponents",
+    "tag": "FRACTIONAL POWERS · RADICAL FORMS",
+    "description": "Convert both ways between rational exponents and radicals. Similar bases and powers make the numerator and root index matter. Assume all variables are positive.",
+    "sample": "x<sup>2/3</sup>",
+    "detail": "50 conversions · both directions · positive variables",
+    "color": "purple",
+    "label": "View Rational Exponents",
+    "joinPrefix": "RE"
   }
 ]

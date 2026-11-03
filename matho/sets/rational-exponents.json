@@ -1,0 +1,34 @@
+{
+  "id": "rational-exponents",
+  "title": "Rational Exponents",
+  "storagePrefix": "matho-rational-exponents",
+  "copy": {
+    "studentInstructions": "Convert between rational exponents and radicals. All variables are positive. Follow the form requested in the question; do not evaluate numerical powers or simplify radicals. Mark the matching expression in the called column.",
+    "roomIntro": "Convert in both directions between radicals and fractional exponents. All variables are positive. Do not evaluate numerical powers or simplify radicals. Similar bases and variables in each column make the power and root index matter.",
+    "roomHeading": "Rational Exponents",
+    "roomWelcome": "Let’s play rational exponent MATHO!",
+    "callerHeading": "Rational Exponents",
+    "callerSubtitle": "Read the power. Find the root. Match the expression.",
+    "callerControls": "Ready for the next conversion?",
+    "callerLink": "Rational exponents caller",
+    "joinIntro": "Enter your teacher’s room code to join.",
+    "studentBoardLabel": "YOUR RATIONAL EXPONENTS BOARD",
+    "footer": "Match the power and the root.",
+    "bankIntro": "50 conversions with 10 per column, split evenly between directions. Assume positive variables; do not evaluate or simplify. M: unit fractional exponents with x and y. A: powers over roots with x and y. T: numerical bases 2 and 3. H: a coefficient outside the power or root. O: powers and roots of a product. Similar bases repeat within columns. Signed-in edits save to your private teacher library.",
+    "callerBrand": "Rational Exponents",
+    "roomBrand": "Rational Exponents",
+    "studentBrand": "Rational Exponents"
+  },
+  "hints": {
+    "caller": {
+      "default": "Convert to the requested form. All variables are positive; do not evaluate or simplify."
+    },
+    "student": {
+      "default": "Match the requested form in column {letter}. Variables are positive; do not simplify."
+    }
+  },
+  "presentationSubtitle": "Convert to the requested form. All variables are positive.",
+  "exportFilename": "matho-rational-exponents-question-bank.json",
+  "bankFile": "rational-exponents-bank.json",
+  "joinPrefix": "RE"
+}
