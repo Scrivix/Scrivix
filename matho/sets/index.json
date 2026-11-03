@@ -75,5 +75,16 @@
     "color": "gold",
     "label": "View Basic Math Expression Translation",
     "joinPrefix": "BT"
+  },
+  {
+    "slug": "distributive-property",
+    "title": "Distributive Property",
+    "tag": "DISTRIBUTE · WATCH THE SIGNS",
+    "description": "Distribute numerical factors across one variable term and one constant. Similar numbers and positive and negative signs keep every column at a comparable difficulty.",
+    "sample": "−3<span>·</span>(4x − 2)",
+    "detail": "50 questions · signed factors · variable term first",
+    "color": "purple",
+    "label": "View Distributive Property",
+    "joinPrefix": "DP"
   }
 ]

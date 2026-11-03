@@ -1,0 +1,34 @@
+{
+  "id": "distributive-property",
+  "title": "Distributive Property",
+  "storagePrefix": "matho-distributive-property",
+  "copy": {
+    "studentInstructions": "Use the distributive property. Multiply the number outside the parentheses by both terms inside. Watch positive and negative signs. Write the variable term first, then the numeric term, and mark the matching answer.",
+    "roomIntro": "All columns use comparable two-term distribution questions: a numerical factor times one variable term and one constant. Positive and negative signs matter. Inside terms can appear in either order; answers always show the variable term first.",
+    "roomHeading": "Distributive Property",
+    "roomWelcome": "Let’s play distributive property MATHO!",
+    "callerHeading": "Distributive Property",
+    "callerSubtitle": "Multiply both terms. Watch the signs. Find your square.",
+    "callerControls": "Ready for the next distribution?",
+    "callerLink": "Distributive property caller",
+    "joinIntro": "Enter your teacher’s room code to join.",
+    "studentBoardLabel": "YOUR DISTRIBUTIVE PROPERTY BOARD",
+    "footer": "Distribute to both terms. Keep the signs.",
+    "bankIntro": "50 questions, 10 per column, with comparable difficulty throughout. Every problem has a numerical factor of ±3 or ±4 multiplying one variable term and one constant. Terms inside alternate order. Similar numbers and ±12x answer terms make signs and the constant matter. Answers are fully distributed, with the variable term first. Signed-in edits save to your private teacher library.",
+    "callerBrand": "Distributive Property",
+    "roomBrand": "Distributive Property",
+    "studentBrand": "Distributive Property"
+  },
+  "hints": {
+    "caller": {
+      "default": "Distribute to both terms. Write the variable term first; check column {letter}."
+    },
+    "student": {
+      "default": "Multiply both terms and watch the signs. Check column {letter}."
+    }
+  },
+  "presentationSubtitle": "Distribute to both terms. Watch the signs. Write the variable term first.",
+  "exportFilename": "matho-distributive-property-question-bank.json",
+  "bankFile": "distributive-property-bank.json",
+  "joinPrefix": "DP"
+}
