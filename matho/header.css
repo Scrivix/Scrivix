@@ -1,0 +1,9 @@
+/* One header identity across catalogue, teacher tools, and student screens. */
+header.matho-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;box-sizing:border-box;height:auto;min-height:100px;padding:20px 0;border-bottom:1px solid var(--line)}
+header.matho-header>.brand{display:block;flex:0 0 auto;font:800 29px Manrope,sans-serif;letter-spacing:3px;line-height:1.2;text-decoration:none;color:var(--ink)}
+header.matho-header>.brand small{display:block;margin-top:4px;font:600 9px 'DM Sans',sans-serif;letter-spacing:2.6px;line-height:1.5;color:var(--ink)}
+header.matho-header nav{display:flex;align-items:center;flex-wrap:wrap;gap:12px 18px}
+header.matho-header>a:not(.brand),header.matho-header nav a{font:600 13px 'DM Sans',sans-serif;color:var(--green)}
+header.matho-header>.brand:focus-visible{outline:3px solid #b38432;outline-offset:5px;border-radius:3px}
+@media(max-width:480px){header.matho-header{min-height:86px;padding:16px 0;gap:12px}header.matho-header>.brand{font-size:26px}header.matho-header>.brand small{font-size:8px;letter-spacing:2px}}
+#studentWinners p{font-weight:600;overflow-wrap:anywhere}

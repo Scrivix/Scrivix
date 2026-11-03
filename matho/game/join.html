@@ -24,20 +24,13 @@
 </script>
 <script defer src="../teacher-auth.js?v=1"></script>
 <script defer src="../library-client.js?v=teacher-only-1"></script>
-<script defer src="boot.js?v=current-call-fit-1">
+<script defer src="boot.js?v=shared-header-winners-1">
 </script>
-</head>
+<link rel="stylesheet" href="../header.css?v=1"></head>
 <body data-page="student" data-loading="true" class="student-page">
 <div class="live-shell">
-<header class="live-header">
-<a class="brand" href="../" aria-label="MATHO home">
-<span style="color:var(--M)">M</span>
-<span style="color:var(--A)">A</span>
-<span style="color:var(--T)">T</span>
-<span style="color:var(--H)">H</span>
-<span style="color:var(--O)">O</span>
-<small data-copy="studentBrand">YOUR BOARD. YOUR THINKING.</small>
-</a>
+<header class="live-header matho-header">
+<a class="brand" href="/matho/" aria-label="MATHO home"><span style="color:var(--M)">M</span><span style="color:var(--A)">A</span><span style="color:var(--T)">T</span><span style="color:var(--H)">H</span><span style="color:var(--O)">O</span><small>MATH BINGO · PLAY TOGETHER</small></a>
 <span id="studentStatus" class="live-status" role="status">Not connected</span>
 </header>
 <main class="live-main">
@@ -71,6 +64,7 @@
 <button id="leaveGame">Leave game</button>
 </div>
 </div>
+<section id="studentWinners" class="round-review" role="status" hidden><strong>MATHO winners</strong><p id="studentWinnerNames"></p></section>
 <div class="student-layout">
 <section class="live-card student-board-card">
 <div id="roundReview" class="round-review" role="status" hidden><strong>Round review</strong><p id="roundReviewText"></p></div>
