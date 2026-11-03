@@ -10,3 +10,14 @@
 .edition-distributive-property .edition-sample span{font-size:16px;margin:0 2px}
 @media(min-width:851px) and (max-width:1100px){.edition-distributive-property .edition-sample{font-size:13px;padding:6px}.edition-distributive-property .edition-sample span{font-size:12px;margin:0 1px}}
 @media(max-width:480px){.edition-distributive-property .edition-sample{font-size:26px}.edition-distributive-property .edition-sample span{font-size:22px}}
+
+/* Put teacher actions beside the logo instead of in a separate row below it. */
+.landing header.matho-header .teacher-nav{display:flex;gap:10px;margin-left:auto;flex-wrap:wrap;align-items:center}
+.landing header.matho-header .teacher-nav .teacher-nav-link{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:44px;padding:11px 19px;border:1px solid #b8c5b4;border-radius:999px;background:transparent;color:var(--green);text-decoration:none;font:700 13px 'DM Sans',sans-serif;line-height:1.4;white-space:nowrap}
+.landing header.matho-header .teacher-nav .teacher-nav-primary{background:var(--green);border-color:var(--green);color:#fff9eb}
+.landing header.matho-header .teacher-nav .teacher-nav-link:hover{background:#e9eddf}
+.landing header.matho-header .teacher-nav .teacher-nav-primary:hover{background:#32664f;border-color:#32664f}
+.landing header.matho-header .teacher-nav .teacher-nav-link:focus-visible{outline:3px solid #b38432;outline-offset:4px}
+.landing .catalogue-intro{padding:28px 0 28px}
+.landing .catalogue-intro h1{margin:12px 0}
+@media(max-width:560px){.landing header.matho-header .teacher-nav{width:100%;margin-left:0;gap:8px}.landing header.matho-header .teacher-nav .teacher-nav-link{flex:1;padding:10px 12px;font-size:12px}.landing .catalogue-intro{padding:24px 0}}
