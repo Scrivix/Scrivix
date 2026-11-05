@@ -21,7 +21,7 @@
   $('remoteHeading').textContent=(state.title||'MATHO')+' · Teacher remote';$('remoteMain').hidden=false;$('remoteRoom').textContent='ROOM '+state.code+' · ROUND '+state.round;
   const current=state.calls.at(-1);$('remoteCurrent').innerHTML=current?esc(current.letter)+' · '+math(current.question):'Ready for the first expression';
   $('remoteAnswer').innerHTML=current?'Answer: '+math(current.answer):'Answers appear here after each draw.';
-  const pattern=R.pattern(state.pattern);$('remotePattern').innerHTML=R.patternDiagram(state.pattern)+'<strong>'+esc(pattern.label)+'</strong>';
+  const pattern=R.pattern(state.patterns||state.pattern);$('remotePattern').innerHTML=R.patternDiagram(state.patterns||state.pattern)+'<strong>'+esc(pattern.label)+'</strong>';
   const pending=state.students.filter(s=>s.claim).length;
   $('remoteCount').textContent=state.students.length+' students · '+state.students.filter(s=>s.connected).length+' connected';
   $('remoteClaims').textContent=pending?pending+' MATHO '+(pending===1?'claim':'claims')+' to check':'No pending MATHO claims';
@@ -32,6 +32,7 @@
   if(document.activeElement!==$('remoteSeconds'))$('remoteSeconds').value=state.timer.seconds;$('remoteSeconds').disabled=state.roundComplete;
   renderCountdown();
   $('remoteWinners').textContent=state.winner?'MATHO: '+state.winner.name:'';
+  $('remoteMystery').hidden=!state.mystery?.enabled||!!state.mystery?.revealed;$('remoteMystery').disabled=!!state.roundComplete;
   $('remoteReview').hidden=!state.roundComplete;$('remoteReview').disabled=!!state.review||pending>0;
   if(inspected)renderInspection();typeset($('remoteCurrent'));typeset($('remoteAnswer'));
  }
@@ -66,6 +67,7 @@
  $('remoteNew').onclick=()=>{if(confirm('Start a new round? Calls and marks will clear and students will get fresh boards.'))command('new-round');};
  $('remoteEnd').onclick=()=>{if(confirm('End this room and disconnect every student?'))command('end');};
  $('remoteAuto').onclick=()=>{const seconds=Number($('remoteSeconds').value);if(!Number.isInteger(seconds)||seconds<5||seconds>600){notice('Enter a whole number from 5 to 600 seconds.');return;}command('auto',{seconds});};
+ $('remoteMystery').onclick=()=>command('mystery-reveal');
  $('remoteReview').onclick=()=>{if(confirm('Reveal incorrect marks and missed called answers? This closes further MATHO claims for the round.'))command('review');};
  $('remoteRosterSort').value=rosterSort;
  $('remoteRosterSort').onchange=event=>{rosterSort=event.target.value==='marks'?'marks':'name';try{localStorage.setItem('matho-remote-roster-sort',rosterSort);}catch{}if(state)render();};

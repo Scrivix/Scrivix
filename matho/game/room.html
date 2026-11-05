@@ -17,17 +17,17 @@
 </script>
 <script defer src="../call-sound.js?v=silent-startup-1">
 </script>
-<script defer src="live-core.js?v=round-review-1">
+<script defer src="live-core.js?v=party-1">
 </script>
 <script defer src="question-set.js?v=shared-1">
 </script>
 <script defer src="../vendor/qrcode.js?v=1"></script>
 <script defer src="../teacher-auth.js?v=1"></script>
 <script defer src="../library-client.js?v=teacher-only-1"></script>
-<script defer src="room-set.js?v=1"></script><script defer src="boot.js?v=room-improvements-1">
+<script defer src="party-core.js?v=1"></script><script defer src="party-host.js?v=1"></script><script defer src="room-set.js?v=1"></script><script defer src="boot.js?v=party-1">
 </script>
 <link rel="stylesheet" href="../library.css?v=set-editor-1">
-<link rel="stylesheet" href="../header.css?v=1"></head>
+<link rel="stylesheet" href="../header.css?v=1"><link rel="stylesheet" href="party.css?v=1"></head>
 <body data-page="room" data-loading="true">
 <div class="live-shell">
 <header class="live-header matho-header">
@@ -97,7 +97,7 @@
 </select>
 <div id="teacherPatternPreview" class="pattern-preview">
 </div>
-<label class="live-label" for="liveFilter">Draw from</label>
+<details class="party-settings"><summary>Experimental modes · secret teams, mystery &amp; Winner’s Circle</summary><p class="live-note">Choose modes, then start a fresh round. Individual play remains the default.</p><label class="live-label"><input id="partyTeamMode" type="checkbox"> Secret team agreement</label><p class="live-note">Pairs share a board. One group has three if needed. Partners stay secret until the round ends and reshuffle every round.</p><label class="live-label"><input id="partyMystery" type="checkbox"> Add a mystery winning pattern</label><label class="live-label" for="partySecret">Hidden second pattern · teacher only</label><select id="partySecret"></select><div class="live-actions"><button id="applyPartyModes" type="button">Apply modes &amp; start new round</button><button id="partyReveal" type="button">Reveal mystery pattern</button><button id="resetTeamChoices" type="button">Reset unfinished team choices</button></div><p id="partyStatus" class="live-note" role="status"></p><p class="live-note">Secret teams · teacher only: <span id="partyTeamList"></span></p><hr><h3>Winner’s Circle</h3><label class="live-label" for="winnerChoiceStudent">Confirmed winner to invite</label><select id="winnerChoiceStudent"></select><details><summary>Patterns the winner may choose</summary><div id="winnerAllowedPatterns" class="winner-pattern-options"></div></details><button id="offerWinnerChoice" type="button">Invite winner to choose</button><p id="winnerChoiceStatus" class="live-note" role="status"></p><label class="live-label" for="winnerNextPattern">Approve their suggestion or override it</label><select id="winnerNextPattern"></select><button id="approveWinnerPattern" type="button">Set next round’s pattern</button></details><label class="live-label" for="liveFilter">Draw from</label>
 <select id="liveFilter">
 <option value="all">All columns · M A T H O</option>
 <option>M</option>

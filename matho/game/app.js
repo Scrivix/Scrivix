@@ -34,9 +34,10 @@ window.addEventListener('load',()=>{typeset($('.play-area'));typeset($('#board')
 function renderClassroomWinner(){if(!display)return;if(!state.winner){classroomResultPanel.hide();return;}if(displayedWinnerId===state.winner.id)return;displayedWinnerId=state.winner.id;classroomResultPanel.show(state.winner.name+(state.winner.names?.length>1?' got MATHO!':' got a MATHO!'),'A confirmed win! Let’s celebrate some great thinking.',true);}
 
 function renderClassroomPattern(){
+ $('#classroomMystery').hidden=!display||!state.mystery?.enabled||!!state.mystery?.revealed;
  const panel=$('#classroomPattern');panel.hidden=!display;if(!display)return;
- const goal=MathoRules.pattern(state.pattern||'normal');
- $('#classroomPatternDiagram').innerHTML=MathoRules.patternDiagram(state.pattern||'normal');
+ const goal=MathoRules.pattern(state.patterns||state.pattern||'normal');
+ $('#classroomPatternDiagram').innerHTML=MathoRules.patternDiagram(state.patterns||state.pattern||'normal');
  $('#classroomPatternName').textContent=goal.label;
  $('#classroomPatternDescription').textContent=goal.description;
  const code=typeof state.roomCode==='string'&&/^[A-Z2-9]{5}(?:[A-Z2-9]{3})?$/.test(state.roomCode)?state.roomCode:'';
