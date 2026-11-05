@@ -24,7 +24,7 @@
 <script defer src="../vendor/qrcode.js?v=1"></script>
 <script defer src="../teacher-auth.js?v=1"></script>
 <script defer src="../library-client.js?v=teacher-only-1"></script>
-<script defer src="boot.js?v=shared-header-winners-1">
+<script defer src="room-set.js?v=1"></script><script defer src="boot.js?v=room-improvements-1">
 </script>
 <link rel="stylesheet" href="../library.css?v=set-editor-1">
 <link rel="stylesheet" href="../header.css?v=1"></head>
@@ -83,7 +83,7 @@
 <div class="live-grid teacher-dashboard">
 <div>
 <section class="live-card teacher-call">
-<div class="eyebrow">CURRENT CALL</div>
+<div class="eyebrow">QUESTION SET</div><p><strong id="roomSetTitle"></strong> <button id="changeRoomSet" type="button">Change question set</button></p><div class="eyebrow">CURRENT CALL</div>
 <div id="liveCurrent" class="live-expression">Ready for the first draw</div>
 <div id="liveAnswer" class="live-answer">
 </div>
@@ -172,7 +172,7 @@
 </h2>
 <button id="closeInspect">Close</button>
 </div>
-<p class="live-note">Shaded squares are the student’s selections. Red and blue review highlights appear after you reveal the round review.</p>
+<p class="live-note">Teacher-only view: red × means marked but not called; blue ! means called but not marked. Students see these colors only after you reveal the round review.</p>
 <p id="inspectReview" class="round-review" hidden></p><div id="inspectBoard" class="room-board mini-board">
 </div>
 </dialog>
@@ -184,5 +184,5 @@
 <noscript>
 <p>Turn on JavaScript to play MATHO.</p>
 </noscript>
-</body>
+<dialog id="changeSetDialog"><h2>Change question set</h2><label for="roomSetChoice">Choose a shared or private set</label><select id="roomSetChoice" class="live-input"></select><p id="changeSetStatus" class="live-note" role="status"></p><div class="live-actions"><button id="loadRoomSet" class="live-primary" type="button">Load set & start new round</button><button id="cancelChangeSet" type="button">Cancel</button></div></dialog></body>
 </html>

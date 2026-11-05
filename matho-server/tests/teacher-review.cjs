@@ -7,5 +7,5 @@ const before=context.boardHTML(board,marks);assert(!before.includes('review-inco
 const after=context.boardHTML(board,marks,review);assert(after.includes('review-incorrect'));assert(after.includes('review-missed'));assert(after.includes('review-badge">✕'));assert(after.includes('review-badge">!'));assert(after.includes('marked but not called'));assert(after.includes('called but not marked'));assert(after.includes('Free center square'));
 const clean=context.boardHTML(board,[],R.reviewBoard(board,[],[]));assert(!clean.includes('review-incorrect'));assert(!clean.includes('review-missed'));
 assert(fs.readFileSync('matho/game/room.html','utf8').includes('id="inspectReview"'));assert(fs.readFileSync('matho/game/remote.html','utf8').includes('id="remoteInspectReview"'));
-const remote=fs.readFileSync('matho/game/remote.js','utf8');assert(remote.includes('state.review?R.reviewBoard'));assert(remote.includes('remoteInspectReview'));assert(remote.includes('review-badge'));
-console.log('PASS review hidden before reveal, matching student review indices, red/blue markers and labels, free square exclusion, clean new-round boards, and dashboard/remote legends.');
+const remote=fs.readFileSync('matho/game/remote.js','utf8');assert(remote.includes('review=R.reviewBoard'));assert(remote.includes('remoteInspectReview'));assert(remote.includes('review-badge'));
+console.log('PASS explicit review rendering, matching student review indices, red/blue markers and labels, free square exclusion, clean new-round boards, and dashboard/remote legends.');

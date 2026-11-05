@@ -9,13 +9,14 @@ const flush=async()=>{for(let i=0;i<8;i++)await new Promise(setImmediate)};
 (async()=>{
  let t=context('room.html');t.run('start(true)');await flush();const code=t.run('room.code');
  const s=context('join.html');s.node('#codeInput').value=code;s.node('#nameInput').value='Student';s.run("$('#joinForm').onsubmit({preventDefault(){}})");await flush();
- function callRow(){t.run("room.calls=room.students[0].board.slice(0,4).map(square=>room.bank.find(q=>q.enabled&&q.letter===square.letter&&q.answer===square.answer));broadcast()");}
+ function callRow(){t.run("room.calls=room.students[0].board.slice(0,4).map(square=>room.bank.find(q=>q.enabled&&q.letter===square.letter&&q.answer===square.answer));room.calls.push(...room.bank.filter(q=>!room.students[0].board.slice(0,5).some(b=>b.letter===q.letter&&b.answer===q.answer)).slice(0,4));broadcast()");}
  callRow();await flush();
  async function claim(marks){s.testMarks=marks;s.run("marks=testMarks;send({type:'claim',epoch:game.epoch,pattern:game.pattern,marks,seq:++seq})");await flush();}
- await claim(Array.from({length:25},(_,i)=>i));
+ await claim(Array.from({length:25},(_,i)=>i));assert.equal(t.run('room.students[0].failedClaims')||0,0,'Excess marks rejected before claim evaluation');
+ await claim([0,1,2,3,4]);
  assert.equal(t.run('room.students[0].failedClaims'),1,'Incorrect claim fails when the winning line is incomplete');
  assert.equal(t.run('room.students[0].claim'),null);assert(!t.run('room.roundComplete'));
- await claim(Array.from({length:25},(_,i)=>i));assert.equal(t.run('room.students[0].failedClaims'),1,'Repeated identical claim is not counted twice');
+ await claim([0,1,2,3,4]);assert.equal(t.run('room.students[0].failedClaims'),1,'Repeated identical claim is not counted twice');
  await claim([0,1,2,3,4,5]);assert.equal(t.run('room.students[0].failedClaims'),2);
  await claim([0,1,2,3,4,6]);assert.equal(t.run('room.students[0].failedClaims'),3);
  assert(s.run('game.claimLocked'));assert(!s.run('canClaim()'));assert(s.node('#clearMarks').disabled);
@@ -25,7 +26,7 @@ const flush=async()=>{for(let i=0;i<8;i++)await new Promise(setImmediate)};
  const saved=[...t.store];t.run('peer.destroy()');t=context('room.html',null,{session:saved});await flush();
  s.run('joining=false;connect()');await flush();assert(s.run('game.claimLocked'));assert.equal(t.run('room.students[0].failedClaims'),3,'Reload/rejoin does not reset attempts');
  t.run('resetRound()');await flush();assert.equal(t.run('room.students[0].failedClaims'),0);assert(!s.run('game.claimLocked'));
- t.run("room.calls=room.students[0].board.slice(0,5).map(square=>room.bank.find(q=>q.enabled&&q.letter===square.letter&&q.answer===square.answer));broadcast()");await flush();await claim([0,1,2,3,4,5]);assert(t.run('room.students[0].claim'),'Existing win rule accepts a correct line even with another marked square');
+ t.run("room.calls=room.students[0].board.slice(0,5).map(square=>room.bank.find(q=>q.enabled&&q.letter===square.letter&&q.answer===square.answer));room.calls.push(room.bank.find(q=>!room.calls.some(c=>c.id===q.id)));broadcast()");await flush();await claim([0,1,2,3,4,5]);assert(t.run('room.students[0].claim'),'Existing win rule accepts a correct line even with another marked square');
  t.run("$('#roster').onclick({target:{closest(sel){return sel==='[data-check]'?{dataset:{check:room.students[0].token}}:null}}})");await flush();
  assert.equal(t.run('room.students[0].feedback'),'valid');assert.equal(t.run('room.students[0].failedClaims'),0);
  const remoteSource=fs.readFileSync('matho/game/remote.js','utf8'),sortLine=remoteSource.split('\n').find(l=>l.includes('function sortRemoteRoster('));

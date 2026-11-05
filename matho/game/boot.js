@@ -18,6 +18,7 @@
     if(!MathoLibrary.credentials())throw Error('Open My teacher library and connect this device with your private library link first.');
     const key='matho-'+id+'-game-v1',metaKey=key+'-library-meta';
     let saved;try{saved=JSON.parse(localStorage.getItem(key));}catch{}
+    const liveDisplay=classroom&&saved?.activeConfig&&saved?.roomCode&&Array.isArray(saved?.bank);
     let cloud;
     try{
      cloud=await MathoLibrary.read(id);
@@ -31,8 +32,8 @@
     // A pending local draft survives reload and concurrent edits on another device.
     if(saved?.libraryDirty&&Array.isArray(saved.bank)){config.bank=saved.bank;config.libraryRevision=saved.libraryRevision||cloud.revision;}
     else{
-     config.bank=cloud.bank;
-     const current={...(saved||{}),bank:cloud.bank,called:Array.isArray(saved?.called)?saved.called:[],libraryRevision:cloud.revision,libraryDirty:false};
+     config.bank=liveDisplay?saved.bank:cloud.bank;
+     const current={...(saved||{}),bank:config.bank,called:Array.isArray(saved?.called)?saved.called:[],libraryRevision:cloud.revision,libraryDirty:false};
      if(Array.isArray(saved?.bank)&&JSON.stringify(saved.bank)!==JSON.stringify(cloud.bank))MathoLibrary.backup(key,saved.bank,'Before loading latest online version');
      localStorage.setItem(key,JSON.stringify(current));
     }
@@ -64,12 +65,13 @@
   const invite=document.querySelector('#inviteHelp');
   if(invite)invite.textContent='Share this link, or ask students to open '+new URL('../join/',location.href).href+' and enter the code.';
   const clockScript=document.createElement('script');clockScript.src=new URL('../visible-clock.js?v=claim-limit-1',base);await new Promise((resolve,reject)=>{clockScript.onload=resolve;clockScript.onerror=reject;document.body.append(clockScript);});
-  const engine=document.createElement('script');engine.src=new URL({caller:'app.js',room:'room.js',student:'student.js'}[page]+'?v=shared-header-winners-1',base);
+  const engine=document.createElement('script');engine.src=new URL({caller:'app.js',room:'room.js',student:'student.js'}[page]+'?v=room-improvements-1',base);
   await new Promise((resolve,reject)=>{engine.onload=resolve;engine.onerror=()=>reject(Error('The game could not load. Please refresh and try again.'));document.body.append(engine);});
   if(page==='caller'&&new URLSearchParams(location.search).get('view')!=='display'){
    const editor=document.createElement('script');editor.src=new URL('../library-editor.js?v=claim-limit-1',base);
    await new Promise((resolve,reject)=>{editor.onload=resolve;editor.onerror=()=>reject(Error('Question library controls could not load. Refresh and try again.'));document.body.append(editor);});
   }
+  if(page==='room'){const switcher=document.createElement('script');switcher.src=new URL('change-set.js?v=1',base);await new Promise((resolve,reject)=>{switcher.onload=resolve;switcher.onerror=()=>reject(Error('Question set controls could not load. Refresh and try again.'));document.body.append(switcher);});}
   loading.hidden=true;document.body.removeAttribute('data-loading');
  }catch(error){
   document.body.dataset.loading='error';
