@@ -7,7 +7,8 @@ function canClaim(){return marks.length<=selectionLimit()&&online&&game&&game.ca
 const studentResultPanel=new MathoResultPanel('studentResult',{autoDismissMs:10000});let lastResultId=null;
 function typeset(el){typesetting=typesetting.catch(()=>{}).then(async()=>{if(window.MathJax?.typesetPromise){await MathJax.startup.promise;MathJax.typesetClear?.([el]);await MathJax.typesetPromise([el]);}});}
 function status(s,error=false){$('#studentStatus').textContent=s;$('#studentStatus').classList.toggle('error',error);}
-function toast(s){$('#studentToast').textContent=s;$('#studentToast').hidden=false;setTimeout(()=>$('#studentToast').hidden=true,5000);}
+let studentToastTimer;
+function toast(s,tone='info'){clearTimeout(studentToastTimer);$('#studentToast').textContent=s;$('#studentToast').dataset.tone=tone;$('#studentToast').hidden=false;studentToastTimer=setTimeout(()=>$('#studentToast').hidden=true,5000);}
 function send(m){try{if(conn?.open)conn.send(m);}catch{}}
 function savedSeat(code,name){
  const valid=s=>s&&s.code===code&&typeof s.name==='string'&&MathoPartyRules.nameKey(s.name)===MathoPartyRules.nameKey(name)&&/^[-a-f0-9]{36}$/.test(s.token||'');
