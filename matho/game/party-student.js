@@ -12,7 +12,7 @@ const MathoPartyStudent={
    if(resolution&&resolution.id!==this.lastResolution){this.lastResolution=resolution.id;toast(resolution.status==='mismatch'?'Your choices did not match. Both choices are cleared. Choose again.':resolution.status==='matched'?'Your team agreed! Square marked. Next question.':'Your team agreed: no matching answer. Next question.');}
   }
   if(game?.mystery?.revealed&&!this.lastMystery)toast('Mystery pattern revealed! Check your winning patterns.');this.lastMystery=!!game?.mystery?.revealed;
-  const panel=$('#secretTeamPanel');panel.hidden=!team?.enabled;
+  const panel=$('#secretTeamPanel');panel.hidden=!team?.enabled;$('#teamSkip').hidden=!team?.enabled;
   if(team?.enabled){
    $('#teamPartners').hidden=!game.roundComplete;
    $('#teamPartners').textContent=game.roundComplete?(team.partners?.length?'Your secret '+(team.partners.length===1?'partner was ':'partners were ')+team.partners.join(' & ')+'.':'No partner remained in this round.') :'';

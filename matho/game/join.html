@@ -24,7 +24,7 @@
 </script>
 <script defer src="../teacher-auth.js?v=1"></script>
 <script defer src="../library-client.js?v=teacher-only-1"></script>
-<script defer src="party-core.js?v=1"></script><script defer src="party-student.js?v=3"></script><script defer src="room-set.js?v=1"></script><script defer src="boot.js?v=party-3">
+<script defer src="party-core.js?v=1"></script><script defer src="party-student.js?v=4"></script><script defer src="room-set.js?v=1"></script><script defer src="boot.js?v=party-3">
 </script>
 <link rel="stylesheet" href="../header.css?v=1"><link rel="stylesheet" href="party.css?v=1"></head>
 <body data-page="student" data-loading="true" class="student-page">
@@ -65,7 +65,7 @@
 </div>
 </div>
 <section id="studentWinners" class="round-review" role="status" hidden><strong>MATHO winners</strong><p id="studentWinnerNames"></p></section>
-<p id="mysteryNotice" class="mode-info" hidden>A second winning pattern is a mystery. Your teacher will reveal it.</p><section id="secretTeamPanel" class="mode-info" hidden><strong>Secret team agreement</strong><p id="teamInstructions"></p><p id="teamVoteStatus" role="status"></p><button id="teamSkip" type="button">No matching answer on our board</button><p id="teamPartners"></p></section><button id="winnerChoiceButton" type="button" hidden>Winner’s Circle · choose next pattern</button><div class="student-layout">
+<p id="mysteryNotice" class="mode-info" hidden>A second winning pattern is a mystery. Your teacher will reveal it.</p><section id="secretTeamPanel" class="mode-info" hidden><strong>Secret team agreement</strong><p id="teamInstructions"></p><p id="teamVoteStatus" role="status"></p><p id="teamPartners"></p></section><button id="winnerChoiceButton" type="button" hidden>Winner’s Circle · choose next pattern</button><div class="student-layout">
 <section class="live-card student-board-card">
 <div id="roundReview" class="round-review" role="status" hidden><strong>Round review</strong><p id="roundReviewText"></p></div>
 <div class="eyebrow" data-copy="studentBoardLabel">YOUR MATHO BOARD</div>
@@ -75,6 +75,7 @@
 
 <button id="claimBingo" class="live-primary" disabled aria-describedby="claimHelp">Call MATHO!</button>
 <button id="clearMarks">Clear my marks</button>
+<button id="teamSkip" type="button" hidden>No matching answer on our board</button>
 </div>
 <p id="claimHelp" class="live-note">Waiting for the first expression. Call MATHO is off until the game begins.</p>
 <p id="studentFeedback" role="status" aria-live="polite">

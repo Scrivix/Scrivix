@@ -102,10 +102,15 @@ const MathoPartyHost={
   $('#winnerCircleControls').hidden=!room.winners?.length;
   $('#activeModeSummary').hidden=!room.teamMode&&!this.revealed();
   $('#activeMysteryPattern').innerHTML=room.mysteryEnabled&&(this.revealed()||paced)?'<strong>'+(this.revealed()?'Mystery pattern revealed':'Mystery pattern · teacher only')+'</strong>'+R.patternDiagram(room.secretPattern)+'<p>'+esc(R.pattern(room.secretPattern).label)+'</p>':'';
-  $('#activeTeamList').textContent=room.teamMode?(room.teams||[]).map(t=>this.members(t).map(s=>s.name).join(' + ')+(paced?' — '+(t.finished?'finished all questions':'question '+(t.cursor+1)+' of '+room.teamQueue.length):'')+(t.complete?' — agreed':' — '+Object.keys(t.ballots||{}).length+'/'+t.members.length+' choices submitted')).join(' · '):'';
+  $('#teacherTeams').hidden=!room.teamMode;
+  $('#activeTeamList').innerHTML=room.teamMode?(room.teams||[]).map((t,i)=>{
+   const members=this.members(t),total=room.teamQueue?.length||0,done=paced?Math.min(t.cursor||0,total):Object.keys(t.agreements||{}).length,submitted=Object.keys(t.ballots||{}).length;
+   const confirmed=members.some(s=>s.feedback==='valid'),pending=members.some(s=>s.claim),locked=members.some(s=>(s.failedClaims||0)>=3);
+   const status=confirmed?'MATHO confirmed':pending?'MATHO called':locked?'Locked until next round':t.finished?'All questions completed':t.status==='mismatch'?'Choosing again':t.complete?'Answer agreed':submitted?submitted+' of '+members.length+' choices submitted':'Choosing answers';
+   return '<li class="teacher-team-card"><div class="teacher-team-top"><span class="teacher-team-number">Team '+(i+1)+'</span><span class="teacher-team-status'+(confirmed?' is-confirmed':pending?' is-pending':'')+'">'+esc(status)+'</span></div><div class="teacher-team-names">'+members.map(s=>'<span>'+esc(s.name)+'</span>').join('')+'</div><div class="teacher-team-progress"><strong>'+esc(paced?(t.finished?'All questions completed':'Question '+Math.min((t.cursor||0)+1,total)+' of '+total):done+' answers agreed')+'</strong>'+(paced?'<progress max="'+Math.max(1,total)+'" value="'+done+'" aria-label="Team '+(i+1)+' completed questions">'+done+' of '+total+'</progress>':'')+'</div></li>';
+  }).join(''):'';
   $('#partyReveal').disabled=!room.mysteryEnabled||this.revealed()||!!room.roundComplete;
   $('#partyStatus').textContent=(paced?'Self-paced secret team race. ':room.teamMode?'Secret teams active. ':'Individual boards. ')+(room.mysteryEnabled?(this.revealed()?'Both patterns can win.':'Hidden pattern: '+R.pattern(room.secretPattern).label+'. '+(room.mysteryRevealTurn?'Reveals at question '+room.mysteryRevealTurn+(paced?' for each team.':'.'):'Reveal manually.')):'');
-  $('#partyTeamList').textContent=room.teamMode?(room.teams||[]).map(t=>this.members(t).map(s=>s.name).join(' + ')).join(' · '):'';
   const target=$('#winnerChoiceStudent'),value=target.value;target.innerHTML=(room.winners||[]).map(w=>'<option value="'+esc(w.token)+'">'+esc(w.name)+'</option>').join('');if((room.winners||[]).some(w=>w.token===value))target.value=value;
   $('#offerWinnerChoice').disabled=!room.roundComplete||!room.winners?.length;
   const offer=room.winnerChoice;$('#winnerChoiceStatus').textContent=room.nextPattern?'Next round: '+R.pattern(room.nextPattern).label+'.':offer?.selected?'Suggested: '+R.pattern(offer.selected).label+'. Approve it or choose another pattern below.':offer?'Waiting for the winner’s suggestion.':'Invite a confirmed winner to suggest the next pattern.';
