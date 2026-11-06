@@ -48,7 +48,7 @@ const MathoPartyHost={
   const call=room.calls.at(-1),members=this.members(team);
   if(room.roundComplete||!call||members.some(s=>s.claim||(s.failedClaims||0)>=3))return true;
   if(team.callId!==call.id)this.beginCall();
-  if(team.complete||m.callId!==call.id||m.attempt!==team.attempt||Object.hasOwn(team.ballots,student.token))return true;
+  if(team.complete||m.callId!==call.id||m.attempt!==team.attempt||Object.hasOwn(team.ballots,student.token)){sync(student);return true;}
   if(!Number.isInteger(m.square)||m.square< -1||m.square>24)return true;
   if(m.square!==-1){const cell=student.board[m.square];if(!cell||cell.free||cell.letter!==call.letter)return true;}
   team.ballots[student.token]=m.square;team.status='waiting';
@@ -60,8 +60,8 @@ const MathoPartyHost={
     for(const s of members){s.marks=R.cleanMarks(next);s.feedback='';s.resultId=null;s.claim=null;s.incorrectCount=null;}
     team.agreements=team.agreements||{};team.agreements[call.id]=square;team.complete=true;team.status=square===-1?'skipped':'matched';
    }else{team.ballots={};team.status='mismatch';team.attempt=crypto.randomUUID();}
-   persist();this.syncTeam(team);renderRoster();updateTeacherRemotes();
-  }else{persist();sync(student);}
+   persist();this.syncTeam(team);renderRoster();this.render();updateTeacherRemotes();
+  }else{persist();sync(student);this.render();}
   return true;
  },
  checked(student,valid){
@@ -73,11 +73,15 @@ const MathoPartyHost={
  },
  pending(student){const team=this.team(student);return team?this.members(team).some(s=>s.claim):!!student.claim;},
  remove(){if(!room?.teamMode)return;for(const t of room.teams||[]){const before=t.members.length;t.members=t.members.filter(token=>room.students.some(s=>s.token===token));if(t.members.length!==before&&!t.complete){t.ballots={};t.status='ready';t.attempt=crypto.randomUUID();}}room.teams=room.teams.filter(t=>t.members.length);},
- reveal(){if(!room?.mysteryEnabled||room.mysteryRevealed||room.roundComplete)return;room.mysteryRevealed=true;autoTimer.pause('Mystery pattern revealed · review both patterns, then resume.');clearClaims('Another winning pattern is now available.');for(const s of room.students)s.lastClaimKey='';persist();publishClassic();broadcast();render();updateTeacherRemotes();},
+ reveal(){if(!room?.mysteryEnabled||room.mysteryRevealed||room.roundComplete)return;room.mysteryRevealed=true;clearClaims('Another winning pattern is now available.');for(const s of room.students)s.lastClaimKey='';persist();publishClassic();broadcast();render();updateTeacherRemotes();},
  render(){
   if(!room)return;
   const modeKey=JSON.stringify([room.epoch,room.teamMode,room.mysteryEnabled,room.secretPattern]);if(this.modeKey!==modeKey){this.modeKey=modeKey;$('#partyTeamMode').checked=!!room.teamMode;$('#partyMystery').checked=!!room.mysteryEnabled;$('#partySecret').value=room.secretPattern||'corners';}
 
+  $('#winnerCircleControls').hidden=!room.winners?.length;
+  $('#activeModeSummary').hidden=!room.teamMode&&!room.mysteryRevealed;
+  $('#activeMysteryPattern').innerHTML=room.mysteryEnabled&&room.mysteryRevealed?'<strong>Mystery pattern revealed</strong>'+R.patternDiagram(room.secretPattern)+'<p>'+esc(R.pattern(room.secretPattern).label)+'</p>':'';
+  $('#activeTeamList').textContent=room.teamMode?(room.teams||[]).map(t=>this.members(t).map(s=>s.name).join(' + ')+(t.complete?' — agreed':' — '+Object.keys(t.ballots||{}).length+'/'+t.members.length+' choices submitted')).join(' · '):'';
   $('#partyReveal').disabled=!room.mysteryEnabled||!!room.mysteryRevealed||!!room.roundComplete;
   $('#partyStatus').textContent=(room.teamMode?'Secret teams active. ':'Individual boards. ')+(room.mysteryEnabled?(room.mysteryRevealed?'Both patterns can win.':'Hidden pattern: '+R.pattern(room.secretPattern).label+'.'):'');
   $('#partyTeamList').textContent=room.teamMode?(room.teams||[]).map(t=>this.members(t).map(s=>s.name).join(' + ')).join(' · '):'';

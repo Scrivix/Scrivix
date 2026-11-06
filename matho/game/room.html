@@ -24,7 +24,7 @@
 <script defer src="../vendor/qrcode.js?v=1"></script>
 <script defer src="../teacher-auth.js?v=1"></script>
 <script defer src="../library-client.js?v=teacher-only-1"></script>
-<script defer src="party-core.js?v=1"></script><script defer src="party-host.js?v=1"></script><script defer src="room-set.js?v=1"></script><script defer src="boot.js?v=party-1">
+<script defer src="party-core.js?v=1"></script><script defer src="party-host.js?v=2"></script><script defer src="room-set.js?v=1"></script><script defer src="boot.js?v=party-2">
 </script>
 <link rel="stylesheet" href="../library.css?v=set-editor-1">
 <link rel="stylesheet" href="../header.css?v=1"><link rel="stylesheet" href="party.css?v=1"></head>
@@ -87,17 +87,7 @@
 <div id="liveCurrent" class="live-expression">Ready for the first draw</div>
 <div id="liveAnswer" class="live-answer">
 </div>
-<label class="live-label" for="winningPattern">Winning pattern</label>
-<select id="winningPattern">
-<option value="normal">Normal bingo</option>
-<option value="corners">Four corners</option>
-<option value="stamp">Postage stamp · any corner</option>
-<option value="x">X pattern</option>
-<option value="full">Full board</option>
-</select>
-<div id="teacherPatternPreview" class="pattern-preview">
-</div>
-<details class="party-settings"><summary>Experimental modes · secret teams, mystery &amp; Winner’s Circle</summary><p class="live-note">Choose modes, then start a fresh round. Individual play remains the default.</p><label class="live-label"><input id="partyTeamMode" type="checkbox"> Secret team agreement</label><p class="live-note">Pairs share a board. One group has three if needed. Partners stay secret until the round ends and reshuffle every round.</p><label class="live-label"><input id="partyMystery" type="checkbox"> Add a mystery winning pattern</label><label class="live-label" for="partySecret">Hidden second pattern · teacher only</label><select id="partySecret"></select><div class="live-actions"><button id="applyPartyModes" type="button">Apply modes &amp; start new round</button><button id="partyReveal" type="button">Reveal mystery pattern</button><button id="resetTeamChoices" type="button">Reset unfinished team choices</button></div><p id="partyStatus" class="live-note" role="status"></p><p class="live-note">Secret teams · teacher only: <span id="partyTeamList"></span></p><hr><h3>Winner’s Circle</h3><label class="live-label" for="winnerChoiceStudent">Confirmed winner to invite</label><select id="winnerChoiceStudent"></select><details><summary>Patterns the winner may choose</summary><div id="winnerAllowedPatterns" class="winner-pattern-options"></div></details><button id="offerWinnerChoice" type="button">Invite winner to choose</button><p id="winnerChoiceStatus" class="live-note" role="status"></p><label class="live-label" for="winnerNextPattern">Approve their suggestion or override it</label><select id="winnerNextPattern"></select><button id="approveWinnerPattern" type="button">Set next round’s pattern</button></details><label class="live-label" for="liveFilter">Draw from</label>
+<label class="live-label" for="liveFilter">Draw from</label>
 <select id="liveFilter">
 <option value="all">All columns · M A T H O</option>
 <option>M</option>
@@ -126,7 +116,17 @@
 </div>
 <p id="autoHelp" class="live-note">5–600 seconds. Start begins a full countdown. Manual Next restarts it. MATHO claims pause the timer.</p>
 </section>
-<section class="room-settings" aria-label="Sound and display settings"><div class="eyebrow">SOUNDS & DISPLAY</div><div class="live-actions"><button id="expressionSoundToggle" type="button" aria-pressed="false">New expression sound: off</button><button id="claimSoundToggle" type="button" aria-pressed="false">MATHO alerts: off</button><button id="celebrationSoundToggle" type="button" aria-pressed="true">Winner celebration: on</button></div><p class="live-note">Sounds play on this teacher device. Switches are silent. Winner celebration plays automatically when you confirm a MATHO.</p><label class="feedback-setting"><input id="showClassroomClock" type="checkbox"> Show countdown on the classroom display</label><label class="feedback-setting"><input id="showStudentClock" type="checkbox"> Show countdown on student screens</label><p class="live-note">Countdowns are hidden by default and appear when auto draw is started.</p></section>
+<section id="activeModeSummary" class="mode-info" hidden><div id="activeMysteryPattern"></div><p><strong>Secret teams · teacher only</strong></p><p id="activeTeamList"></p></section><label class="live-label" for="winningPattern">Winning pattern</label>
+<select id="winningPattern">
+<option value="normal">Normal bingo</option>
+<option value="corners">Four corners</option>
+<option value="stamp">Postage stamp · any corner</option>
+<option value="x">X pattern</option>
+<option value="full">Full board</option>
+</select>
+<div id="teacherPatternPreview" class="pattern-preview">
+</div>
+<details class="party-settings"><summary>Experimental modes · secret teams, mystery &amp; Winner’s Circle</summary><p class="live-note">Choose modes, then start a fresh round. Individual play remains the default.</p><label class="live-label"><input id="partyTeamMode" type="checkbox"> Secret team agreement</label><p class="live-note">Pairs share a board. One group has three if needed. Partners stay secret until the round ends and reshuffle every round.</p><label class="live-label"><input id="partyMystery" type="checkbox"> Add a mystery winning pattern</label><label class="live-label" for="partySecret">Hidden second pattern · teacher only</label><select id="partySecret"></select><div class="live-actions"><button id="applyPartyModes" type="button">Apply modes &amp; start new round</button><button id="partyReveal" type="button">Reveal mystery pattern</button><button id="resetTeamChoices" type="button">Let teams choose again</button><p class="live-note">Clears pending votes for this question only. Agreed marks stay. Next expression clears unfinished choices and opens voting for the new question.</p></div><p id="partyStatus" class="live-note" role="status"></p><p class="live-note">Secret teams · teacher only: <span id="partyTeamList"></span></p><hr><section id="winnerCircleControls" hidden><h3>Winner’s Circle</h3><label class="live-label" for="winnerChoiceStudent">Confirmed winner to invite</label><select id="winnerChoiceStudent"></select><details><summary>Patterns the winner may choose</summary><div id="winnerAllowedPatterns" class="winner-pattern-options"></div></details><button id="offerWinnerChoice" type="button">Invite winner to choose</button><p id="winnerChoiceStatus" class="live-note" role="status"></p><label class="live-label" for="winnerNextPattern">Approve their suggestion or override it</label><select id="winnerNextPattern"></select><button id="approveWinnerPattern" type="button">Set next round’s pattern</button></section></details><section class="room-settings" aria-label="Sound and display settings"><div class="eyebrow">SOUNDS & DISPLAY</div><div class="live-actions"><button id="expressionSoundToggle" type="button" aria-pressed="false">New expression sound: off</button><button id="claimSoundToggle" type="button" aria-pressed="false">MATHO alerts: off</button><button id="celebrationSoundToggle" type="button" aria-pressed="true">Winner celebration: on</button></div><p class="live-note">Sounds play on this teacher device. Switches are silent. Winner celebration plays automatically when you confirm a MATHO.</p><label class="feedback-setting"><input id="showClassroomClock" type="checkbox"> Show countdown on the classroom display</label><label class="feedback-setting"><input id="showStudentClock" type="checkbox"> Show countdown on student screens</label><p class="live-note">Countdowns are hidden by default and appear when auto draw is started.</p></section>
 </section>
 <details class="live-card">
 <summary>Called expressions & answers</summary>

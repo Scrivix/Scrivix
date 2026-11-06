@@ -15,6 +15,13 @@ const flush=async()=>{for(let i=0;i<8;i++)await new Promise(setImmediate)};
  const playerByToken=()=>new Map(players.map(s=>[s.run('credentials.token'),s]));let by=playerByToken();
  let groups=t.run('JSON.parse(JSON.stringify(room.teams))');assert.deepEqual(groups.map(g=>g.members.length).sort(),[2,3]);
  for(const group of groups){const boards=group.members.map(token=>by.get(token).run('JSON.stringify(game.board)'));assert(boards.every(b=>b===boards[0]));for(const token of group.members){const s=by.get(token),packet=s.run('JSON.stringify(game)');assert.equal(s.run('game.team.partners'),null);for(const other of group.members.filter(v=>v!==token))assert(!packet.includes(other),'No partner token disclosed');assert.deepEqual(s.run('JSON.stringify(game.patterns)'),'["normal"]');assert.equal(s.run('game.mystery.secretPattern'),undefined);}}
+ // Exercise real Next control repeatedly, including an unfinished private ballot.
+ for(let turn=0;turn<12;turn++){
+  t.run("$('#liveNext').onclick()");await flush();
+  for(const group of groups){for(const token of group.members){const st=by.get(token);assert(st.run('MathoPartyStudent.canVote()'),'Every new call unlocks private selection');}}
+  const first=by.get(groups[0].members[0]);first.run('MathoPartyStudent.choose(-1)');await flush();assert(!first.run('MathoPartyStudent.canVote()'),'Submitted vote waits for team');
+ }
+ t.run('resetRound()');await flush();groups=t.run('JSON.parse(JSON.stringify(room.teams))');
  const pair=groups.find(g=>g.members.length===2),trio=groups.find(g=>g.members.length===3),a=by.get(pair.members[0]),b=by.get(pair.members[1]);
  t.pairToken=pair.members[0];t.run('room.calls=[room.bank.find(q=>q.letter===room.students.find(s=>s.token===pairToken).board[0].letter&&q.answer===room.students.find(s=>s.token===pairToken).board[0].answer)];MathoPartyHost.beginCall();broadcast()');await flush();
  async function vote(s,square,extra={}){s.vote={type:'team-vote',epoch:s.run('game.epoch'),callId:s.run('game.calls.at(-1).id'),attempt:s.run('game.team.attempt'),square,...extra};s.run('send(vote)');await flush();}

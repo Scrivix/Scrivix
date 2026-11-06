@@ -66,7 +66,7 @@
   if(invite)invite.textContent='Share this link, or ask students to open '+new URL('../join/',location.href).href+' and enter the code.';
   const clockScript=document.createElement('script');clockScript.src=new URL('../visible-clock.js?v=claim-limit-1',base);await new Promise((resolve,reject)=>{clockScript.onload=resolve;clockScript.onerror=reject;document.body.append(clockScript);});
   if(page==='room'&&MathoRules.PATTERNS){for(const id of ['setupPattern','winningPattern']){const node=document.querySelector('#'+id),value=node.value;node.innerHTML=Object.entries(MathoRules.PATTERNS).map(([key,p])=>'<option value="'+key+'">'+p.label+'</option>').join('');node.value=MathoRules.PATTERNS[value]?value:'normal';}}
-  const engine=document.createElement('script');engine.src=new URL({caller:'app.js',room:'room.js',student:'student.js'}[page]+'?v=party-1',base);
+  const engine=document.createElement('script');engine.src=new URL({caller:'app.js',room:'room.js',student:'student.js'}[page]+'?v=party-2',base);
   await new Promise((resolve,reject)=>{engine.onload=resolve;engine.onerror=()=>reject(Error('The game could not load. Please refresh and try again.'));document.body.append(engine);});
   if(page==='caller'&&new URLSearchParams(location.search).get('view')!=='display'){
    const editor=document.createElement('script');editor.src=new URL('../library-editor.js?v=claim-limit-1',base);
