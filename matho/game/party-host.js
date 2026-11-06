@@ -2,6 +2,39 @@
 const MathoPartyHost={
  team(student){return room?.teamMode?room.teams?.find(t=>t.members.includes(student.token)):null;},
  members(team){return room.students.filter(s=>team.members.includes(s.token));},
+ recoverSeat(token,name){
+  const canonical=room.resumeAliases?.[token]||token,direct=room.students.find(s=>s.token===canonical),key=MathoPartyRules.nameKey(name);
+  if(direct&&(!room.teamMode||this.team(direct)))return direct;
+  const same=room.students.filter(s=>MathoPartyRules.nameKey(s.name)===key),teamed=same.filter(s=>this.team(s));
+  const connected=s=>this.connected({members:[s.token]}).length>0;
+  const candidates=teamed.length?teamed:same;
+  let recovered=null;
+  if(candidates.length===1&&!connected(candidates[0]))recovered=candidates[0];
+  if(recovered&&recovered!==direct){
+   if(direct){room.resumeAliases=room.resumeAliases||{};for(const [alias,target] of Object.entries(room.resumeAliases))if(target===direct.token)room.resumeAliases[alias]=recovered.token;room.resumeAliases[direct.token]=recovered.token;const duplicate=links.get(direct.token)?.conn;send(duplicate,{type:'replaced',message:'Your original board has been restored in another tab.'});links.delete(direct.token);room.students=room.students.filter(s=>s!==direct);if(duplicate)setTimeout(()=>duplicate.close(),300);}
+   room.resumeAliases=room.resumeAliases||{};room.resumeAliases[token]=recovered.token;return recovered;
+  }
+  if(direct){
+   if(room.teamMode&&!this.team(direct)&&teamed.some(s=>s!==direct&&connected(s)))throw Error('That name already has a connected board. Close the other tab before rejoining, or add a last initial if you are a different student.');
+   return direct;
+  }
+  if(same.length)throw Error(candidates.length>1?'More than one board has that name. Ask your teacher to remove the duplicate, or use your saved browser tab.':'That name is still connected. Close the other tab and try again shortly, or add a last initial if you are a different student.');
+  return null;
+ },
+ assignLate(student){
+  if(!room?.teamMode||this.team(student)||room.roundComplete)return;
+  const available=(room.teams||[]).filter(t=>!t.finished&&!this.members(t).some(s=>s.claim||(s.failedClaims||0)>=3));
+  const solo=available.filter(t=>this.connected(t).length===1),live=available.filter(t=>this.connected(t).length>0),pool=solo.length?solo:live.length?live:available;
+  let team;
+  if(pool.length){const smallest=Math.min(...pool.map(t=>t.members.length));team=R.shuffled(pool.filter(t=>t.members.length===smallest))[0];const partner=this.members(team)[0];student.board=structuredClone(partner.board);student.marks=partner.marks.slice();student.failedClaims=Math.max(0,...this.members(team).map(s=>s.failedClaims||0));student.feedback='';student.claim=null;student.resultId=null;student.incorrectCount=null;team.members.push(student.token);}
+  else{
+   const order=this.paced()&&room.teamOrderMode==='random'?R.shuffled(room.teamQueue).map(q=>q.id):null;
+   team={id:crypto.randomUUID(),members:[student.token],order,present:[],connected:[],agreements:{},ballots:{},attempt:crypto.randomUUID(),cursor:0,finished:false,resolution:null,waitDeadline:null,status:'ready',complete:false,callId:null};
+   team.callId=this.paced()?this.queue(team)[0]?.id||null:room.calls.at(-1)?.id||null;room.teams=room.teams||[];room.teams.push(team);
+  }
+  student.teamJoinNotice={id:crypto.randomUUID(),message:'You joined a team'+(this.paced()?' at question '+this.calls(student).length:'')+'. Your board and marked answers now match your teammates.'};
+  room.teamPairs=MathoPartyRules.pairs(room.teams.map(t=>t.members));this.expose();
+ },
  recoveryUntil:0,
  eligible(team){const connected=this.connected(team);return Date.now()<this.recoveryUntil?this.members(team).filter(s=>(team.present||team.members).includes(s.token)||connected.some(p=>p.token===s.token)):connected;},
  connected(team){return this.members(team).filter(s=>{const link=links.get(s.token);return !!link?.conn.open&&Date.now()-link.lastSeen<=22000;});},
@@ -55,10 +88,10 @@ const MathoPartyHost={
   const offer=room.winnerChoice?.token===student.token?{id:room.winnerChoice.id,patterns:room.winnerChoice.patterns,selected:room.winnerChoice.selected||null,approved:room.winnerChoice.approved||null}:null;
   const result={patterns:this.active(student),mystery:{enabled:!!room.mysteryEnabled,revealed:this.revealed(student),turn:room.mysteryRevealTurn||0},winnerOffer:offer,team:null};
   if(!room.teamMode)return result;
-  if(!team){result.team={enabled:true,waiting:true,message:'Waiting for the next round to receive a secret team.'};return result;}
+  if(!team){result.team={enabled:true,waiting:true,message:room.roundComplete?'This round is finished. You will be paired when the next round starts.':'Connecting you to a team…'};return result;}
   const current=team.callId===call?.id,others=this.members(team).filter(s=>s.token!==student.token),connected=this.connected(team).filter(s=>s.token!==student.token);
   const partnersAnswered=current?connected.filter(s=>Object.hasOwn(team.ballots,s.token)).length:0;
-  result.team={enabled:true,waiting:false,selfPaced:this.paced(),turn:this.calls(student).length,total:room.teamQueue?.length||0,finished:!!team.finished,resolution:team.resolution||null,size:team.members.length,partnersConnected:connected.length,partnersOffline:others.length-connected.length,partnersAnswered,waitSeconds:room.teamWaitSeconds||0,waitDeadline:team.waitDeadline||null,recovering:this.eligible(team).length>this.connected(team).length,attempt:team.attempt,callId:call?.id||null,
+  result.team={enabled:true,waiting:false,selfPaced:this.paced(),turn:this.calls(student).length,total:room.teamQueue?.length||0,finished:!!team.finished,resolution:team.resolution||null,joinNotice:student.teamJoinNotice||null,size:team.members.length,partnersConnected:connected.length,partnersOffline:others.length-connected.length,partnersAnswered,waitSeconds:room.teamWaitSeconds||0,waitDeadline:team.waitDeadline||null,recovering:this.eligible(team).length>this.connected(team).length,attempt:team.attempt,callId:call?.id||null,
    choice:current&&Object.hasOwn(team.ballots,student.token)?team.ballots[student.token]:null,
    status:current?team.status:'ready',complete:current&&team.complete,
    partners:room.roundComplete?this.members(team).filter(s=>s.token!==student.token).map(s=>s.name):null};
@@ -67,6 +100,7 @@ const MathoPartyHost={
  reset(){
   if(room.nextPattern&&R.PATTERNS[room.nextPattern])room.pattern=room.nextPattern;delete room.nextPattern;room.winnerChoice=null;room.mysteryRevealed=false;
   this.sanitizeMystery();
+  for(const student of room.students)delete student.teamJoinNotice;
   const previous=room.teamPairs||[];
   room.teams=[];room.teamQueue=this.paced()?R.shuffled(room.bank.filter(q=>q.enabled)):[];
   if(room.teamMode){

@@ -9,10 +9,11 @@
    const cost=pairs(groups).filter(p=>avoid.has(p)).length;if(cost<score){score=cost;best=groups;}if(!score)break;
   }return best||[];
  }
+ function nameKey(name){return String(name).normalize('NFKC').trim().replace(/\s+/g,' ').toLowerCase();}
  function compatible(primary,candidate){
   const patterns=root.MathoRules.PATTERNS,a=patterns[primary],b=patterns[candidate];if(!a||!b||primary===candidate)return false;
   return b.sets.some(target=>!a.sets.some(line=>line.filter(i=>i!==12).every(i=>target.includes(i))));
  }
  function active(room){return [...new Set([room.pattern||'normal',...(room.mysteryEnabled&&room.mysteryRevealed&&compatible(room.pattern||'normal',room.secretPattern)?[room.secretPattern]:[])])].filter(id=>root.MathoRules.PATTERNS[id]);}
- const api={pairs,group,compatible,active};root.MathoPartyRules=api;if(typeof module!=='undefined')module.exports=api;
+ const api={pairs,group,nameKey,compatible,active};root.MathoPartyRules=api;if(typeof module!=='undefined')module.exports=api;
 })(globalThis);

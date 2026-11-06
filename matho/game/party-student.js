@@ -29,6 +29,7 @@ const MathoPartyStudent={
     this.presenceEpoch=game.epoch;this.offlinePartners=offline;
    }
   }
+  if(team?.joinNotice&&team.joinNotice.id!==this.lastJoinNotice){this.lastJoinNotice=team.joinNotice.id;toast(team.joinNotice.message);}
   if(team?.enabled){
    if(this.lastAttempt!==team.attempt){this.sending=null;this.lastAttempt=team.attempt;}
    const resolution=team.resolution;
