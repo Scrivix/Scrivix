@@ -2,15 +2,21 @@
 const MathoPartyHost={
  team(student){return room?.teamMode?room.teams?.find(t=>t.members.includes(student.token)):null;},
  members(team){return room.students.filter(s=>team.members.includes(s.token));},
- active(){return MathoPartyRules.active(room);},
+ paced(){return !!(room?.teamMode&&room.teamSelfPaced);},
+ calls(student){const t=student&&this.team(student);if(!this.paced())return room.calls;if(!t)return [];return (room.teamQueue||[]).slice(0,Math.min(t.cursor+1,room.teamQueue.length));},
+ revealed(student){if(!room?.mysteryEnabled)return false;if(room.mysteryRevealed)return true;const turn=room.mysteryRevealTurn||0;if(!turn)return false;if(!this.paced())return room.calls.length>=turn;if(student)return this.calls(student).length>=turn;return !!room.teams?.length&&room.teams.every(t=>Math.min(t.cursor+1,room.teamQueue.length)>=turn);},
+ active(student){return MathoPartyRules.active({...room,mysteryRevealed:this.revealed(student)});},
+ progress(){return (room.teams||[]).map((t,i)=>({label:'Team '+(i+1),turn:Math.min(t.cursor+1,room.teamQueue?.length||0),finished:!!t.finished}));},
+ expose(){if(!this.paced())return;const count=Math.max(0,...(room.teams||[]).map(t=>t.cursor+1));room.calls=(room.teamQueue||[]).slice(0,count);},
+ advance(team){if(!this.paced())return;team.cursor++;team.finished=team.cursor>=room.teamQueue.length;team.callId=room.teamQueue[Math.min(team.cursor,room.teamQueue.length-1)]?.id||null;team.ballots={};team.attempt=crypto.randomUUID();team.complete=team.finished;team.status=team.finished?'finished':'ready';this.expose();},
  state(student){
-  const team=this.team(student),call=room.calls.at(-1);
+  const team=this.team(student),call=this.calls(student).at(-1);
   const offer=room.winnerChoice?.token===student.token?{id:room.winnerChoice.id,patterns:room.winnerChoice.patterns,selected:room.winnerChoice.selected||null,approved:room.winnerChoice.approved||null}:null;
-  const result={patterns:this.active(),mystery:{enabled:!!room.mysteryEnabled,revealed:!!room.mysteryRevealed},winnerOffer:offer,team:null};
+  const result={patterns:this.active(student),mystery:{enabled:!!room.mysteryEnabled,revealed:this.revealed(student),turn:room.mysteryRevealTurn||0},winnerOffer:offer,team:null};
   if(!room.teamMode)return result;
   if(!team){result.team={enabled:true,waiting:true,message:'Waiting for the next round to receive a secret team.'};return result;}
   const current=team.callId===call?.id;
-  result.team={enabled:true,waiting:false,size:team.members.length,attempt:team.attempt,callId:call?.id||null,
+  result.team={enabled:true,waiting:false,selfPaced:this.paced(),turn:this.calls(student).length,total:room.teamQueue?.length||0,finished:!!team.finished,resolution:team.resolution||null,size:team.members.length,attempt:team.attempt,callId:call?.id||null,
    choice:current&&Object.hasOwn(team.ballots,student.token)?team.ballots[student.token]:null,
    status:current?team.status:'ready',complete:current&&team.complete,
    partners:room.roundComplete?this.members(team).filter(s=>s.token!==student.token).map(s=>s.name):null};
@@ -20,15 +26,16 @@ const MathoPartyHost={
   if(room.nextPattern&&R.PATTERNS[room.nextPattern])room.pattern=room.nextPattern;delete room.nextPattern;room.winnerChoice=null;room.mysteryRevealed=false;
   if(room.secretPattern===room.pattern){room.mysteryEnabled=false;room.secretPattern=null;}
   const previous=room.teamPairs||[];
-  room.teams=[];
+  room.teams=[];room.teamQueue=this.paced()?R.shuffled(room.bank.filter(q=>q.enabled)):[];
   if(room.teamMode){
    const groups=MathoPartyRules.group(room.students.map(s=>s.token),previous);room.teamPairs=MathoPartyRules.pairs(groups);
-   for(const members of groups){const first=room.students.find(s=>s.token===members[0]);const team={id:crypto.randomUUID(),members,agreements:{},ballots:{},attempt:crypto.randomUUID(),callId:null,status:'ready',complete:false};
+   for(const members of groups){const first=room.students.find(s=>s.token===members[0]);const team={id:crypto.randomUUID(),members,agreements:{},ballots:{},attempt:crypto.randomUUID(),callId:this.paced()?room.teamQueue[0]?.id:null,cursor:0,finished:false,resolution:null,status:'ready',complete:false};
     for(const s of room.students.filter(s=>members.includes(s.token)))s.board=structuredClone(first.board);room.teams.push(team);
    }
   }
+  if(this.paced())this.expose();
  },
- beginCall(){if(!room.teamMode)return;for(const t of room.teams||[]){t.callId=room.calls.at(-1)?.id||null;t.ballots={};t.attempt=crypto.randomUUID();const agreed=t.agreements&&Object.hasOwn(t.agreements,t.callId);t.complete=!!agreed;t.status=agreed?(t.agreements[t.callId]===-1?'skipped':'matched'):'ready';}},
+ beginCall(){if(!room.teamMode||this.paced())return;for(const t of room.teams||[]){t.callId=room.calls.at(-1)?.id||null;t.ballots={};t.attempt=crypto.randomUUID();const agreed=t.agreements&&Object.hasOwn(t.agreements,t.callId);t.complete=!!agreed;t.status=agreed?(t.agreements[t.callId]===-1?'skipped':'matched'):'ready';}},
  undo(call){if(!room.teamMode||!call)return;for(const team of room.teams||[]){if(!team.agreements)continue;delete team.agreements[call.id];const marks=R.cleanMarks(Object.entries(team.agreements).filter(([id])=>room.calls.some(q=>q.id===id)).map(([,square])=>square));for(const student of this.members(team))student.marks=marks.slice();}},
  syncTeam(team){for(const s of this.members(team))sync(s);},
  handle(student,m){
@@ -41,13 +48,14 @@ const MathoPartyHost={
   if(m.type==='marks'){sync(student,null,true);return true;}
   if(m.type==='claim'){
    if(this.members(team).some(s=>s.claim)||team.members.some(token=>room.students.find(s=>s.token===token)?.failedClaims>=3)){sync(student);return true;}
+   if(this.paced()){this.claim(student,m);return true;}
    // In team mode a claim can use only the host's agreed marks.
    m.marks=student.marks.slice();return false;
   }
   if(m.type!=='team-vote')return false;
-  const call=room.calls.at(-1),members=this.members(team);
+  const call=this.calls(student).at(-1),members=this.members(team);
   if(room.roundComplete||!call||members.some(s=>s.claim||(s.failedClaims||0)>=3))return true;
-  if(team.callId!==call.id)this.beginCall();
+  if(team.callId!==call.id){sync(student);return true;}
   if(team.complete||m.callId!==call.id||m.attempt!==team.attempt||Object.hasOwn(team.ballots,student.token)){sync(student);return true;}
   if(!Number.isInteger(m.square)||m.square< -1||m.square>24)return true;
   if(m.square!==-1){const cell=student.board[m.square];if(!cell||cell.free||cell.letter!==call.letter)return true;}
@@ -56,13 +64,25 @@ const MathoPartyHost={
    const choices=members.map(s=>team.ballots[s.token]);
    if(choices.every(i=>i===choices[0])){
     const square=choices[0],next=R.cleanMarks(members[0].marks);
-    if(square!==-1&&!next.includes(square)&&next.length<Math.min(24,room.calls.length))next.push(square);
+    if(square!==-1&&!next.includes(square)&&next.length<Math.min(24,this.calls(student).length))next.push(square);
     for(const s of members){s.marks=R.cleanMarks(next);s.feedback='';s.resultId=null;s.claim=null;s.incorrectCount=null;}
-    team.agreements=team.agreements||{};team.agreements[call.id]=square;team.complete=true;team.status=square===-1?'skipped':'matched';
-   }else{team.ballots={};team.status='mismatch';team.attempt=crypto.randomUUID();}
-   persist();this.syncTeam(team);renderRoster();this.render();updateTeacherRemotes();
+    team.agreements=team.agreements||{};team.agreements[call.id]=square;team.complete=true;team.status=square===-1?'skipped':'matched';team.resolution={id:crypto.randomUUID(),status:team.status,turn:this.calls(student).length};if(this.paced())this.advance(team);
+   }else{team.ballots={};team.status='mismatch';team.attempt=crypto.randomUUID();team.resolution={id:crypto.randomUUID(),status:'mismatch',turn:this.calls(student).length};}
+   persist();this.syncTeam(team);if(this.paced())publishClassic();renderRoster();this.render();updateTeacherRemotes();
   }else{persist();sync(student);this.render();}
   return true;
+ },
+ claim(student,m){
+  const team=this.team(student),calls=this.calls(student),patterns=this.active(student);
+  if(!Number.isSafeInteger(m.seq)||m.seq<student.seq||!calls.length||room.roundComplete&&(room.review||student.feedback==='valid')){sync(student);return;}
+  const marks=R.cleanMarks(student.marks),key=JSON.stringify([room.epoch,patterns,calls.map(c=>c.id),marks]);
+  if(student.lastClaimKey===key){sync(student);return;}student.lastClaimKey=key;student.seq=m.seq;
+  if(!R.isBingo(student.board,marks,calls,patterns)){
+   student.failedClaims=Math.min(3,(student.failedClaims||0)+1);student.feedback='invalid';student.resultId=crypto.randomUUID();student.incorrectCount=room.shareIncorrectCount?R.incorrectMarkCount(student.board,marks,calls):null;this.checked(student,false);
+  }else{
+   student.claim={marks:marks.slice(),callIds:calls.map(c=>c.id),epoch:room.epoch,pattern:room.pattern||'normal',patterns};student.feedback='';student.resultId=null;student.incorrectCount=null;claimSound.play();
+  }
+  persist();this.syncTeam(team);render();updateTeacherRemotes();
  },
  checked(student,valid){
   const team=this.team(student);if(!team)return;
@@ -73,17 +93,18 @@ const MathoPartyHost={
  },
  pending(student){const team=this.team(student);return team?this.members(team).some(s=>s.claim):!!student.claim;},
  remove(){if(!room?.teamMode)return;for(const t of room.teams||[]){const before=t.members.length;t.members=t.members.filter(token=>room.students.some(s=>s.token===token));if(t.members.length!==before&&!t.complete){t.ballots={};t.status='ready';t.attempt=crypto.randomUUID();}}room.teams=room.teams.filter(t=>t.members.length);},
- reveal(){if(!room?.mysteryEnabled||room.mysteryRevealed||room.roundComplete)return;room.mysteryRevealed=true;clearClaims('Another winning pattern is now available.');for(const s of room.students)s.lastClaimKey='';persist();publishClassic();broadcast();render();updateTeacherRemotes();},
+ reveal(){if(!room?.mysteryEnabled||room.mysteryRevealed||room.roundComplete)return;room.mysteryRevealed=true;for(const s of room.students)s.lastClaimKey='';persist();publishClassic();broadcast();render();updateTeacherRemotes();},
  render(){
   if(!room)return;
-  const modeKey=JSON.stringify([room.epoch,room.teamMode,room.mysteryEnabled,room.secretPattern]);if(this.modeKey!==modeKey){this.modeKey=modeKey;$('#partyTeamMode').checked=!!room.teamMode;$('#partyMystery').checked=!!room.mysteryEnabled;$('#partySecret').value=room.secretPattern||'corners';}
+  const modeKey=JSON.stringify([room.epoch,room.teamMode,room.mysteryEnabled,room.secretPattern,room.mysteryRevealTurn]);if(this.modeKey!==modeKey){this.modeKey=modeKey;$('#partyTeamMode').checked=!!room.teamMode;$('#partyMystery').checked=!!room.mysteryEnabled;$('#partySecret').value=room.secretPattern||'corners';$('#partyAutoReveal').checked=!!room.mysteryRevealTurn;$('#partyRevealTurn').value=room.mysteryRevealTurn||10;}
 
+  const paced=this.paced();$('#teamRaceNotice').hidden=!paced;$('#teacherTimer').hidden=paced;if(paced)for(const id of ['liveNext','liveUndo','liveFilter'])$('#'+id).disabled=true;$('#liveNext').hidden=paced;$('#liveUndo').hidden=paced;$('#liveFilter').hidden=paced;$('#liveFilterLabel').hidden=paced;
   $('#winnerCircleControls').hidden=!room.winners?.length;
-  $('#activeModeSummary').hidden=!room.teamMode&&!room.mysteryRevealed;
-  $('#activeMysteryPattern').innerHTML=room.mysteryEnabled&&room.mysteryRevealed?'<strong>Mystery pattern revealed</strong>'+R.patternDiagram(room.secretPattern)+'<p>'+esc(R.pattern(room.secretPattern).label)+'</p>':'';
-  $('#activeTeamList').textContent=room.teamMode?(room.teams||[]).map(t=>this.members(t).map(s=>s.name).join(' + ')+(t.complete?' — agreed':' — '+Object.keys(t.ballots||{}).length+'/'+t.members.length+' choices submitted')).join(' · '):'';
-  $('#partyReveal').disabled=!room.mysteryEnabled||!!room.mysteryRevealed||!!room.roundComplete;
-  $('#partyStatus').textContent=(room.teamMode?'Secret teams active. ':'Individual boards. ')+(room.mysteryEnabled?(room.mysteryRevealed?'Both patterns can win.':'Hidden pattern: '+R.pattern(room.secretPattern).label+'.'):'');
+  $('#activeModeSummary').hidden=!room.teamMode&&!this.revealed();
+  $('#activeMysteryPattern').innerHTML=room.mysteryEnabled&&(this.revealed()||paced)?'<strong>'+(this.revealed()?'Mystery pattern revealed':'Mystery pattern · teacher only')+'</strong>'+R.patternDiagram(room.secretPattern)+'<p>'+esc(R.pattern(room.secretPattern).label)+'</p>':'';
+  $('#activeTeamList').textContent=room.teamMode?(room.teams||[]).map(t=>this.members(t).map(s=>s.name).join(' + ')+(paced?' — '+(t.finished?'finished all questions':'question '+(t.cursor+1)+' of '+room.teamQueue.length):'')+(t.complete?' — agreed':' — '+Object.keys(t.ballots||{}).length+'/'+t.members.length+' choices submitted')).join(' · '):'';
+  $('#partyReveal').disabled=!room.mysteryEnabled||this.revealed()||!!room.roundComplete;
+  $('#partyStatus').textContent=(paced?'Self-paced secret team race. ':room.teamMode?'Secret teams active. ':'Individual boards. ')+(room.mysteryEnabled?(this.revealed()?'Both patterns can win.':'Hidden pattern: '+R.pattern(room.secretPattern).label+'. '+(room.mysteryRevealTurn?'Reveals at question '+room.mysteryRevealTurn+(paced?' for each team.':'.'):'Reveal manually.')):'');
   $('#partyTeamList').textContent=room.teamMode?(room.teams||[]).map(t=>this.members(t).map(s=>s.name).join(' + ')).join(' · '):'';
   const target=$('#winnerChoiceStudent'),value=target.value;target.innerHTML=(room.winners||[]).map(w=>'<option value="'+esc(w.token)+'">'+esc(w.name)+'</option>').join('');if((room.winners||[]).some(w=>w.token===value))target.value=value;
   $('#offerWinnerChoice').disabled=!room.roundComplete||!room.winners?.length;
@@ -96,13 +117,13 @@ const MathoPartyHost={
   for(const id of ['setupPattern','winningPattern','partySecret','winnerNextPattern']){const el=$('#'+id),value=el.value;el.innerHTML=options;el.value=R.PATTERNS[value]?value:(id==='partySecret'?'corners':'normal');}
   $('#winnerAllowedPatterns').innerHTML=Object.entries(R.PATTERNS).map(([id,p])=>'<label><input type="checkbox" data-winner-pattern="'+id+'" checked> '+esc(p.label)+'</label>').join('');
   $('#applyPartyModes').onclick=()=>{
-   if(!room)return;const teams=$('#partyTeamMode').checked,mystery=$('#partyMystery').checked,secret=$('#partySecret').value;
+   if(!room)return;const teams=$('#partyTeamMode').checked,mystery=$('#partyMystery').checked,secret=$('#partySecret').value,turn=mystery&&$('#partyAutoReveal').checked?Number($('#partyRevealTurn').value):0;
+   if(mystery&&$('#partyAutoReveal').checked&&(!Number.isInteger(turn)||turn<1||turn>room.bank.filter(q=>q.enabled).length)){toast('Choose a reveal question between 1 and '+room.bank.filter(q=>q.enabled).length+'.');return;}
    if(teams&&room.students.length<2){toast('At least two students must join before starting secret teams.');return;}
    if(mystery&&secret===room.pattern){toast('Choose a mystery pattern different from the current winning pattern.');return;}
-   askAction('Start a new round with these modes?','Calls and marks will clear. Secret partners are hidden until the round ends and reshuffled every round.',()=>{room.teamMode=teams;room.mysteryEnabled=mystery;room.secretPattern=mystery?secret:null;resetRound();updateTeacherRemotes();});
+   askAction('Start a new round with these modes?','Calls and marks will clear. Secret partners are hidden until the round ends and reshuffled every round.',()=>{room.teamMode=teams;room.teamSelfPaced=teams;room.mysteryRevealTurn=turn;room.mysteryEnabled=mystery;room.secretPattern=mystery?secret:null;resetRound();updateTeacherRemotes();});
   };
   $('#partyReveal').onclick=()=>this.reveal();
-  $('#resetTeamChoices').onclick=()=>{if(!room?.teamMode)return;for(const t of room.teams||[]){if(t.complete)continue;t.ballots={};t.status='ready';t.attempt=crypto.randomUUID();this.syncTeam(t);}persist();toast('Unfinished team choices reset.');};
   $('#offerWinnerChoice').onclick=()=>{const token=$('#winnerChoiceStudent').value;if(!room?.roundComplete||!room.winners?.some(w=>w.token===token))return;const patterns=[...document.querySelectorAll('[data-winner-pattern]:checked')].map(n=>n.dataset.winnerPattern).filter(id=>R.PATTERNS[id]);if(!patterns.length){toast('Allow at least one pattern.');return;}room.winnerChoice={id:crypto.randomUUID(),token,patterns,selected:null};persist();broadcast();render();};
   $('#approveWinnerPattern').onclick=()=>{const id=$('#winnerNextPattern').value;if(!room?.roundComplete||!R.PATTERNS[id])return;room.nextPattern=id;if(room.winnerChoice)room.winnerChoice.approved=id;persist();broadcast();render();toast('Next round will use '+R.pattern(id).label+'. You can override it before starting.');};
   if(room)this.render();

@@ -11,7 +11,7 @@ const flush=async()=>{for(let i=0;i<8;i++)await new Promise(setImmediate)};
  let t=context('room.html');t.run('start(true)');await flush();const code=t.run('room.code'),players=[];
  async function join(name){const s=context('join.html');s.node('#codeInput').value=code;s.node('#nameInput').value=name;s.run("$('#joinForm').onsubmit({preventDefault(){}})");await flush();players.push(s);return s;}
  for(let i=0;i<5;i++)await join('Learner'+i);
- t.run('MathoPartyHost.init()');t.node('#partyTeamMode').checked=true;t.node('#partyMystery').checked=true;t.node('#partySecret').value='corners';t.run("$('#applyPartyModes').onclick();$('#confirmRoomAction').onclick()");await flush();
+ t.run('MathoPartyHost.init()');t.node('#partyTeamMode').checked=true;t.node('#partyMystery').checked=true;t.node('#partySecret').value='corners';t.run("$('#applyPartyModes').onclick();$('#confirmRoomAction').onclick();room.teamSelfPaced=false;room.calls=[];MathoPartyHost.beginCall();persist();broadcast()");await flush();
  const playerByToken=()=>new Map(players.map(s=>[s.run('credentials.token'),s]));let by=playerByToken();
  let groups=t.run('JSON.parse(JSON.stringify(room.teams))');assert.deepEqual(groups.map(g=>g.members.length).sort(),[2,3]);
  for(const group of groups){const boards=group.members.map(token=>by.get(token).run('JSON.stringify(game.board)'));assert(boards.every(b=>b===boards[0]));for(const token of group.members){const s=by.get(token),packet=s.run('JSON.stringify(game)');assert.equal(s.run('game.team.partners'),null);for(const other of group.members.filter(v=>v!==token))assert(!packet.includes(other),'No partner token disclosed');assert.deepEqual(s.run('JSON.stringify(game.patterns)'),'["normal"]');assert.equal(s.run('game.mystery.secretPattern'),undefined);}}

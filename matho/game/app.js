@@ -34,7 +34,7 @@ window.addEventListener('load',()=>{typeset($('.play-area'));typeset($('#board')
 function renderClassroomWinner(){if(!display)return;if(!state.winner){classroomResultPanel.hide();return;}if(displayedWinnerId===state.winner.id)return;displayedWinnerId=state.winner.id;classroomResultPanel.show(state.winner.name+(state.winner.names?.length>1?' got MATHO!':' got a MATHO!'),'A confirmed win! Let’s celebrate some great thinking.',true);}
 
 function renderClassroomPattern(){
- $('#classroomMystery').hidden=!display||!state.mystery?.enabled||!!state.mystery?.revealed;
+ $('#classroomMystery').hidden=!display||!state.mystery?.enabled||!!state.mystery?.revealed;$('#classroomMystery').textContent=state.selfPaced&&state.mystery?.turn?'Mystery pattern unlocks for each team at question '+state.mystery.turn+'.':'A mystery winning pattern is hidden. Keep playing until it is revealed.';
  const panel=$('#classroomPattern');panel.hidden=!display;if(!display)return;
  const goal=MathoRules.pattern(state.patterns||state.pattern||'normal');
  $('#classroomPatternDiagram').innerHTML=MathoRules.patternDiagram(state.patterns||state.pattern||'normal');
@@ -80,6 +80,8 @@ $('#addQuestionForm').onsubmit=event=>{
 if(location.hash==='#bankSection')$('#bankSection details').open=true;
 
 function renderQuestionBoard(){
+ if(display&&state.selfPaced){$('#callNumber').textContent='Self-paced secret team race';$('#currentMath').innerHTML='<span class="empty-title">Race to MATHO!</span>';$('#currentHint').textContent='Work at your team’s pace. Agree on an answer to open your next question.';$('#historyCount').textContent='Team progress';$('#board').innerHTML=(state.teamProgress||[]).map(t=>'<div class="mode-info"><strong>'+esc(t.label)+'</strong><p>'+esc(t.finished?'All questions completed':'Question '+t.turn)+'</p></div>').join('');return;}
+
  const current=state.called.at(-1);
  if(!display){
   $('.history-section .eyebrow').textContent='THE QUESTION SET';

@@ -19,14 +19,14 @@
  }
  function render(){
   $('remoteHeading').textContent=(state.title||'MATHO')+' · Teacher remote';$('remoteMain').hidden=false;$('remoteRoom').textContent='ROOM '+state.code+' · ROUND '+state.round;
-  const current=state.calls.at(-1);$('remoteCurrent').innerHTML=current?esc(current.letter)+' · '+math(current.question):'Ready for the first expression';
+  const current=state.selfPaced?null:state.calls.at(-1);$('remoteCurrent').innerHTML=current?esc(current.letter)+' · '+math(current.question):state.selfPaced?'Self-paced team race':'Ready for the first expression';
   $('remoteAnswer').innerHTML=current?'Answer: '+math(current.answer):'Answers appear here after each draw.';
   const pattern=R.pattern(state.patterns||state.pattern);$('remotePattern').innerHTML=R.patternDiagram(state.patterns||state.pattern)+'<strong>'+esc(pattern.label)+'</strong>';
   const pending=state.students.filter(s=>s.claim).length;
   $('remoteCount').textContent=state.students.length+' students · '+state.students.filter(s=>s.connected).length+' connected';
   $('remoteClaims').textContent=pending?pending+' MATHO '+(pending===1?'claim':'claims')+' to check':'No pending MATHO claims';
-  $('remoteRoster').innerHTML=sortRemoteRoster(state.students,rosterSort).map(s=>'<div class="student-entry"><div class="student-row"><div><strong>'+esc(s.name)+'</strong><span class="student-meta">'+(s.connected?'Connected':'Disconnected')+' · '+s.marks.length+' marked'+(s.failedClaims?' · '+s.failedClaims+'/3 incorrect claims':'')+(s.claimLocked?' · Locked until New Round':'')+(s.feedback==='valid'?' · MATHO confirmed!':'')+'</span></div><button data-inspect="'+esc(s.token)+'">View board</button></div>'+(s.claim?'<div class="student-claim"><strong>Called MATHO!</strong><button class="live-primary" data-check="'+esc(s.token)+'">Check MATHO</button></div>':'')+'</div>').join('')||'<p>Students appear here when they join.</p>';
-  $('remoteNext').disabled=state.roundComplete||!state.remaining;
+  $('remoteRoster').innerHTML=sortRemoteRoster(state.students,rosterSort).map(s=>'<div class="student-entry"><div class="student-row"><div><strong>'+esc(s.name)+'</strong><span class="student-meta">'+(s.connected?'Connected':'Disconnected')+' · '+s.marks.length+' marked'+(s.failedClaims?' · '+s.failedClaims+'/3 incorrect claims':'')+(s.claimLocked?' · Locked until New Round':'')+(s.feedback==='valid'?' · MATHO confirmed!':'')+(state.selfPaced&&s.team?' · '+esc(s.team.names.join(' + '))+' · question '+s.team.turn:'')+'</span></div><button data-inspect="'+esc(s.token)+'">View board</button></div>'+(s.claim?'<div class="student-claim"><strong>Called MATHO!</strong><button class="live-primary" data-check="'+esc(s.token)+'">Check MATHO</button></div>':'')+'</div>').join('')||'<p>Students appear here when they join.</p>';
+  $('remoteNext').hidden=!!state.selfPaced;$('remoteTimerSection').hidden=!!state.selfPaced;$('remoteNext').disabled=state.selfPaced||state.roundComplete||!state.remaining;
   $('remoteLock').textContent=state.locked?'Unlock joining':'Lock joining';
   $('remoteAuto').disabled=state.roundComplete;$('remoteAuto').textContent=state.timer.running?'Pause auto draw':'Start / resume auto draw';
   if(document.activeElement!==$('remoteSeconds'))$('remoteSeconds').value=state.timer.seconds;$('remoteSeconds').disabled=state.roundComplete;
@@ -39,7 +39,7 @@
  function renderInspection(){
   const s=state.students.find(s=>s.token===inspected);if(!s)return;
   $('remoteInspectName').textContent=s.name+'’s board';
-  const marks=new Set(s.claim?.marks||s.marks),review=R.reviewBoard(s.board,[...marks],state.calls);
+  const marks=new Set(s.claim?.marks||s.marks),review=R.reviewBoard(s.board,[...marks],s.calls||state.calls);
   $('remoteInspectReview').hidden=!review;
   $('remoteInspectReview').textContent=review?'Red ×: marked but not called ('+review.incorrect.length+'). Blue !: called but not marked ('+review.missed.length+').':'';
   $('remoteInspectBoard').innerHTML=R.LETTERS.map(l=>'<div class="board-letter" style="--accent:var(--'+l+')">'+l+'</div>').join('')+s.board.map((cell,i)=>'<button disabled class="board-square '+(cell.free?'free':'')+' '+(review?.incorrect.includes(i)?'review-incorrect':review?.missed.includes(i)?'review-missed':'')+'" aria-pressed="'+(cell.free||marks.has(i))+'">'+(cell.free?'FREE':/^-?\d+(?:\.\d+)?$/.test(cell.answer)?esc(cell.answer):math(cell.answer))+(review?.incorrect.includes(i)?'<span class="review-badge">✕</span>':review?.missed.includes(i)?'<span class="review-badge">!</span>':'')+'</button>').join('');
