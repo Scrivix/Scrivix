@@ -1,10 +1,22 @@
 /* Students receive their own vote and, only after the round, partner names. */
 const MathoPartyStudent={
  lastOffer:null,
+ mysteryPattern(){return game?.mystery?.enabled&&game.mystery.revealed?(game.patterns||[]).find(id=>id!==game.pattern&&R.PATTERNS[id]):null;},
+ showMystery(){const id=this.mysteryPattern();if(!id||game.roundComplete)return false;const pattern=R.pattern(id);if(!this.mysteryPanel)this.mysteryPanel=new MathoResultPanel('mysteryReveal',{autoDismissMs:10000});$('#mysteryRevealDiagram').innerHTML=R.patternDiagram(id);this.mysteryPanel.show('Mystery pattern revealed!',pattern.label+'. '+pattern.description+' You can now win with either pattern.',false);return true;},
+ notifyMystery(){
+  const id=this.mysteryPattern();if(!id||game?.roundComplete){const wasOpen=this.mysteryPanel&&!this.mysteryPanel.root.hidden;this.mysteryPanel?.hide();if(wasOpen&&game?.roundComplete&&!studentResultPanel.root.hidden)studentResultPanel.closeButton.focus?.();this.mysteryNoticeKey=null;return;}
+  const key=[game.code,game.epoch,id].join(':'),storageKey=MATHO_SET.keys.student+'-mystery-reveal';
+  if(this.mysteryNoticeKey===key)return;
+  try{if(sessionStorage.getItem(storageKey)===key){this.mysteryNoticeKey=key;return;}}catch{}
+  if(this.showMystery()){this.mysteryNoticeKey=key;try{sessionStorage.setItem(storageKey,key);}catch{}}
+ },
  canVote(){return online&&game?.team?.enabled&&!game.team.waiting&&!game.roundComplete&&!game.pending&&!game.claimLocked&&game.calls.length>0&&!game.team.complete&&game.team.choice===null&&this.sending!==game.team.attempt;},
  choose(square){if(!this.canVote())return;const call=game.calls.at(-1);if(square!==-1&&game.board[square]?.letter!==call.letter)return;const attempt=game.team.attempt;this.sending=attempt;send({type:'team-vote',epoch:game.epoch,callId:call.id,attempt,square});this.render();setTimeout(()=>{if(game?.team?.attempt===attempt&&game.team.choice===null&&!game.team.complete){this.sending=null;this.render();}},5000);},
  render(){
-  $('#mysteryNotice').hidden=!game?.mystery?.enabled||!!game?.mystery?.revealed;
+  const mystery=this.mysteryPattern(),notice=$('#mysteryNotice');notice.hidden=!game?.mystery?.enabled;notice.classList.toggle('mystery-is-revealed',!!mystery);
+  $('#mysteryNoticeTitle').textContent=mystery?'Mystery pattern revealed: '+R.pattern(mystery).label:'Mystery winning pattern';
+  $('#mysteryNoticeDescription').textContent=mystery?R.pattern(mystery).description+' Either winning pattern counts.':game?.mystery?.turn?'Unlocks at question '+game.mystery.turn+'. Keep playing!':'Your teacher will reveal the second winning pattern.';
+  $('#mysteryNoticeDiagram').innerHTML=mystery?R.patternDiagram(mystery):'';$('#mysteryViewButton').hidden=!mystery||!!game?.roundComplete;
   const team=game?.team,partnerStatus=$('#partnerStatus');partnerStatus.hidden=!team?.enabled||!!team.waiting||!!team.finished||!!game?.roundComplete;
   if(team?.enabled&&!team.waiting){
    const connected=team.partnersConnected||0,offline=team.partnersOffline||0,answered=team.partnersAnswered||0;
@@ -22,7 +34,6 @@ const MathoPartyStudent={
    const resolution=team.resolution;
    if(resolution&&resolution.id!==this.lastResolution){this.lastResolution=resolution.id;toast(resolution.status==='timeout-correct'?'Waiting time ended. Your answer was correct. Moving on together.':resolution.status==='timeout-incorrect'?'Waiting time ended. Not correct yet. Choices cleared; try again.':resolution.status==='mismatch'?'Your choices did not match. All choices are cleared. Choose again.':resolution.status==='matched'?'Your team agreed! Square marked. Next question.':'Your team agreed: no matching answer. Next question.');}
   }
-  if(game?.mystery?.revealed&&!this.lastMystery)toast('Mystery pattern revealed! Check your winning patterns.');this.lastMystery=!!game?.mystery?.revealed;
   const panel=$('#secretTeamPanel');panel.hidden=!team?.enabled;$('#teamSkip').hidden=!team?.enabled;
   if(team?.enabled){
    $('#teamPartners').hidden=!game.roundComplete;
@@ -39,6 +50,7 @@ const MathoPartyStudent={
   if(offer.id!==this.lastOffer){this.lastOffer=offer.id;$('#winnerPatternChoice').innerHTML=offer.patterns.filter(id=>R.PATTERNS[id]).map(id=>'<option value="'+id+'">'+esc(R.pattern(id).label)+'</option>').join('');if(!offer.selected)$('#winnerChoiceDialog').showModal();}
  },
  init(){
+  $('#mysteryViewButton').onclick=()=>this.showMystery();
   $('#teamSkip').onclick=()=>this.choose(-1);
   $('#winnerChoiceButton').onclick=()=>$('#winnerChoiceDialog').showModal();$('#winnerChoiceLater').onclick=()=>$('#winnerChoiceDialog').close();
   $('#sendWinnerChoice').onclick=()=>{const o=game?.winnerOffer,id=$('#winnerPatternChoice').value;if(!o||o.selected||!o.patterns.includes(id))return;send({type:'pattern-choice',epoch:game.epoch,offerId:o.id,choice:id});$('#winnerChoiceDialog').close();toast('Suggestion sent. Your teacher will approve or override it.');};
