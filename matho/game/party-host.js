@@ -2,6 +2,33 @@
 const MathoPartyHost={
  team(student){return room?.teamMode?room.teams?.find(t=>t.members.includes(student.token)):null;},
  members(team){return room.students.filter(s=>team.members.includes(s.token));},
+ recoveryUntil:0,
+ eligible(team){const connected=this.connected(team);return Date.now()<this.recoveryUntil?this.members(team).filter(s=>(team.present||team.members).includes(s.token)||connected.some(p=>p.token===s.token)):connected;},
+ connected(team){return this.members(team).filter(s=>{const link=links.get(s.token);return !!link?.conn.open&&Date.now()-link.lastSeen<=22000;});},
+ presenceChanged(student){
+  const team=this.team(student);if(!team)return;
+  const present=this.eligible(team).map(s=>s.token),previous=team.present||team.members,connected=this.connected(team).map(s=>s.token),previousConnected=team.connected||previous;
+  const quorumChanged=present.length!==previous.length||present.some(token=>!previous.includes(token)),connectionChanged=connected.length!==previousConnected.length||connected.some(token=>!previousConnected.includes(token));
+  team.present=present;team.connected=connected;
+  if(!quorumChanged&&!connectionChanged)return;
+  if(quorumChanged){
+   for(const token of Object.keys(team.ballots||{}))if(!present.includes(token))delete team.ballots[token];
+   if(!team.complete){team.attempt=crypto.randomUUID();team.status=Object.keys(team.ballots).length?'waiting':'ready';this.resolve(team);}
+  }
+  persist();this.syncTeam(team);if(this.paced())publishClassic();renderRoster();this.render();updateTeacherRemotes();
+ },
+ resolve(team){
+  const members=this.members(team),voters=this.eligible(team),student=members[0],call=student&&this.calls(student).at(-1);
+  if(room.roundComplete||!call||team.complete||!voters.length||members.some(s=>s.claim||(s.failedClaims||0)>=3)||!voters.every(s=>Object.hasOwn(team.ballots,s.token)))return false;
+  const choices=voters.map(s=>team.ballots[s.token]);
+  if(choices.every(i=>i===choices[0])){
+   const square=choices[0],next=R.cleanMarks(members[0].marks);
+   if(square!==-1&&!next.includes(square)&&next.length<Math.min(24,this.calls(student).length))next.push(square);
+   for(const s of members){s.marks=R.cleanMarks(next);s.feedback='';s.resultId=null;s.claim=null;s.incorrectCount=null;}
+   team.agreements=team.agreements||{};team.agreements[call.id]=square;team.complete=true;team.status=square===-1?'skipped':'matched';team.resolution={id:crypto.randomUUID(),status:team.status,turn:this.calls(student).length};if(this.paced())this.advance(team);
+  }else{team.ballots={};team.status='mismatch';team.attempt=crypto.randomUUID();team.resolution={id:crypto.randomUUID(),status:'mismatch',turn:this.calls(student).length};}
+  return true;
+ },
  paced(){return !!(room?.teamMode&&room.teamSelfPaced);},
  calls(student){const t=student&&this.team(student);if(!this.paced())return room.calls;if(!t)return [];return (room.teamQueue||[]).slice(0,Math.min(t.cursor+1,room.teamQueue.length));},
  revealed(student){if(!room?.mysteryEnabled)return false;if(room.mysteryRevealed)return true;const turn=room.mysteryRevealTurn||0;if(!turn)return false;if(!this.paced())return room.calls.length>=turn;if(student)return this.calls(student).length>=turn;return !!room.teams?.length&&room.teams.every(t=>Math.min(t.cursor+1,room.teamQueue.length)>=turn);},
@@ -15,8 +42,9 @@ const MathoPartyHost={
   const result={patterns:this.active(student),mystery:{enabled:!!room.mysteryEnabled,revealed:this.revealed(student),turn:room.mysteryRevealTurn||0},winnerOffer:offer,team:null};
   if(!room.teamMode)return result;
   if(!team){result.team={enabled:true,waiting:true,message:'Waiting for the next round to receive a secret team.'};return result;}
-  const current=team.callId===call?.id;
-  result.team={enabled:true,waiting:false,selfPaced:this.paced(),turn:this.calls(student).length,total:room.teamQueue?.length||0,finished:!!team.finished,resolution:team.resolution||null,size:team.members.length,attempt:team.attempt,callId:call?.id||null,
+  const current=team.callId===call?.id,others=this.members(team).filter(s=>s.token!==student.token),connected=this.connected(team).filter(s=>s.token!==student.token);
+  const partnersAnswered=current?connected.filter(s=>Object.hasOwn(team.ballots,s.token)).length:0;
+  result.team={enabled:true,waiting:false,selfPaced:this.paced(),turn:this.calls(student).length,total:room.teamQueue?.length||0,finished:!!team.finished,resolution:team.resolution||null,size:team.members.length,partnersConnected:connected.length,partnersOffline:others.length-connected.length,partnersAnswered,recovering:this.eligible(team).length>this.connected(team).length,attempt:team.attempt,callId:call?.id||null,
    choice:current&&Object.hasOwn(team.ballots,student.token)?team.ballots[student.token]:null,
    status:current?team.status:'ready',complete:current&&team.complete,
    partners:room.roundComplete?this.members(team).filter(s=>s.token!==student.token).map(s=>s.name):null};
@@ -29,7 +57,7 @@ const MathoPartyHost={
   room.teams=[];room.teamQueue=this.paced()?R.shuffled(room.bank.filter(q=>q.enabled)):[];
   if(room.teamMode){
    const groups=MathoPartyRules.group(room.students.map(s=>s.token),previous);room.teamPairs=MathoPartyRules.pairs(groups);
-   for(const members of groups){const first=room.students.find(s=>s.token===members[0]);const team={id:crypto.randomUUID(),members,agreements:{},ballots:{},attempt:crypto.randomUUID(),callId:this.paced()?room.teamQueue[0]?.id:null,cursor:0,finished:false,resolution:null,status:'ready',complete:false};
+   for(const members of groups){const present=members.filter(token=>this.connected({members}).some(s=>s.token===token));const first=room.students.find(s=>s.token===members[0]);const team={id:crypto.randomUUID(),members,present,connected:present.slice(),agreements:{},ballots:{},attempt:crypto.randomUUID(),callId:this.paced()?room.teamQueue[0]?.id:null,cursor:0,finished:false,resolution:null,status:'ready',complete:false};
     for(const s of room.students.filter(s=>members.includes(s.token)))s.board=structuredClone(first.board);room.teams.push(team);
    }
   }
@@ -53,6 +81,7 @@ const MathoPartyHost={
    m.marks=student.marks.slice();return false;
   }
   if(m.type!=='team-vote')return false;
+  this.presenceChanged(student);
   const call=this.calls(student).at(-1),members=this.members(team);
   if(room.roundComplete||!call||members.some(s=>s.claim||(s.failedClaims||0)>=3))return true;
   if(team.callId!==call.id){sync(student);return true;}
@@ -60,16 +89,8 @@ const MathoPartyHost={
   if(!Number.isInteger(m.square)||m.square< -1||m.square>24)return true;
   if(m.square!==-1){const cell=student.board[m.square];if(!cell||cell.free||cell.letter!==call.letter)return true;}
   team.ballots[student.token]=m.square;team.status='waiting';
-  if(members.every(s=>Object.hasOwn(team.ballots,s.token))){
-   const choices=members.map(s=>team.ballots[s.token]);
-   if(choices.every(i=>i===choices[0])){
-    const square=choices[0],next=R.cleanMarks(members[0].marks);
-    if(square!==-1&&!next.includes(square)&&next.length<Math.min(24,this.calls(student).length))next.push(square);
-    for(const s of members){s.marks=R.cleanMarks(next);s.feedback='';s.resultId=null;s.claim=null;s.incorrectCount=null;}
-    team.agreements=team.agreements||{};team.agreements[call.id]=square;team.complete=true;team.status=square===-1?'skipped':'matched';team.resolution={id:crypto.randomUUID(),status:team.status,turn:this.calls(student).length};if(this.paced())this.advance(team);
-   }else{team.ballots={};team.status='mismatch';team.attempt=crypto.randomUUID();team.resolution={id:crypto.randomUUID(),status:'mismatch',turn:this.calls(student).length};}
-   persist();this.syncTeam(team);if(this.paced())publishClassic();renderRoster();this.render();updateTeacherRemotes();
-  }else{persist();sync(student);this.render();}
+  const resolved=this.resolve(team);
+  persist();this.syncTeam(team);if(resolved&&this.paced())publishClassic();renderRoster();this.render();updateTeacherRemotes();
   return true;
  },
  claim(student,m){
@@ -107,7 +128,7 @@ const MathoPartyHost={
    const members=this.members(t),total=room.teamQueue?.length||0,done=paced?Math.min(t.cursor||0,total):Object.keys(t.agreements||{}).length,submitted=Object.keys(t.ballots||{}).length;
    const confirmed=members.some(s=>s.feedback==='valid'),pending=members.some(s=>s.claim),locked=members.some(s=>(s.failedClaims||0)>=3);
    const status=confirmed?'MATHO confirmed':pending?'MATHO called':locked?'Locked until next round':t.finished?'All questions completed':t.status==='mismatch'?'Choosing again':t.complete?'Answer agreed':submitted?submitted+' of '+members.length+' choices submitted':'Choosing answers';
-   return '<li class="teacher-team-card"><div class="teacher-team-top"><span class="teacher-team-number">Team '+(i+1)+'</span><span class="teacher-team-status'+(confirmed?' is-confirmed':pending?' is-pending':'')+'">'+esc(status)+'</span></div><div class="teacher-team-names">'+members.map(s=>'<span>'+esc(s.name)+'</span>').join('')+'</div><div class="teacher-team-progress"><strong>'+esc(paced?(t.finished?'All questions completed':'Question '+Math.min((t.cursor||0)+1,total)+' of '+total):done+' answers agreed')+'</strong>'+(paced?'<progress max="'+Math.max(1,total)+'" value="'+done+'" aria-label="Team '+(i+1)+' completed questions">'+done+' of '+total+'</progress>':'')+'</div></li>';
+   return '<li class="teacher-team-card"><div class="teacher-team-top"><span class="teacher-team-number">Team '+(i+1)+'</span><span class="teacher-team-status'+(confirmed?' is-confirmed':pending?' is-pending':'')+'">'+esc(status)+'</span></div><div class="teacher-team-names">'+members.map(s=>'<span>'+esc(s.name)+'</span>').join('')+'</div><div class="teacher-team-progress"><strong>'+esc(paced?(t.finished?'All questions completed':'Question '+Math.min((t.cursor||0)+1,total)+' of '+total):done+' answers agreed')+'</strong>'+(paced?'<progress max="'+Math.max(1,total)+'" value="'+done+'" aria-label="Team '+(i+1)+' completed questions">'+done+' of '+total+'</progress>':'')+'</div>'+(members.length>this.connected(t).length?'<p class="teacher-team-presence">'+(members.length-this.connected(t).length)+' offline'+(this.eligible(t).length>this.connected(t).length?' · reconnecting team':this.connected(t).length===1?' · continuing solo':'')+'</p>':'')+'</li>';
   }).join(''):'';
   $('#partyReveal').disabled=!room.mysteryEnabled||this.revealed()||!!room.roundComplete;
   $('#partyStatus').textContent=(paced?'Self-paced secret team race. ':room.teamMode?'Secret teams active. ':'Individual boards. ')+(room.mysteryEnabled?(this.revealed()?'Both patterns can win.':'Hidden pattern: '+R.pattern(room.secretPattern).label+'. '+(room.mysteryRevealTurn?'Reveals at question '+room.mysteryRevealTurn+(paced?' for each team.':'.'):'Reveal manually.')):'');
