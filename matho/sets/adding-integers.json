@@ -1,0 +1,34 @@
+{
+  "id": "adding-integers",
+  "title": "Adding Integers",
+  "storagePrefix": "matho-adding-integers",
+  "joinPrefix": "SA",
+  "bankFile": "adding-integers-bank.json",
+  "exportFilename": "matho-adding-integers-question-bank.json",
+  "copy": {
+    "studentInstructions": "Add the two integers. Pay attention to both signs and mark the matching sum in the question’s column.",
+    "roomIntro": "Add integers from −15 to 15. Questions include two positive numbers, two negative numbers, mixed signs, zero, and opposites that cancel. Addends grow in magnitude from M to O.",
+    "roomHeading": "Adding Integers",
+    "roomWelcome": "Let’s play Adding Integers MATHO!",
+    "callerHeading": "Adding Integers",
+    "callerSubtitle": "Add the integers. Check the signs. Find your square.",
+    "callerControls": "Ready for the next sum?",
+    "callerLink": "Adding integers caller",
+    "joinIntro": "Enter your teacher’s room code to join.",
+    "studentBoardLabel": "YOUR ADDING INTEGERS BOARD",
+    "footer": "Add carefully. Keep the sign.",
+    "bankIntro": "50 questions, 10 per column, using integer addends from −15 to 15 and sums from −30 to 30. Maximum addend magnitudes progress through 5, 8, 10, 12, and 15 in M, A, T, H, and O. Each column contains both positive and negative sums; nearby and opposite-signed answers reward calculation. Includes zero and cancellation. Signed-in edits save to your private teacher library.",
+    "callerBrand": "Adding Integers",
+    "roomBrand": "Adding Integers",
+    "studentBrand": "Adding Integers"
+  },
+  "hints": {
+    "caller": {
+      "default": "Add both integers and check the sign. Find the sum in column {letter}."
+    },
+    "student": {
+      "default": "Add the two integers. Check both signs and column {letter}."
+    }
+  },
+  "presentationSubtitle": "Add positive and negative integers. Watch both signs. Find the sum."
+}

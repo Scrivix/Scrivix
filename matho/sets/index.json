@@ -97,5 +97,16 @@
     "color": "purple",
     "label": "View Rational Exponents",
     "joinPrefix": "RE"
+  },
+  {
+    "slug": "adding-integers",
+    "title": "Adding Integers",
+    "tag": "POSITIVE · NEGATIVE · ZERO",
+    "description": "Add integers from −15 to 15. Practice positive pairs, negative pairs, and mixed signs, with larger addends from M to O.",
+    "sample": "−7 <span>+</span> 5",
+    "detail": "50 questions · addends −15 to 15 · sums −30 to 30",
+    "color": "purple",
+    "label": "View Adding Integers",
+    "joinPrefix": "SA"
   }
 ]
