@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Learn how to use Scrivix tools, gestures, presentations, images, PDF export, and Mac-connected annotation features.">
+    <meta name="description" content="Learn Scrivix drawing tools, touch gestures, page audio, image cropping, presentations, PDF sharing, and Mac-connected annotation.">
     <title>Scrivix — User Guide &amp; Tools</title>
     <style>
         :root {
@@ -222,7 +222,7 @@
     <main class="container" id="top">
         <header class="hero">
             <h1>Scrivix User Guide</h1>
-            <p class="subtitle">Your reference for drawing, Mac control, presentations, images, gestures, and sharing.</p>
+            <p class="subtitle">Your reference for drawing, Mac control, pages, media, gestures, and sharing.</p>
             <p class="guide-note">Icons on this page are simplified references. Apple restricts use of its SF Symbols outside Apple-platform interfaces, so website icons may differ slightly from the toolbar in Scrivix.</p>
         </header>
 
@@ -232,6 +232,7 @@
             <a href="#gestures">Gestures</a>
             <a href="#presentations">Presentations</a>
             <a href="#images">Images</a>
+            <a href="#audio">Page Audio</a>
             <a href="#sharing">Save &amp; Export</a>
             <a href="#connected">Mac Connected</a>
             <a href="#external-display">AirPlay</a>
@@ -243,16 +244,16 @@
             <table class="guide-table">
                 <thead><tr><th class="icon-cell">Icon</th><th>Tool &amp; Description</th></tr></thead>
                 <tbody>
-                    <tr><td class="icon-cell">📸</td><td><span class="tool-name">Screenshot</span><p class="tool-desc">Save a clean image of the canvas or Mac display area to Photos. Scrivix removes its toolbar from the captured image.</p></td></tr>
+                    <tr><td class="icon-cell">📸</td><td><span class="tool-name">Capture &amp; Media</span><p class="tool-desc">Open the camera menu to save a clean canvas screenshot to iPad Photos, add a scalable image, paste a copied image, or edit images. In iPad-only mode, it also offers page audio. In connected mode, you can save a Mac screenshot with the screen or background.</p></td></tr>
                     <tr><td class="icon-cell">👁</td><td><span class="tool-name">Show or Hide Ink</span><p class="tool-desc">Temporarily hide every annotation without deleting anything. Tap again to bring the ink back exactly where it was.</p></td></tr>
-                    <tr><td class="icon-cell">🎨</td><td><span class="tool-name">Color Palette</span><p class="tool-desc">Choose a preset or custom color. Brush and Highlighter each remember their own saved colors. Tap the custom color control for Apple’s color picker, or press and hold it to choose Rainbow or Astro ink.</p></td></tr>
+                    <tr><td class="icon-cell">🎨</td><td><span class="tool-name">Color Palette</span><p class="tool-desc">Choose a preset or custom color. Brush and Highlighter remember separate saved colors. Tap the custom color control for Apple’s color picker; press and hold it for Rainbow or Astro. Choosing a special color keeps your current drawing, shape, or fill tool.</p></td></tr>
                     <tr><td class="icon-cell">🖥</td><td><span class="tool-name">Overlay &amp; Background Menu</span><p class="tool-desc">Tap to toggle the current background. Press and hold, then slide or tap to choose white, black, graph paper, lined paper, or a photo. Grid spacing and line width controls appear only when they apply, and your choices are remembered.</p></td></tr>
                     <tr><td class="icon-cell">〰</td><td><span class="tool-name">Brush</span><p class="tool-desc">Write and draw with pressure-sensitive Apple Pencil ink. Scrivix remembers the Brush size when you switch to another tool and back.</p></td></tr>
                     <tr><td class="icon-cell">🖍</td><td><span class="tool-name">Highlighter</span><p class="tool-desc">Add translucent emphasis that stays underneath normal ink so writing remains clear. The Highlighter has its own remembered size and color presets.</p></td></tr>
                     <tr><td class="icon-cell">◇</td><td><span class="tool-name">Shape &amp; Line Menu</span><p class="tool-desc">Press and hold to choose a single-ended arrow, double-ended arrow, straight line, rectangle, or circle. Slide to an option and lift, or tap the option. While drawing a rectangle or circle, use a second finger to lock a perfect square or circle.</p></td></tr>
                     <tr><td class="icon-cell">💧</td><td><span class="tool-name">Fill</span><p class="tool-desc">Fill Smart Shapes, Shape Tool objects, and many closed hand-drawn shapes. Rainbow produces a smooth diagonal gradient; Astro adds a space-inspired gradient and stars.</p></td></tr>
                     <tr><td class="icon-cell">✦</td><td><span class="tool-name">Laser Pointer</span><p class="tool-desc">Draw temporary marks that fade away automatically without affecting permanent annotations.</p></td></tr>
-                    <tr><td class="icon-cell">↖</td><td><span class="tool-name">Selection</span><p class="tool-desc">Tap a stroke or drag around several strokes, then move, freely reshape, or delete the selection without changing its line thickness. Shape Tool lines and recognized straight lines show endpoint handles for extending, shortening, or rotating the line. You can also tap a scalable image to move, resize, or delete it; use the separate image editor when you need to change layer order. Corner resizing keeps the top-left corner anchored. Selection is available on the iPad canvas and during Mac-connected annotation sessions.</p></td></tr>
+                    <tr><td class="icon-cell">↖</td><td><span class="tool-name">Selection</span><p class="tool-desc">Tap a stroke or drag around several strokes to move, resize, or delete them. Straight lines show endpoint handles. Tap a scalable image to select and adjust it; use the image editor for cropping and layer order. A pasted item stays selected so you can place it. Works on the iPad canvas and in Mac-connected sessions.</p></td></tr>
                     <tr><td class="icon-cell">🧼</td><td><span class="tool-name">Object Eraser</span><p class="tool-desc">Remove an entire stroke or shape by touching the ink. Scrivix uses the object’s actual path so nearby annotations are less likely to be erased accidentally.</p></td></tr>
                     <tr><td class="icon-cell">🗑</td><td><span class="tool-name">Clear</span><p class="tool-desc">Remove the current page’s annotations while preserving its selected background or overlay. Undo can restore an accidental clear.</p></td></tr>
                     <tr><td class="icon-cell">🖱</td><td><span class="tool-name">Control Mode</span><p class="tool-desc">Control your Mac from iPad: tap to click, double tap to double-click, press and hold for right-click, drag windows and items, hover Apple Pencil to move the cursor, scroll with two fingers, and pinch or expand to zoom supported apps.</p></td></tr>
@@ -271,7 +272,7 @@
                     <tr><td class="icon-cell">🌈</td><td><span class="tool-name">Rainbow Ink</span><p class="tool-desc">Press and hold the custom color control and choose Rainbow. Colors transition smoothly along your writing and continue from the previous stroke rather than restarting at red every time.</p></td></tr>
                     <tr><td class="icon-cell">🌌</td><td><span class="tool-name">Astro Ink</span><p class="tool-desc">Choose Astro from the same press-and-hold menu for deep purples and blacks with varied star highlights. Its pattern continues naturally across strokes.</p></td></tr>
                     <tr><td class="icon-cell">▭</td><td><span class="tool-name">Smart Shapes</span><p class="tool-desc">Draw a rough line, circle, rectangle, triangle, or arrow, then briefly hold Apple Pencil still. Scrivix replaces it with a cleaner shape while preserving the active standard, Rainbow, or Astro style.</p></td></tr>
-                    <tr><td class="icon-cell">⬛</td><td><span class="tool-name">Closed Shape Fill</span><p class="tool-desc">The Fill Tool can color many closed freehand shapes even when you do not convert them into Smart Shapes.</p></td></tr>
+                    <tr><td class="icon-cell">⬛</td><td><span class="tool-name">Closed Shape Fill</span><p class="tool-desc">The Fill Tool can color many closed freehand shapes even when you do not convert them into Smart Shapes. You can also double-tap inside a fillable shape with one finger to fill it without changing tools.</p></td></tr>
                 </tbody>
             </table>
         </section>
@@ -282,10 +283,12 @@
                 <thead><tr><th class="icon-cell">Gesture</th><th>Action</th></tr></thead>
                 <tbody>
                     <tr><td class="icon-cell">✌</td><td><span class="tool-name">Two-Finger Tap</span><p class="tool-desc">Undo the last action without reaching for the toolbar.</p></td></tr>
-                    <tr><td class="icon-cell">3</td><td><span class="tool-name">Three-Finger Tap</span><p class="tool-desc">Redo the last undone action.</p></td></tr>
-                    <tr><td class="icon-cell">↕</td><td><span class="tool-name">Two-Finger Scroll</span><p class="tool-desc">Scroll Mac documents, webpages, and presentations. Scrolling remains available while a drawing tool is selected.</p></td></tr>
-                    <tr><td class="icon-cell">↔</td><td><span class="tool-name">Two-Finger Page Swipe</span><p class="tool-desc">In an iPad presentation, swipe horizontally to move between pages. Swipe forward from the final page to add a clean new page.</p></td></tr>
-                    <tr><td class="icon-cell">⌁</td><td><span class="tool-name">Pinch &amp; Expand</span><p class="tool-desc">In Control Mode, pinch to zoom out or expand to zoom in. Scrivix sends the appropriate zoom shortcut to the active Mac app instead of enlarging the video feed.</p></td></tr>
+                    <tr><td class="icon-cell">↪</td><td><span class="tool-name">Two-Finger Double Tap</span><p class="tool-desc">Redo the last undone action.</p></td></tr>
+                    <tr><td class="icon-cell">3</td><td><span class="tool-name">Three-Finger Tap</span><p class="tool-desc">Open Copy, Cut, and Duplicate when using the Selection tool with an item selected. Paste is available whenever you have copied Scrivix content or an image on the iPad clipboard; tap where you want it placed.</p></td></tr>
+                    <tr><td class="icon-cell">↔</td><td><span class="tool-name">Three-Finger Page Swipe</span><p class="tool-desc">In iPad-only mode, swipe horizontally with three fingers to change pages. Swipe forward on the final page to create a new one.</p></td></tr>
+                    <tr><td class="icon-cell">↕</td><td><span class="tool-name">Two-Finger Move</span><p class="tool-desc">In iPad-only mode, pan around a zoomed canvas. In Mac-connected mode, scroll documents and webpages, including while a drawing tool is selected.</p></td></tr>
+                    <tr><td class="icon-cell">⌁</td><td><span class="tool-name">Pinch &amp; Expand</span><p class="tool-desc">In iPad-only mode, zoom into the canvas around your fingers; the zoom control appears while zoomed in, and an AirPlay audience still sees the full page. In Mac Control Mode, send zoom commands to supported Mac apps rather than enlarging the video feed.</p></td></tr>
+                    <tr><td class="icon-cell">◉</td><td><span class="tool-name">One-Finger Double Tap</span><p class="tool-desc">Double-tap inside a fillable closed shape to fill it without switching to the Fill Tool. While editing a scalable image, double-tap the image to crop it.</p></td></tr>
                     <tr><td class="icon-cell">◌</td><td><span class="tool-name">Apple Pencil Hover</span><p class="tool-desc">Preview toolbar controls and menus before touching the screen. In Control Mode, hover also positions the Mac pointer.</p></td></tr>
                     <tr><td class="icon-cell">◐</td><td><span class="tool-name">Apple Pencil Squeeze</span><p class="tool-desc">Open the quick color menu with your saved colors near the current Pencil location. The menu moves to remain clear of the toolbar.</p></td></tr>
                     <tr><td class="icon-cell">↺</td><td><span class="tool-name">Apple Pencil Double Tap</span><p class="tool-desc">Quickly switch between the Brush and Object Eraser.</p></td></tr>
@@ -302,7 +305,7 @@
                     <tr><td class="icon-cell">1/4</td><td><span class="tool-name">Page Counter</span><p class="tool-desc">See the current page and total number of pages. Tap the counter to open the Page Organizer.</p></td></tr>
                     <tr><td class="icon-cell">＋</td><td><span class="tool-name">Add &amp; Insert Pages</span><p class="tool-desc">Add a new page after the current page, including between existing pages. New pages begin with the current background for a natural lesson flow.</p></td></tr>
                     <tr><td class="icon-cell">▦</td><td><span class="tool-name">Page Organizer</span><p class="tool-desc">Review page thumbnails, jump to a page, duplicate or delete pages, and drag pages into a new order.</p></td></tr>
-                    <tr><td class="icon-cell">▣</td><td><span class="tool-name">Independent Page Content</span><p class="tool-desc">Each page remembers its own ink, background or overlay, and inserted images.</p></td></tr>
+                    <tr><td class="icon-cell">▣</td><td><span class="tool-name">Independent Page Content</span><p class="tool-desc">Each page remembers its own ink, background or overlay, inserted images, and optional audio.</p></td></tr>
                     <tr><td class="icon-cell">✧</td><td><span class="tool-name">New Presentation</span><p class="tool-desc">Start a blank presentation without leaving the canvas. Scrivix offers to save changes before replacing the current project.</p></td></tr>
                 </tbody>
             </table>
@@ -313,10 +316,25 @@
             <table class="guide-table">
                 <thead><tr><th class="icon-cell">Feature</th><th>How It Works</th></tr></thead>
                 <tbody>
-                    <tr><td class="icon-cell">🖼</td><td><span class="tool-name">Insert Images</span><p class="tool-desc">Add one or more images from Photos without replacing the full canvas background.</p></td></tr>
-                    <tr><td class="icon-cell">⤢</td><td><span class="tool-name">Move &amp; Resize</span><p class="tool-desc">Choose Adjust Images, then tap the image you want. Drag directly on that image to move it and use its resize controls with a finger or Apple Pencil. Tap away to clear the selection.</p></td></tr>
-                    <tr><td class="icon-cell">▤</td><td><span class="tool-name">Layer Toolbar</span><p class="tool-desc">Use the thumbnail strip to select and reorder overlapping images. Bring an image forward, send it backward, or drag thumbnails into the exact layer order you need.</p></td></tr>
-                    <tr><td class="icon-cell">✓</td><td><span class="tool-name">Done Editing</span><p class="tool-desc">Tap the clearly marked Done button beside the image control to return to writing and drawing.</p></td></tr>
+                    <tr><td class="icon-cell">🖼</td><td><span class="tool-name">Add or Paste Images</span><p class="tool-desc">Open Capture &amp; Media to add a scalable image from Photos. Copy an image in another app, then use Paste Image in that menu or three-finger tap on the canvas to place it. Images do not replace the full-page background.</p></td></tr>
+                    <tr><td class="icon-cell">⤢</td><td><span class="tool-name">Move &amp; Resize</span><p class="tool-desc">Choose Move, Resize, or Delete Images, then tap the image you want directly on the canvas. Drag on the image to move it or use its resize handle with a finger or Apple Pencil. Tap away to clear the selection.</p></td></tr>
+                    <tr><td class="icon-cell">⊞</td><td><span class="tool-name">Crop</span><p class="tool-desc">While editing images, double-tap a photo to show crop handles. Drag the corners to frame the part you want, then choose Done. Reset restores the full image; Cancel leaves it unchanged.</p></td></tr>
+                    <tr><td class="icon-cell">▤</td><td><span class="tool-name">Layer Toolbar</span><p class="tool-desc">Use the thumbnail strip to reorder overlapping images. Press and hold an image for layer commands such as moving it forward or backward.</p></td></tr>
+                    <tr><td class="icon-cell">✓</td><td><span class="tool-name">Done Editing</span><p class="tool-desc">Tap Done beside the Capture &amp; Media control to return to writing and drawing.</p></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="audio">
+            <h2>Page Audio</h2>
+            <p class="section-intro">Add one audio file per page in iPad-only presentations.</p>
+            <table class="guide-table">
+                <thead><tr><th class="icon-cell">Feature</th><th>How It Works</th></tr></thead>
+                <tbody>
+                    <tr><td class="icon-cell">♫</td><td><span class="tool-name">Add Audio</span><p class="tool-desc">Open Capture &amp; Media, choose Add Audio, and select an MP3, M4A, or WAV file from Files. Use Replace Audio to change the current page’s track.</p></td></tr>
+                    <tr><td class="icon-cell">↧</td><td><span class="tool-name">Include or Link</span><p class="tool-desc">Include a copy for dependable playback when sharing the presentation, or link to the original file to keep the project smaller. A link can stop working if its file is moved or deleted. Included WAV files are converted to M4A.</p></td></tr>
+                    <tr><td class="icon-cell">▶</td><td><span class="tool-name">Play &amp; Scrub</span><p class="tool-desc">Tap the on-canvas speaker control to play or pause. Press and hold it for the file name, playback scrubber, and audio settings.</p></td></tr>
+                    <tr><td class="icon-cell">⚙</td><td><span class="tool-name">Audio Settings</span><p class="tool-desc">Choose whether the page plays automatically when shown, replace its audio, or remove it.</p></td></tr>
                 </tbody>
             </table>
         </section>
@@ -326,13 +344,13 @@
             <table class="guide-table">
                 <thead><tr><th class="icon-cell">Feature</th><th>What It Does</th></tr></thead>
                 <tbody>
-                    <tr><td class="icon-cell">💾</td><td><span class="tool-name">Save Scrivix Presentations</span><p class="tool-desc">Save editable <strong>.scrivix</strong> projects to Files, On My iPad, or iCloud Drive. A project keeps its pages, ink, overlays, and images so you can continue later.</p></td></tr>
-                    <tr><td class="icon-cell">📂</td><td><span class="tool-name">Open &amp; Continue</span><p class="tool-desc">Open a saved Scrivix presentation and keep editing, erasing, rearranging, or adding pages.</p></td></tr>
+                    <tr><td class="icon-cell">💾</td><td><span class="tool-name">Save Scrivix Presentations</span><p class="tool-desc">Save editable <strong>.scrivix</strong> projects to Files, On My iPad, or iCloud Drive. A project keeps its pages, ink, overlays, images, and included audio so you can continue later. Linked audio remains in its original location.</p></td></tr>
+                    <tr><td class="icon-cell">📂</td><td><span class="tool-name">Open &amp; Continue</span><p class="tool-desc">Open a saved Scrivix presentation and keep editing, erasing, rearranging, or adding pages. If the current presentation has unsaved changes, Scrivix asks whether to save them before opening another.</p></td></tr>
                     <tr><td class="icon-cell">↧</td><td><span class="tool-name">Save &amp; Save As</span><p class="tool-desc">Update the current project or save a separate copy under a new name. The current file name appears at the top of the canvas.</p></td></tr>
-                    <tr><td class="icon-cell">PDF</td><td><span class="tool-name">Export Every Page to PDF</span><p class="tool-desc">Use the clearly labeled PDF export action from the Page Organizer or save menu to create a shareable PDF containing all presentation pages.</p></td></tr>
+                    <tr><td class="icon-cell">PDF</td><td><span class="tool-name">Export Every Page to PDF</span><p class="tool-desc">Use the clearly labeled PDF export action from the Page Organizer or save menu to create a PDF containing all presentation pages. The iPad share sheet then offers options such as AirDrop, Print, and Save to Files.</p></td></tr>
                 </tbody>
             </table>
-            <p class="tip"><strong>Tip:</strong> Save as a Scrivix presentation when you want to edit later. Export as PDF when you want to send, print, or post a finished copy.</p>
+            <p class="tip"><strong>Tip:</strong> Save as a Scrivix presentation when you want to edit later. Export as PDF when you want to send or print a finished copy; PDF does not carry playable page audio.</p>
         </section>
 
         <section id="connected">
