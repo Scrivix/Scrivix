@@ -3,9 +3,10 @@
  let clock=null,end=0,offset=null,bestRtt=Infinity,sampledAt=0;
  const monotonic=()=>root.performance?.now?root.performance.now():Date.now();
  function render(){
-  const el=document.querySelector('#audienceClock');if(!el)return;el.hidden=!clock;if(!clock)return;
+  const el=document.querySelector('#audienceClock');if(!el)return;el.hidden=!clock;if(el.dataset?.presentationClock==='true')el.parentElement?.classList.toggle('has-countdown',!!clock);if(!clock)return;
   const remaining=clock.running?end-monotonic():clock.remainingMs,seconds=Math.ceil(Math.max(0,remaining)/1000);
-  el.textContent=(clock.running?'Next expression in ':'Paused · ')+Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');
+  const time=Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');
+  if(el.dataset?.presentationClock==='true'){const html='<span class="clock-caption">'+(clock.running?'Next expression in':'Timer paused')+'</span><strong>'+time+'</strong>';if(el.innerHTML!==html)el.innerHTML=html;}else el.textContent=(clock.running?'Next expression in ':'Paused · ')+time;
  }
  root.MathoVisibleClock={update(value,timing={}){
   const received=Date.now();
