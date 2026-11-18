@@ -24,7 +24,7 @@
 <script defer src="../vendor/qrcode.js?v=1"></script>
 <script defer src="../teacher-auth.js?v=1"></script>
 <script defer src="../library-client.js?v=teacher-only-1"></script>
-<script defer src="party-core.js?v=3"></script><script defer src="party-host.js?v=7"></script><script defer src="room-set.js?v=1"></script><script defer src="boot.js?v=party-7">
+<script defer src="party-core.js?v=3"></script><script defer src="party-host.js?v=7"></script><script defer src="room-set.js?v=1"></script><script defer src="boot.js?v=end-game-1">
 </script>
 <link rel="stylesheet" href="../library.css?v=set-editor-1">
 <link rel="stylesheet" href="../header.css?v=1"><link rel="stylesheet" href="party.css?v=3"></head>
@@ -100,6 +100,7 @@
 <button id="liveNext" class="live-primary">Next expression →</button>
 <button id="liveUndo">Undo last call</button>
 <button id="liveReset">New round ↻</button>
+<button id="endGame" type="button">End Game &amp; Reveal</button>
 </div>
 <p id="liveRemaining" class="live-note">
 </p>
@@ -144,7 +145,7 @@
 <input id="shareIncorrect" type="checkbox"> Include an incorrect-mark count in unsuccessful checks</label>
 <p class="live-note">Optional: shares only a count, never which squares. Zero incorrect marks can still mean the winning pattern is incomplete.</p>
 <button id="revealReview" type="button" hidden>Reveal round review</button>
-<p class="live-note">After the first confirmed MATHO, boards lock while you check any other claims from the same draw. Reveal the review when all claims are checked; this closes further claims. New Round unlocks play.</p>
+<p class="live-note">End Game &amp; Reveal stops the round without requiring a winner and shows everyone their incorrect and missed answers. Students stay connected. After the first confirmed MATHO, boards lock while you check any other claims from the same draw. Reveal the review when all claims are checked; this closes further claims. New Round unlocks play.</p>
 <button id="clearWinner" type="button" hidden>Dismiss classroom celebration</button>
 <label class="live-label" for="rosterSort">Arrange students by</label>
 <select id="rosterSort"><option value="name">Name · A–Z</option><option value="marks">Boxes marked · most first</option></select>
