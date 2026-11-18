@@ -108,5 +108,16 @@
     "color": "purple",
     "label": "View Adding Integers",
     "joinPrefix": "SA"
+  },
+  {
+    "slug": "one-step-equations-add-subtract",
+    "title": "One-Step Equations: Addition & Subtraction",
+    "tag": "SOLVE FOR X · ONE STEP AT A TIME",
+    "description": "Solve for x with addition and subtraction. Start with positive whole-number answers, then practice negatives, decimals, and fractions.",
+    "sample": "x+3=7",
+    "detail": "50 equations · negatives · decimals · fractions",
+    "color": "purple",
+    "label": "View One-Step Equations",
+    "joinPrefix": "EQ"
   }
 ]

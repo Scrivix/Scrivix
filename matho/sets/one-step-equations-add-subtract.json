@@ -1,0 +1,34 @@
+{
+  "id": "one-step-equations-add-subtract",
+  "title": "One-Step Equations: Addition & Subtraction",
+  "storagePrefix": "matho-one-step-equations-add-subtract",
+  "joinPrefix": "EQ",
+  "bankFile": "one-step-equations-add-subtract-bank.json",
+  "exportFilename": "matho-one-step-equations-add-subtract-question-bank.json",
+  "copy": {
+    "studentInstructions": "Solve each one-step equation for x using inverse addition or subtraction. Mark the value of x in the matching column.",
+    "roomIntro": "50 one-step equations, always using x. M has simple whole-number equations with positive solutions. A introduces negative values; T adds signed constants and some equations with x on the right. H uses decimals and O uses fractions.",
+    "roomHeading": "One-Step Equations: Addition & Subtraction",
+    "roomWelcome": "Let’s solve for x!",
+    "callerHeading": "One-Step Equations: Addition & Subtraction",
+    "callerSubtitle": "Undo the addition or subtraction. Find the value of x.",
+    "callerControls": "Ready for the next equation?",
+    "callerLink": "One-step equations caller",
+    "joinIntro": "Enter your teacher’s room code to join.",
+    "studentBoardLabel": "YOUR ONE-STEP EQUATIONS BOARD",
+    "footer": "Use the inverse operation. Solve for x.",
+    "bankIntro": "10 equations per column. M: positive whole-number solutions 1–10. A: addition/subtraction with positive constants and both positive and negative solutions. T: adding/subtracting negative constants, with x sometimes on the right. H: signed decimals to hundredths. O: signed fractions with common denominators up to 12. Every equation has exactly one x with coefficient +1 and one added or subtracted constant. Answers are simplified values of x. Signed-in edits save to your private teacher library.",
+    "callerBrand": "One-Step Equations",
+    "roomBrand": "One-Step Equations",
+    "studentBrand": "One-Step Equations"
+  },
+  "hints": {
+    "caller": {
+      "default": "Undo the addition or subtraction to solve for x. Find its value in column {letter}."
+    },
+    "student": {
+      "default": "Solve for x using the inverse operation. Mark its value in column {letter}."
+    }
+  },
+  "presentationSubtitle": "Solve for x. Undo addition or subtraction. Watch the signs."
+}
