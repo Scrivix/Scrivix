@@ -1,0 +1,34 @@
+{
+  "id": "one-step-equations-multiply-divide",
+  "title": "One-Step Equations: Multiplication & Division",
+  "storagePrefix": "matho-one-step-equations-multiply-divide",
+  "joinPrefix": "MD",
+  "bankFile": "one-step-equations-multiply-divide-bank.json",
+  "exportFilename": "matho-one-step-equations-multiply-divide-question-bank.json",
+  "copy": {
+    "studentInstructions": "Solve each one-step equation for x. Use division to undo multiplication, or multiplication to undo division. Mark the value of x in the called column.",
+    "roomIntro": "50 process-focused equations. M and A: divide to solve. T and H: multiply to solve. O: multiply by the reciprocal of a fractional coefficient. Includes negatives, simple decimals, and simple fractions.",
+    "roomHeading": "One-Step Equations: Multiplication & Division",
+    "roomWelcome": "Let’s solve for x!",
+    "callerHeading": "One-Step Equations: Multiplication & Division",
+    "callerSubtitle": "Use the inverse operation. Watch the signs.",
+    "callerControls": "Ready for the next equation?",
+    "callerLink": "One-step equations caller",
+    "joinIntro": "Enter your teacher’s room code to join.",
+    "studentBoardLabel": "YOUR ONE-STEP EQUATIONS BOARD",
+    "footer": "Use the inverse operation. Solve for x.",
+    "bankIntro": "10 equations per column, all using x. M and A have integer coefficients and are solved by division. T and H have x divided by an integer and are solved by multiplication. O has fractional coefficients. Answers stay within manageable integers, terminating decimals, and simple reduced fractions. Signed-in edits save to your private teacher library.",
+    "callerBrand": "One-Step Equations",
+    "roomBrand": "One-Step Equations",
+    "studentBrand": "One-Step Equations"
+  },
+  "hints": {
+    "caller": {
+      "default": "Solve for x. Mark its value in column {letter}."
+    },
+    "student": {
+      "default": "Use the inverse operation to solve for x. Mark its value in column {letter}."
+    }
+  },
+  "presentationSubtitle": "Solve for x. Undo multiplication or division. Watch the signs."
+}

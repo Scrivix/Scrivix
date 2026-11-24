@@ -5,7 +5,7 @@
  let config,bank;
  try{
   const slug=new URLSearchParams(location.search).get('set');
-  const response=await fetch('../sets/index.json?v=exponents-expanded-1');if(!response.ok)throw Error('The public catalogue could not load.');
+  const response=await fetch('../sets/index.json?v=multiply-divide-equations-1');if(!response.ok)throw Error('The public catalogue could not load.');
   const catalogue=await response.json();if(!catalogue.some(s=>s.slug===slug))throw Error('Choose a public set from the MATHO home page.');
   await MathoLibrary.ready();
   if(!MathoTeacherAuth.enabled())throw Error('Teacher sign-in is required to view these questions.');

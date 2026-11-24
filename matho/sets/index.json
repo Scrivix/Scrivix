@@ -119,5 +119,16 @@
     "color": "purple",
     "label": "View One-Step Equations",
     "joinPrefix": "EQ"
+  },
+  {
+    "slug": "one-step-equations-multiply-divide",
+    "title": "One-Step Equations: Multiplication & Division",
+    "tag": "SOLVE FOR X · MULTIPLY OR DIVIDE",
+    "description": "Solve for x using multiplication and division. Practice signed numbers, simple decimals and fractions, then fractional coefficients.",
+    "sample": "3x=21",
+    "detail": "50 equations · negatives · decimals · fractions",
+    "color": "purple",
+    "label": "View Multiplication & Division Equations",
+    "joinPrefix": "MD"
   }
 ]
