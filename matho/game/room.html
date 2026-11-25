@@ -24,10 +24,10 @@
 <script defer src="../vendor/qrcode.js?v=1"></script>
 <script defer src="../teacher-auth.js?v=1"></script>
 <script defer src="../library-client.js?v=teacher-only-1"></script>
-<script defer src="party-core.js?v=3"></script><script defer src="party-host.js?v=7"></script><script defer src="room-set.js?v=1"></script><script defer src="boot.js?v=end-game-1">
+<script defer src="party-core.js?v=3"></script><script defer src="party-host.js?v=7"></script><script defer src="room-set.js?v=1"></script><script defer src="boot.js?v=board-overview-1">
 </script>
 <link rel="stylesheet" href="../library.css?v=set-editor-1">
-<link rel="stylesheet" href="../header.css?v=1"><link rel="stylesheet" href="party.css?v=3"></head>
+<link rel="stylesheet" href="../header.css?v=1"><link rel="stylesheet" href="party.css?v=3"><link rel="stylesheet" href="board-overview.css?v=1"></head>
 <body data-page="room" data-loading="true">
 <div class="live-shell">
 <header class="live-header matho-header">
@@ -147,6 +147,7 @@
 <button id="revealReview" type="button" hidden>Reveal round review</button>
 <p class="live-note">End Game &amp; Reveal stops the round without requiring a winner and shows everyone their incorrect and missed answers. Students stay connected. After the first confirmed MATHO, boards lock while you check any other claims from the same draw. Reveal the review when all claims are checked; this closes further claims. New Round unlocks play.</p>
 <button id="clearWinner" type="button" hidden>Dismiss classroom celebration</button>
+<button id="openBoards" type="button">View all boards</button>
 <label class="live-label" for="rosterSort">Arrange students by</label>
 <select id="rosterSort"><option value="name">Name · A–Z</option><option value="marks">Boxes marked · most first</option></select>
 <p class="live-note">MATHO callers always appear at the top.</p>
@@ -170,7 +171,7 @@
 </dialog>
 <dialog id="inspectDialog">
 <div class="dialog-top">
-<h2 id="inspectName">
+<div class="inspection-navigation"><button id="inspectPrevious" type="button" aria-label="Previous student board">←</button><span id="inspectPosition"></span><button id="inspectNext" type="button" aria-label="Next student board">→</button></div><h2 id="inspectName">
 </h2>
 <button id="closeInspect">Close</button>
 </div>
@@ -178,6 +179,7 @@
 <p id="inspectReview" class="round-review" hidden></p><div id="inspectBoard" class="room-board mini-board">
 </div>
 </dialog>
+<dialog id="boardsDialog" aria-labelledby="boardsHeading"><div class="boards-toolbar"><div><h2 id="boardsHeading">All student boards</h2><p id="boardsCount" class="live-note" aria-live="polite"></p></div><button id="closeBoards" type="button">Close</button></div><p class="live-note">Live teacher-only view. Red ×: marked but not called. Blue !: called but not marked. Open a board for a closer look. Students cannot see this review until you reveal it.</p><div id="boardsGrid" class="boards-grid"></div></dialog>
 <div id="teacherToast" role="status" hidden>
 </div>
 </main>
